@@ -1,7 +1,8 @@
-package com.example.mymallupgrade
+package com.example.mymallupgrade.ui.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.mymallupgrade.R
 
 class MainActivity : AppCompatActivity() {
 
