@@ -12,6 +12,18 @@ class FirebaseSource {
         FirebaseAuth.getInstance()
     }
 
+    fun login(email: String, password: String) = Completable.create {emitter ->
+        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener{task ->
+            if(!emitter.isDisposed) {
+                if(task.isSuccessful) {
+                    emitter.onComplete()
+                } else {
+                    emitter.onError(task.exception!!)
+                }
+            }
+        }
+    }
+
     fun register(email: String, password: String) = Completable.create {emitter ->
         firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{task ->
             if(!emitter.isDisposed) {

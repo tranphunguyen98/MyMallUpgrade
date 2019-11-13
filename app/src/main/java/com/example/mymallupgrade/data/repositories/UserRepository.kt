@@ -10,5 +10,6 @@ class UserRepository(
         Timber.d("CCC UserRepository")
     }
     fun register(email: String, password: String) = firebase.register(email,password)
+    fun login(email: String,password: String) = firebase.login(email,password)
 
 }
