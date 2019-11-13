@@ -7,7 +7,10 @@ import com.example.mymallupgrade.R
 import com.example.mymallupgrade.utils.Constant
 import kotlinx.android.synthetic.main.activity_register.*
 
-class RegisterActivity : AppCompatActivity(), SignInFragment.OnSignInFragmentInteractionListener {
+class RegisterActivity : AppCompatActivity()
+    , SignInFragment.OnSignInFragmentInteractionListener
+    {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -20,4 +23,6 @@ class RegisterActivity : AppCompatActivity(), SignInFragment.OnSignInFragmentInt
         fragmentTransaction.add(frame_layout.id,fragment, Constant.TAG_SIGN_IN_FRAG)
         fragmentTransaction.commit()
     }
+
+
 }
