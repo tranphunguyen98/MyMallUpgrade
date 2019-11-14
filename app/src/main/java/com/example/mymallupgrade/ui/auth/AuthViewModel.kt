@@ -17,7 +17,7 @@ class AuthViewModel(
         Timber.d("ViewModel1111")
     }
     //    private var user = User()
-    var email: String? = "tranphu@gmail.com"
+    var email: String? = "tranphu199@gmail.com"
     var password: String? = "123456"
     var confirmPassword: String? ="123456"
     var fullName: String? = "Tran Phu Nguyen"
@@ -32,12 +32,14 @@ class AuthViewModel(
     val eventJumpToSignIn : LiveData<Boolean>
         get() = _eventJumpToSignIn
 
+    private val _eventJumpToForgotPassword = MutableLiveData<Boolean>()
+    val eventJumpToForgotPassword : LiveData<Boolean>
+        get() = _eventJumpToForgotPassword
+
     //disposable to dispose the Completable
     private val disposables = CompositeDisposable()
 
     fun signup() {
-
-        Timber.d("SignUpMEE $email $password")
 
         if(email.isNullOrEmpty() || password.isNullOrEmpty()) {
             authListener?.onFailure("Please input all values")
@@ -78,12 +80,38 @@ class AuthViewModel(
         disposables.add(disposable)
     }
 
+    fun sendEmailResetPassword() {
+        Timber.d("sendEmailResetPassword $email")
+
+        if(email.isNullOrEmpty()) {
+            authListener?.onFailure("Please input all values")
+            Timber.d("sendEmailResetPassword1 $email")
+            return
+        }
+
+        authListener?.onStarted()
+
+        val disposable = repository.sendEmailResetPassword(email!!)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                authListener?.onSuccess()
+            },{
+                authListener?.onFailure(it.message!!)
+            })
+
+        disposables.add(disposable)
+    }
+
     fun jumpToSignIn() {
-        Timber.d("Jumppp")
         _eventJumpToSignIn.value = true
     }
 
-    fun onFinishedJumpToSignIn() {
-        _eventJumpToSignIn.value = false
+    fun jumpToSignUp() {
+        _eventJumpToSignUp.value = true
+    }
+
+    fun jumpToForgotPassword() {
+        _eventJumpToForgotPassword.value = true
     }
 }

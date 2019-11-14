@@ -35,4 +35,17 @@ class FirebaseSource {
             }
         }
     }
+
+    fun sendEmailResetPassword(email: String) = Completable.create { emitter ->
+        Timber.d("sendEmailResetPassword")
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener{task ->
+            if(!emitter.isDisposed) {
+                if(task.isSuccessful) {
+                    emitter.onComplete()
+                } else {
+                    emitter.onError(task.exception!!)
+                }
+            }
+        }
+    }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignInBinding
@@ -26,11 +27,11 @@ class SignInFragment private constructor(): Fragment(), AuthListener, KodeinAwar
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-//        if (context is SignUpFragment.OnSignUpFragmentInteractionListener) {
-//         //   listener = context
-//        } else {
-//            throw RuntimeException("$context must implement OnSignUpFragmentInteractionListener")
-//        }
+        if (context is OnSignInFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnSignInFragmentInteractionListener")
+        }
 
     }
 
@@ -53,6 +54,17 @@ class SignInFragment private constructor(): Fragment(), AuthListener, KodeinAwar
 
         binding.viewmodel = viewModel
 
+        viewModel.eventJumpToSignUp.observe(viewLifecycleOwner, Observer {isJump ->
+            if(isJump) {
+                listener?.onJumpToSignUpFragment()
+            }
+        })
+
+        viewModel.eventJumpToForgotPassword.observe(viewLifecycleOwner, Observer {isJump ->
+            if(isJump) {
+                listener?.onJumpToForgotPasswordFragment()
+            }
+        })
         return binding.root
     }
 
@@ -80,6 +92,8 @@ class SignInFragment private constructor(): Fragment(), AuthListener, KodeinAwar
     }
 
     interface OnSignInFragmentInteractionListener {
+        fun onJumpToSignUpFragment()
+        fun onJumpToForgotPasswordFragment()
     }
 
     companion object {
