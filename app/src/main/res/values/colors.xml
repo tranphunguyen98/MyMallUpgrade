@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#CE0000</color>
     <color name="colorPrimaryDark">#CE0000</color>
-    <color name="colorPrimaryLight">#DF8A8A</color>
+    <color name="colorPrimaryLight">#DD6D6D</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorSecond">#FFFFFF</color>
     <color name="backgroudTintEditText">#B3FFFFFF</color>
