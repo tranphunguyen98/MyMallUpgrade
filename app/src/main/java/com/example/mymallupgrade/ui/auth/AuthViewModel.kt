@@ -3,14 +3,19 @@ package com.example.mymallupgrade.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mymallupgrade.data.repositories.UserRepository
+import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
+import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
+import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class AuthViewModel(
-    private val repository: UserRepository
+    private val loginWithEmailUseCase: LoginWithEmailUseCase,
+    private val sendEmailResetPasswordUseCase: SendEmailResetPasswordUseCase,
+    private val signUpWithEmailUseCase: SignUpWithEmailUseCase
 ) : ViewModel() {
 
     init {
@@ -48,7 +53,7 @@ class AuthViewModel(
 
         authListener?.onStarted()
 
-        val disposable = repository.register(email!!,password!!)
+        val disposable: Disposable = signUpWithEmailUseCase(email!!,password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -68,7 +73,7 @@ class AuthViewModel(
 
         authListener?.onStarted()
 
-        val disposable = repository.login(email!!,password!!)
+        val disposable = loginWithEmailUseCase(email!!,password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -91,7 +96,7 @@ class AuthViewModel(
 
         authListener?.onStarted()
 
-        val disposable = repository.sendEmailResetPassword(email!!)
+        val disposable = sendEmailResetPasswordUseCase(email!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

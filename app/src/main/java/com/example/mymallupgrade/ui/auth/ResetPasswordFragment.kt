@@ -17,7 +17,7 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class ResetPasswordFragment : Fragment(),AuthListener, KodeinAware {
+class ResetPasswordFragment : Fragment(), AuthListener, KodeinAware {
 
     var binding : FragmentResetPasswordBinding? = null
 

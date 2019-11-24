@@ -7,6 +7,14 @@ buildscript {
         jcenter()
 
     }
+    ext {
+        rxJavaVersion = "2.2.10"
+        rxAndroidVersion = "2.1.1"
+        libs = [
+                rxJava   : ('io.reactivex.rxjava2:rxjava:' + rxJavaVersion),
+                rxAndroid: ('io.reactivex.rxjava2:rxandroid:' + rxAndroidVersion),
+        ]
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -14,6 +22,8 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+
+
 }
 
 allprojects {

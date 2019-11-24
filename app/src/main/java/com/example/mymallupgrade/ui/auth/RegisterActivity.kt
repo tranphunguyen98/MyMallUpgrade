@@ -24,7 +24,7 @@ class RegisterActivity : AppCompatActivity()
 
     private fun addSignInFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(frame_layout.id,SignUpFragment.newInstance())
+        fragmentTransaction.add(frame_layout.id, SignUpFragment.newInstance())
         fragmentTransaction.commit()
 
     }
@@ -33,7 +33,7 @@ class RegisterActivity : AppCompatActivity()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction
             .setCustomAnimations(R.anim.slide_from_left, R.anim.slide_out_from_right)
-            .replace(R.id.frame_layout,SignInFragment.newInstance())
+            .replace(R.id.frame_layout, SignInFragment.newInstance())
             .commit()
     }
 
@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction
             .setCustomAnimations(R.anim.slide_from_left, R.anim.slide_out_from_right)
-            .replace(R.id.frame_layout,SignInFragment.newInstance())
+            .replace(R.id.frame_layout, SignInFragment.newInstance())
             .commit()
     }
 
@@ -49,7 +49,7 @@ class RegisterActivity : AppCompatActivity()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction
             .setCustomAnimations(R.anim.slide_from_right, R.anim.slide_out_from_left)
-            .replace(R.id.frame_layout,SignUpFragment.newInstance())
+            .replace(R.id.frame_layout, SignUpFragment.newInstance())
             .commit()
     }
 
@@ -57,7 +57,7 @@ class RegisterActivity : AppCompatActivity()
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction
             .setCustomAnimations(R.anim.slide_from_right, R.anim.slide_out_from_left)
-            .replace(R.id.frame_layout,ResetPasswordFragment.newInstance())
+            .replace(R.id.frame_layout, ResetPasswordFragment.newInstance())
             .commit()
     }
 
