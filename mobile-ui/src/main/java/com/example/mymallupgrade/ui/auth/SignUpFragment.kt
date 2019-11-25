@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignUpBinding
+import com.example.mymallupgrade.di.AuthViewModelFactory
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
@@ -18,7 +19,8 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SignUpFragment private constructor(): Fragment(), AuthListener, KodeinAware {
+class SignUpFragment private constructor(): Fragment(),
+    com.example.mymallupgrade.presentation.auth.AuthListener, KodeinAware {
     override val kodein by kodein()
 
     override fun onStarted() {
@@ -36,7 +38,7 @@ class SignUpFragment private constructor(): Fragment(), AuthListener, KodeinAwar
         Timber.d("onFailure $message")
     }
 
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
 
     private var listener: OnSignUpFragmentInteractionListener? = null
 
@@ -58,7 +60,7 @@ class SignUpFragment private constructor(): Fragment(), AuthListener, KodeinAwar
         val factory : AuthViewModelFactory by instance()
         // Inflate the layout for this fragment
         val binding: FragmentSignUpBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
-        viewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
+        viewModel = ViewModelProvider(this,factory).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
         viewModel.authListener = this
         binding.viewmodel = viewModel
         viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer {isJump ->

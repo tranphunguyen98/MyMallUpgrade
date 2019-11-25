@@ -36,11 +36,13 @@ dependencies {
     def mobileUiDependencies = rootProject.ext.mobileUiDependencies
 
     implementation project(":domain")
-    implementation project(":data")
+    implementation project(':remote')
+    implementation project(':presentation')
+
 
     implementation mobileUiDependencies.appCompat
     implementation mobileUiDependencies.constrainlayout
-    
+
     implementation mobileUiDependencies.kotlin
     implementation mobileUiDependencies.material
     implementation mobileUiDependencies.lifecycle

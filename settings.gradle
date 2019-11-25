@@ -1,2 +1,2 @@
-include ':mobile-ui', ':domain', ':data'
+include ':mobile-ui', ':domain', ':remote', ':data', ':presentation'
 rootProject.name='MyMallUpgrade'

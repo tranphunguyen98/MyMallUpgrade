@@ -11,13 +11,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentResetPasswordBinding
+import com.example.mymallupgrade.di.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class ResetPasswordFragment : Fragment(), AuthListener, KodeinAware {
+class ResetPasswordFragment : Fragment(), com.example.mymallupgrade.presentation.auth.AuthListener, KodeinAware {
 
     var binding : FragmentResetPasswordBinding? = null
 
@@ -60,7 +61,7 @@ class ResetPasswordFragment : Fragment(), AuthListener, KodeinAware {
         // Inflate the layout for this fragment
         val factory: AuthViewModelFactory by instance()
 
-        val viewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
+        val viewModel = ViewModelProvider(this,factory).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
 
         binding = DataBindingUtil.inflate<FragmentResetPasswordBinding>(inflater,R.layout.fragment_reset_password,container,false)
 

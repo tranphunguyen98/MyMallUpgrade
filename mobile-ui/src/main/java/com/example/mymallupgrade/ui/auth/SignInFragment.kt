@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignInBinding
+import com.example.mymallupgrade.di.AuthViewModelFactory
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
@@ -18,10 +19,11 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SignInFragment private constructor(): Fragment(), AuthListener, KodeinAware {
+class SignInFragment private constructor(): Fragment(),
+    com.example.mymallupgrade.presentation.auth.AuthListener, KodeinAware {
     override val kodein by kodein()
 
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
 
     private var listener: OnSignInFragmentInteractionListener? = null
 
@@ -49,7 +51,7 @@ class SignInFragment private constructor(): Fragment(), AuthListener, KodeinAwar
         val binding: FragmentSignInBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
 
-        viewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
         viewModel.authListener = this
 
         binding.viewmodel = viewModel

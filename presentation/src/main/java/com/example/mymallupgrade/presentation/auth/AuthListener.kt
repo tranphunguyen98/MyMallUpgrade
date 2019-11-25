@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.ui.auth
+package com.example.mymallupgrade.presentation.auth
 
 interface AuthListener {
     fun onStarted()

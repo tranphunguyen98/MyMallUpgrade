@@ -6,7 +6,7 @@ import com.example.mymallupgrade.data.repositories.AuthRepositoryImpl
 import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
-import com.example.mymallupgrade.ui.auth.AuthViewModelFactory
+import com.example.mymallupgrade.di.AuthViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -29,7 +29,13 @@ class FirebaseApplication : Application(), KodeinAware {
         bind() from singleton { SignUpWithEmailUseCase(instance()) }
         bind() from singleton { LoginWithEmailUseCase(instance()) }
         bind() from singleton { SendEmailResetPasswordUseCase(instance()) }
-        bind() from provider { AuthViewModelFactory(instance(),instance(),instance()) }
+        bind() from provider {
+            AuthViewModelFactory(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
     }
 
     override fun onCreate() {

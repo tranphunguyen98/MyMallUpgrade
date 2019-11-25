@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.example.mymallupgrade.ui.auth.AuthViewModel" />
+            type="com.example.mymallupgrade.presentation.auth.AuthViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
