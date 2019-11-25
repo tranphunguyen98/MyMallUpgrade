@@ -19,7 +19,7 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SignInFragment private constructor(): Fragment(),
+class SignInFragment : Fragment(),
     com.example.mymallupgrade.presentation.auth.AuthListener, KodeinAware {
     override val kodein by kodein()
 
@@ -51,19 +51,22 @@ class SignInFragment private constructor(): Fragment(),
         val binding: FragmentSignInBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
 
-        viewModel = ViewModelProvider(this, factory).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            factory
+        ).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
         viewModel.authListener = this
 
         binding.viewmodel = viewModel
 
-        viewModel.eventJumpToSignUp.observe(viewLifecycleOwner, Observer {isJump ->
-            if(isJump) {
+        viewModel.eventJumpToSignUp.observe(viewLifecycleOwner, Observer { isJump ->
+            if (isJump) {
                 listener?.onJumpToSignUpFragment()
             }
         })
 
-        viewModel.eventJumpToForgotPassword.observe(viewLifecycleOwner, Observer {isJump ->
-            if(isJump) {
+        viewModel.eventJumpToForgotPassword.observe(viewLifecycleOwner, Observer { isJump ->
+            if (isJump) {
                 listener?.onJumpToForgotPasswordFragment()
             }
         })
