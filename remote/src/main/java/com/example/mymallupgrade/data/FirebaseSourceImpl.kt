@@ -26,6 +26,7 @@ class FirebaseSourceImpl : AuthFirebaseSource{
     }
 
     override fun register(email: String, password: String) = Completable.create {emitter ->
+        Thread.sleep(10000)
         firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{task ->
             if(!emitter.isDisposed) {
                 if(task.isSuccessful) {

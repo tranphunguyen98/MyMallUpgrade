@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.example.mymallupgrade.R
 import kotlinx.android.synthetic.main.activity_register.*
+import timber.log.Timber
 
 class RegisterActivity : AppCompatActivity()
     , SignUpFragment.OnSignUpFragmentInteractionListener
@@ -19,8 +20,11 @@ class RegisterActivity : AppCompatActivity()
         setContentView(R.layout.activity_register)
 
         fragmentManager = supportFragmentManager
-
-        addSignInFragment()
+        Timber.d("saved not null" )
+        if(savedInstanceState == null) {
+            Timber.d("saved null" )
+            addSignInFragment()
+        }
     }
 
     private fun addSignInFragment() {

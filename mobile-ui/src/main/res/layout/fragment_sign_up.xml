@@ -166,10 +166,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
+            app:layout_constraintBottom_toTopOf="@+id/edt_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_confirm_password" />
+            app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

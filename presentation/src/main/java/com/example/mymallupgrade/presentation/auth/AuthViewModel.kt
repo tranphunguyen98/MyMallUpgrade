@@ -25,7 +25,7 @@ class AuthViewModel(
     var email: String? = "tranphu199@gmail.com"
     var password: String? = "123456"
     var confirmPassword: String? ="123456"
-    var fullName: String? = "Tran Phu Nguyen"
+    var fullName: String? = ""
 
     var authListener: AuthListener? = null
 
@@ -50,6 +50,8 @@ class AuthViewModel(
             authListener?.onFailure("Please input all values")
             return
         }
+
+        Timber.d("fulname $fullName")
 
         authListener?.onStarted()
 
@@ -118,5 +120,10 @@ class AuthViewModel(
 
     fun jumpToForgotPassword() {
         _eventJumpToForgotPassword.value = true
+    }
+
+    override fun onCleared() {
+        Timber.d("Cleared")
+        super.onCleared()
     }
 }

@@ -13,8 +13,10 @@ import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignUpBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
 import com.example.mymallupgrade.presentation.auth.AuthListener
+import com.example.mymallupgrade.presentation.auth.AuthViewModel
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -26,17 +28,19 @@ class SignUpFragment : Fragment(),
 
     override fun onStarted() {
         Timber.d("OnStarted")
-
+        prg_sign_up.visibility = View.VISIBLE
     }
 
     override fun onSuccess() {
         Timber.d("onSuccess")
         context!!.startHomeActivity()
+        prg_sign_up.visibility = View.GONE
     }
 
     override fun onFailure(message: String) {
-        Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_LONG).show()
+        Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_INDEFINITE).show()
         Timber.d("onFailure $message")
+        prg_sign_up.visibility = View.GONE
     }
 
     private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
@@ -45,6 +49,7 @@ class SignUpFragment : Fragment(),
 
 
     override fun onAttach(context: Context) {
+        Timber.d("onAttach")
         super.onAttach(context)
         if (context is OnSignUpFragmentInteractionListener) {
             listener = context
@@ -61,7 +66,7 @@ class SignUpFragment : Fragment(),
         val factory : AuthViewModelFactory by instance()
         // Inflate the layout for this fragment
         val binding: FragmentSignUpBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
-        viewModel = ViewModelProvider(this,factory).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
+        viewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
         viewModel.authListener = this
         binding.viewmodel = viewModel
         viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer {isJump ->
