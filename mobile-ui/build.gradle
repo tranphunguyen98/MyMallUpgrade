@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.example.mymallupgrade"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    def mobileUiDependencies = rootProject.ext.mobileUiDependencies
+
+    implementation project(":domain")
+    implementation project(":data")
+
+    implementation mobileUiDependencies.appCompat
+    implementation mobileUiDependencies.constrainlayout
+    
+    implementation mobileUiDependencies.kotlin
+    implementation mobileUiDependencies.material
+    implementation mobileUiDependencies.lifecycle
+    implementation mobileUiDependencies.kodeinGeneric
+    implementation mobileUiDependencies.kodeinFrameword
+    implementation mobileUiDependencies.rxJava
+    implementation mobileUiDependencies.rxAndroid
+    implementation mobileUiDependencies.timber
+}

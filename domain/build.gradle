@@ -3,10 +3,10 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation libs.rxJava
-    implementation libs.rxAndroid
+    def domainDependencies = rootProject.ext.domainDependencies
+
+    implementation domainDependencies.kotlin
+    implementation domainDependencies.rxJava
 }
 
 sourceCompatibility = "7"
