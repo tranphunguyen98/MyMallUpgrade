@@ -1,5 +1,6 @@
 package com.example.mymallupgrade.presentation.auth
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,16 +19,11 @@ class AuthViewModel(
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase
 ) : ViewModel() {
 
-    init {
-        Timber.d("ViewModel1111")
-    }
     //    private var user = User()
     var email: String? = "tranphu199@gmail.com"
     var password: String? = "123456"
     var confirmPassword: String? ="123456"
     var fullName: String? = ""
-
-    var authListener: AuthListener? = null
 
     private val _eventJumpToSignUp = MutableLiveData<Boolean>()
     val eventJumpToSignUp : LiveData<Boolean>
@@ -41,47 +37,66 @@ class AuthViewModel(
     val eventJumpToForgotPassword : LiveData<Boolean>
         get() = _eventJumpToForgotPassword
 
+    private val _loadingState = MutableLiveData<Int>()
+    val loadingState : LiveData<Int>
+        get() = _loadingState
+
+    private val _errorState = MutableLiveData<String>()
+    val errorState : LiveData<String>
+        get() = _errorState
+
+    private val _successState = MutableLiveData<Boolean>()
+    val successState : LiveData<Boolean>
+        get() = _successState
+
+    init {
+        Timber.d("ViewModel1111")
+        _loadingState.value = View.GONE
+    }
     //disposable to dispose the Completable
     private val disposables = CompositeDisposable()
 
     fun signup() {
 
         if(email.isNullOrEmpty() || password.isNullOrEmpty()) {
-            authListener?.onFailure("Please input all values")
+            _errorState.value = "Please input all values"
             return
         }
 
         Timber.d("fulname $fullName")
 
-        authListener?.onStarted()
+        _loadingState.value = View.VISIBLE
 
         val disposable: Disposable = signUpWithEmailUseCase(email!!,password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                authListener?.onSuccess()
+                _loadingState.value = View.GONE
+                _successState.value = true
             },{
-                authListener?.onFailure(it.message!!)
+                _errorState.value = it.message
+                _loadingState.value = View.GONE
             })
 
         disposables.add(disposable)
     }
 
     fun login() {
-        if(email.isNullOrEmpty() || password.isNullOrEmpty() || confirmPassword.isNullOrEmpty() || fullName.isNullOrEmpty()) {
-            authListener?.onFailure("Please input all values")
+        if(email.isNullOrEmpty() || password.isNullOrEmpty()) {
+            _errorState.value = "Please input all values"
             return
         }
 
-        authListener?.onStarted()
+        _loadingState.value = View.VISIBLE
 
         val disposable = loginWithEmailUseCase(email!!,password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                authListener?.onSuccess()
+                _loadingState.value =  View.GONE
+                _successState.value = true
             },{
-                authListener?.onFailure(it.message!!)
+                _loadingState.value =  View.GONE
             })
 
         disposables.add(disposable)
@@ -91,20 +106,27 @@ class AuthViewModel(
         Timber.d("sendEmailResetPassword $email")
 
         if(email.isNullOrEmpty()) {
-            authListener?.onFailure("Please input all values")
+            _errorState.value = "Please input all values"
             Timber.d("sendEmailResetPassword1 $email")
             return
         }
 
-        authListener?.onStarted()
+        if(_successState.value == true) {
+            _errorState.value = "You already send email reset password!"
+            return
+        }
+
+        _loadingState.value = View.VISIBLE
 
         val disposable = sendEmailResetPasswordUseCase(email!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                authListener?.onSuccess()
+                _loadingState.value =  View.GONE
+                _successState.value = true
             },{
-                authListener?.onFailure(it.message!!)
+                _errorState.value = it.message
+                _loadingState.value =  View.GONE
             })
 
         disposables.add(disposable)

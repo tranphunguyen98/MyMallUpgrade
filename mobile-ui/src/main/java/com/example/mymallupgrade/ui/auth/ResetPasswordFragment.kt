@@ -12,47 +12,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentResetPasswordBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
+import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class ResetPasswordFragment : Fragment(), com.example.mymallupgrade.presentation.auth.AuthListener, KodeinAware {
-
-    var binding : FragmentResetPasswordBinding? = null
-
-    override fun onStarted() {
-        Timber.d("onStarted")
-        binding!!.btnResetPassword.text = ""
-        binding!!.prgLinearResetPassword.progress = 50
-        binding!!.prgResetPassword.visibility = View.VISIBLE
-        binding!!.tvSentEmailSuccessful.visibility = View.INVISIBLE
-    }
-
-    override fun onSuccess() {
-        Timber.d("onSuccess")
-        binding!!.btnResetPassword.text = resources.getText(R.string.reset_password)
-        binding!!.prgLinearResetPassword.progress = 100
-        binding!!.prgResetPassword.visibility = View.GONE
-        binding!!.tvSentEmailSuccessful.visibility = View.VISIBLE
-    }
-
-    override fun onFailure(message: String) {
-        binding!!.btnResetPassword.text = resources.getText(R.string.reset_password)
-        binding!!.prgResetPassword.visibility = View.GONE
-        Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message", Snackbar.LENGTH_LONG).show()
-        Timber.d("onFailure $message")
-    }
-
+class ResetPasswordFragment : Fragment(), KodeinAware {
 
     override val kodein by kodein()
 
     private var listener: OnResetPasswordFragmentInteractionListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,19 +32,58 @@ class ResetPasswordFragment : Fragment(), com.example.mymallupgrade.presentation
         // Inflate the layout for this fragment
         val factory: AuthViewModelFactory by instance()
 
-        val viewModel = ViewModelProvider(this,factory).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
+        val viewModel = ViewModelProvider(
+            this,
+            factory
+        ).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
 
-        binding = DataBindingUtil.inflate<FragmentResetPasswordBinding>(inflater,R.layout.fragment_reset_password,container,false)
+        val binding = DataBindingUtil.inflate<FragmentResetPasswordBinding>(
+            inflater,
+            R.layout.fragment_reset_password,
+            container,
+            false
+        )
+        binding.viewmodel = viewModel
 
-        viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer {isJump ->
-            if(isJump) {
+        viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer { isJump ->
+            if (isJump) {
                 listener?.onGoBackSignInFragment()
             }
         })
 
-        viewModel.authListener = this
+        viewModel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading == View.VISIBLE) {
+                binding.btnResetPassword.text = ""
+                binding.prgLinearResetPassword.progress = 50
+                binding.prgResetPassword.visibility = View.VISIBLE
+                binding.tvSentEmailSuccessful.visibility = View.INVISIBLE
+            }
+        })
 
-        binding!!.viewmodel = viewModel
+        viewModel.errorState.observe(viewLifecycleOwner, Observer { message ->
+            if (message.isNotEmpty()) {
+                binding.btnResetPassword.text = resources.getText(R.string.reset_password)
+                binding.prgResetPassword.visibility = View.GONE
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    "onFailure $message",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                Timber.d("onFailure $message")
+            }
+        })
+
+        viewModel.successState.observe(viewLifecycleOwner, Observer { isSuccess ->
+            if (isSuccess) {
+                Timber.d("onSuccess")
+                binding.btnResetPassword.text = resources.getText(R.string.reset_password)
+                binding.prgLinearResetPassword.progress = 100
+                binding.prgResetPassword.visibility = View.GONE
+                binding.tvSentEmailSuccessful.visibility = View.VISIBLE
+            }
+        })
+
+
 
         return binding!!.root
     }

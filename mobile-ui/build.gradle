@@ -32,6 +32,10 @@ androidExtensions {
     experimental = true
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     def mobileUiDependencies = rootProject.ext.mobileUiDependencies
 
@@ -39,6 +43,7 @@ dependencies {
     implementation project(':remote')
     implementation project(':presentation')
 
+    kapt 'com.android.databinding:compiler:3.1.4'
 
     implementation mobileUiDependencies.appCompat
     implementation mobileUiDependencies.constrainlayout

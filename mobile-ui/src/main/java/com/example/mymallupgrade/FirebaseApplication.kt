@@ -7,6 +7,7 @@ import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
 import com.example.mymallupgrade.di.AuthViewModelFactory
+import org.jetbrains.annotations.NotNull
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -42,7 +43,17 @@ class FirebaseApplication : Application(), KodeinAware {
         super.onCreate()
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
+            Timber.plant(DebugTree())
+        }
+    }
+
+    inner class DebugTree : Timber.DebugTree() {
+        override fun createStackElementTag(@NotNull element: StackTraceElement): String? {
+            return String.format(
+                "HelloBaby:%s:%s",
+                super.createStackElementTag(element),
+                element.lineNumber
+            )
         }
     }
 }

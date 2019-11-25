@@ -14,13 +14,13 @@ import com.example.mymallupgrade.databinding.FragmentSignInBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SignInFragment : Fragment(),
-    com.example.mymallupgrade.presentation.auth.AuthListener, KodeinAware {
+class SignInFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
 
     private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
@@ -55,7 +55,6 @@ class SignInFragment : Fragment(),
             this,
             factory
         ).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
-        viewModel.authListener = this
 
         binding.viewmodel = viewModel
 
@@ -70,30 +69,24 @@ class SignInFragment : Fragment(),
                 listener?.onJumpToForgotPasswordFragment()
             }
         })
+
+        viewModel.errorState.observe(viewLifecycleOwner, Observer {message ->
+            if(message.isNotEmpty()) {
+                Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_LONG).show()
+            }
+        })
+
+        viewModel.successState.observe(viewLifecycleOwner, Observer {isSuccess ->
+            if(isSuccess) {
+                context!!.startHomeActivity()
+            }
+        })
         return binding.root
     }
 
     override fun onDetach() {
         super.onDetach()
-        //listener = null
-    }
-
-    override fun onStarted() {
-        Timber.d("OnStarted")
-    }
-
-    override fun onSuccess() {
-        Timber.d("onSuccess")
-        context!!.startHomeActivity()
-    }
-
-    override fun onFailure(message: String) {
-        Snackbar.make(
-            activity!!.findViewById(android.R.id.content),
-            "onFailure $message",
-            Snackbar.LENGTH_LONG
-        ).show()
-        Timber.d("onFailure $message")
+        listener = null
     }
 
     interface OnSignInFragmentInteractionListener {

@@ -12,41 +12,20 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignUpBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
-import com.example.mymallupgrade.presentation.auth.AuthListener
 import com.example.mymallupgrade.presentation.auth.AuthViewModel
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SignUpFragment : Fragment(),
-    AuthListener, KodeinAware {
+class SignUpFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
 
-    override fun onStarted() {
-        Timber.d("OnStarted")
-        prg_sign_up.visibility = View.VISIBLE
-    }
-
-    override fun onSuccess() {
-        Timber.d("onSuccess")
-        context!!.startHomeActivity()
-        prg_sign_up.visibility = View.GONE
-    }
-
-    override fun onFailure(message: String) {
-        Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_INDEFINITE).show()
-        Timber.d("onFailure $message")
-        prg_sign_up.visibility = View.GONE
-    }
-
-    private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
+    private lateinit var viewModel: AuthViewModel
 
     private var listener: OnSignUpFragmentInteractionListener? = null
-
 
     override fun onAttach(context: Context) {
         Timber.d("onAttach")
@@ -67,11 +46,27 @@ class SignUpFragment : Fragment(),
         // Inflate the layout for this fragment
         val binding: FragmentSignUpBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
         viewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
-        viewModel.authListener = this
         binding.viewmodel = viewModel
+
         viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer {isJump ->
             if(isJump) {
                 listener?.onJumpToSignInFragment()
+            }
+        })
+
+        viewModel.loadingState.observe(viewLifecycleOwner, Observer {isLoading ->
+                binding.prgSignUp.visibility = isLoading
+        })
+
+        viewModel.errorState.observe(viewLifecycleOwner, Observer {message ->
+            if(message.isNotEmpty()) {
+                Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_LONG).show()
+            }
+        })
+
+        viewModel.successState.observe(viewLifecycleOwner, Observer {isSuccess ->
+            if(isSuccess) {
+                context!!.startHomeActivity()
             }
         })
         return binding.root

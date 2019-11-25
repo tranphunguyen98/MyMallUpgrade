@@ -26,7 +26,6 @@ class FirebaseSourceImpl : AuthFirebaseSource{
     }
 
     override fun register(email: String, password: String) = Completable.create {emitter ->
-        Thread.sleep(10000)
         firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{task ->
             if(!emitter.isDisposed) {
                 if(task.isSuccessful) {
@@ -41,15 +40,18 @@ class FirebaseSourceImpl : AuthFirebaseSource{
 
     override fun sendEmailResetPassword(email: String) = Completable.create { emitter ->
         Timber.d("sendEmailResetPassword")
-        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener{task ->
-            if(!emitter.isDisposed) {
-                if(task.isSuccessful) {
-                    emitter.onComplete()
-
-                } else {
-                    emitter.onError(task.exception!!)
-                }
-            }
-        }
+        Thread.sleep(2000)
+        emitter.onComplete()
+   //     emitter.onError(Throwable("Hu ne"))
+//        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener{task ->
+//            if(!emitter.isDisposed) {
+//                if(task.isSuccessful) {
+//                    emitter.onComplete()
+//
+//                } else {
+//                    emitter.onError(task.exception!!)
+//                }
+//            }
+//        }
     }
 }
