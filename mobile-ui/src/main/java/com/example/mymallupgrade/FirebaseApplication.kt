@@ -7,6 +7,8 @@ import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
 import com.example.mymallupgrade.di.AuthViewModelFactory
+import com.example.mymallupgrade.di.SignUpViewModelFactory
+import com.example.mymallupgrade.presentation.auth.auth.UserSignUpProcessorHolder
 import org.jetbrains.annotations.NotNull
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -30,6 +32,9 @@ class FirebaseApplication : Application(), KodeinAware {
         bind() from singleton { SignUpWithEmailUseCase(instance()) }
         bind() from singleton { LoginWithEmailUseCase(instance()) }
         bind() from singleton { SendEmailResetPasswordUseCase(instance()) }
+        bind() from singleton { UserSignUpProcessorHolder(instance()) }
+        bind() from provider { SignUpViewModelFactory(instance())}
+
         bind() from provider {
             AuthViewModelFactory(
                 instance(),

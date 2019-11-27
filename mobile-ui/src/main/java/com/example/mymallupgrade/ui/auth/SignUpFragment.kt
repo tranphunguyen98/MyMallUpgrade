@@ -2,28 +2,79 @@ package com.example.mymallupgrade.ui.auth
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
-import com.example.mymallupgrade.databinding.FragmentSignUpBinding
-import com.example.mymallupgrade.di.AuthViewModelFactory
-import com.example.mymallupgrade.presentation.auth.AuthViewModel
+import com.example.mymallupgrade.di.SignUpViewModelFactory
+import com.example.mymallupgrade.presentation.auth.MVIBase.MviView
+import com.example.mymallupgrade.presentation.auth.auth.UserSignUpIntent
+import com.example.mymallupgrade.presentation.auth.auth.UserSignUpViewModes
+import com.example.mymallupgrade.presentation.auth.auth.UserSignUpViewState
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class SignUpFragment : Fragment(), KodeinAware {
+class SignUpFragment : Fragment(), MviView<UserSignUpIntent, UserSignUpViewState>,
+    KodeinAware {
+    override fun intents(): Observable<UserSignUpIntent> {
+        Timber.d("intents")
+        return Observable.merge(
+            emailIntent(),
+            passwordIntent()
+        )
+            .mergeWith(signUpIntent())
+    }
+
+    override fun render(state: UserSignUpViewState) {
+        if (state.isLoading) {
+            Timber.d("isLoading")
+            prg_sign_up.visibility = View.VISIBLE
+        }
+
+        if (state.isSuccess) {
+            Timber.d("isSuccess")
+            prg_sign_up.visibility = View.GONE
+            //context?.startHomeActivity()
+        }
+
+        if (state.isError != null) {
+            Timber.d("isError")
+            prg_sign_up.visibility = View.GONE
+            Snackbar.make(
+                activity!!.findViewById(android.R.id.content),
+                "onFailure ${state.isError!!.message}",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
     override val kodein by kodein()
 
-    private lateinit var viewModel: AuthViewModel
+    private val emailPublisher = PublishSubject.create<UserSignUpIntent.EmailIntent>()
+    private val passwordPublisher = PublishSubject.create<UserSignUpIntent.PasswordIntent>()
+    private val signUpPublisher = PublishSubject.create<UserSignUpIntent.SignUpIntent>()
+
+    private val disposables = CompositeDisposable()
+    private fun emailIntent(): Observable<UserSignUpIntent.EmailIntent> = emailPublisher
+    private fun passwordIntent(): Observable<UserSignUpIntent.PasswordIntent> = passwordPublisher
+    private fun signUpIntent(): Observable<UserSignUpIntent.SignUpIntent> = signUpPublisher
+
+    private val viewModel: UserSignUpViewModes by lazy {
+        val factory: SignUpViewModelFactory by instance()
+        ViewModelProvider(this, factory).get(UserSignUpViewModes::class.java)
+    }
 
     private var listener: OnSignUpFragmentInteractionListener? = null
 
@@ -37,46 +88,59 @@ class SignUpFragment : Fragment(), KodeinAware {
         }
     }
 
+
+    override fun onStart() {
+        super.onStart()
+        bind()
+    }
+
+    private fun bind() {
+        Timber.d("bind")
+        disposables.add(viewModel.states().subscribe(this::render))
+        viewModel.processIntents(intents())
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disposables.clear()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val factory : AuthViewModelFactory by instance()
-        // Inflate the layout for this fragment
-        val binding: FragmentSignUpBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
-        viewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
-        binding.viewmodel = viewModel
+        return inflater.inflate(R.layout.fragment_sign_up, container, false)
 
-        viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer {isJump ->
-            if(isJump) {
-                listener?.onJumpToSignInFragment()
-            }
-        })
-
-        viewModel.loadingState.observe(viewLifecycleOwner, Observer {isLoading ->
-                binding.prgSignUp.visibility = isLoading
-        })
-
-        viewModel.errorState.observe(viewLifecycleOwner, Observer {message ->
-            if(message.isNotEmpty()) {
-                Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_LONG).show()
-            }
-        })
-
-        viewModel.successState.observe(viewLifecycleOwner, Observer {isSuccess ->
-            if(isSuccess) {
-                context!!.startHomeActivity()
-            }
-        })
-        return binding.root
     }
 
-//    fun onButtonPressed(uri: Uri) {
-//        listener?.onFragmentInteraction(uri)
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        edt_email.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                emailPublisher.onNext(UserSignUpIntent.EmailIntent(p0.toString()))
+            }
+        })
 
+        edt_password.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                passwordPublisher.onNext(UserSignUpIntent.PasswordIntent(p0.toString()))
+            }
+        })
 
+        btn_sign_up.setOnClickListener {
+            signUpPublisher.onNext(
+                UserSignUpIntent.SignUpIntent(
+                    edt_email.text.toString(),
+                    edt_password.text.toString()
+                )
+            )
+        }
+    }
 
     override fun onDetach() {
         super.onDetach()
@@ -95,7 +159,7 @@ class SignUpFragment : Fragment(), KodeinAware {
      * for more information.
      */
     interface OnSignUpFragmentInteractionListener {
-       fun onJumpToSignInFragment()
+        fun onJumpToSignInFragment()
     }
 
     companion object {
@@ -106,13 +170,7 @@ class SignUpFragment : Fragment(), KodeinAware {
          * @return A new instance of fragment SignUpFragment.
          */
         @JvmStatic
-        fun newInstance() =
-            SignUpFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-            }
+        fun newInstance() = SignUpFragment()
     }
 
 }
