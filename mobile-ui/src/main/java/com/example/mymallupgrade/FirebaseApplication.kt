@@ -3,7 +3,7 @@ package com.example.mymallupgrade
 import android.app.Application
 import com.example.mymallupgrade.data.FirebaseSourceImpl
 import com.example.mymallupgrade.data.repositories.AuthRepositoryImpl
-import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
+import com.example.mymallupgrade.domain.interactor.SignInWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
 import com.example.mymallupgrade.di.AuthViewModelFactory
@@ -30,7 +30,7 @@ class FirebaseApplication : Application(), KodeinAware {
             )
         }
         bind() from singleton { SignUpWithEmailUseCase(instance()) }
-        bind() from singleton { LoginWithEmailUseCase(instance()) }
+        bind() from singleton { SignInWithEmailUseCase(instance()) }
         bind() from singleton { SendEmailResetPasswordUseCase(instance()) }
         bind() from singleton { UserSignUpProcessorHolder(instance()) }
         bind() from provider { SignUpViewModelFactory(instance())}

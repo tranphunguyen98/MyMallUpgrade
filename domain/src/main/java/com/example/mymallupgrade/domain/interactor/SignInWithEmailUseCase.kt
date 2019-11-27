@@ -5,7 +5,7 @@ import com.example.mymallupgrade.domain.repository.AuthRepository
 import io.reactivex.Completable
 import java.lang.Exception
 
-class LoginWithEmailUseCase constructor(private val authRepository: AuthRepository) {
+class SignInWithEmailUseCase constructor(private val authRepository: AuthRepository) {
 
     operator fun invoke(email: String, password: String): Completable {
         try {

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
+import com.example.mymallupgrade.domain.interactor.SignInWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class AuthViewModel(
-    private val loginWithEmailUseCase: LoginWithEmailUseCase,
+    private val signInWithEmailUseCase: SignInWithEmailUseCase,
     private val sendEmailResetPasswordUseCase: SendEmailResetPasswordUseCase,
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase
 ) : ViewModel() {
@@ -89,7 +89,7 @@ class AuthViewModel(
 
         _loadingState.value = View.VISIBLE
 
-        val disposable = loginWithEmailUseCase(email!!,password!!)
+        val disposable = signInWithEmailUseCase(email!!,password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
