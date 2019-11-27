@@ -172,5 +172,4 @@ class SignUpFragment : Fragment(), MviView<UserSignUpIntent, UserSignUpViewState
         @JvmStatic
         fun newInstance() = SignUpFragment()
     }
-
 }
