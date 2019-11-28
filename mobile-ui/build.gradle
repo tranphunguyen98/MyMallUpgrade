@@ -55,5 +55,10 @@ dependencies {
     implementation mobileUiDependencies.kodeinFrameword
     implementation mobileUiDependencies.rxJava
     implementation mobileUiDependencies.rxAndroid
+    implementation mobileUiDependencies.rxbinding
+    implementation mobileUiDependencies.rxbinding
+    implementation mobileUiDependencies.rxbindingCore
+    implementation mobileUiDependencies.rxbindingCompat
+    implementation mobileUiDependencies.rxbindingMaterial
     implementation mobileUiDependencies.timber
 }

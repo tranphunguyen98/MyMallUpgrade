@@ -49,21 +49,10 @@ class AuthViewModel(
     val successState : LiveData<Boolean>
         get() = _successState
 
-    init {
-        Timber.d("ViewModel1111")
-        _loadingState.value = View.GONE
-    }
     //disposable to dispose the Completable
     private val disposables = CompositeDisposable()
 
     fun signup() {
-
-        if(email.isNullOrEmpty() || password.isNullOrEmpty()) {
-            _errorState.value = "Please input all values"
-            return
-        }
-
-        Timber.d("fulname $fullName")
 
         _loadingState.value = View.VISIBLE
 
@@ -82,11 +71,6 @@ class AuthViewModel(
     }
 
     fun login() {
-        if(email.isNullOrEmpty() || password.isNullOrEmpty()) {
-            _errorState.value = "Please input all values"
-            return
-        }
-
         _loadingState.value = View.VISIBLE
 
         val disposable = loginWithEmailUseCase(email!!,password!!)
@@ -104,14 +88,6 @@ class AuthViewModel(
     }
 
     fun sendEmailResetPassword() {
-        Timber.d("sendEmailResetPassword $email")
-
-        if(email.isNullOrEmpty()) {
-            _errorState.value = "Please input all values"
-            Timber.d("sendEmailResetPassword1 $email")
-            return
-        }
-
         if(_successState.value == true) {
             _errorState.value = "You already send email reset password!"
             return

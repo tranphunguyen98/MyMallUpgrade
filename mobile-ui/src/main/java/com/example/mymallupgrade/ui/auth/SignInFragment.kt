@@ -12,9 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignInBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
+import com.example.mymallupgrade.domain.UtilCheckValid
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_sign_up.*
+import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -22,10 +23,9 @@ import timber.log.Timber
 
 class SignInFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
-
     private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
-
     private var listener: OnSignInFragmentInteractionListener? = null
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,22 +70,34 @@ class SignInFragment : Fragment(), KodeinAware {
             }
         })
 
-        viewModel.errorState.observe(viewLifecycleOwner, Observer {message ->
-            if(message.isNotEmpty()) {
-                Snackbar.make(activity!!.findViewById(android.R.id.content), message,Snackbar.LENGTH_LONG).show()
+        viewModel.errorState.observe(viewLifecycleOwner, Observer { message ->
+            if (message.isNotEmpty()) {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    message,
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         })
 
-        viewModel.successState.observe(viewLifecycleOwner, Observer {isSuccess ->
-            if(isSuccess) {
+        viewModel.successState.observe(viewLifecycleOwner, Observer { isSuccess ->
+            if (isSuccess) {
                 context!!.startHomeActivity()
             }
         })
+
+        compositeDisposable.add(ValidEditedObservable.execute(binding.edtEmail,UtilCheckValid::checkEmail))
+        compositeDisposable.add(ValidEditedObservable.execute(binding.edtPassword,UtilCheckValid::checkPassword))
+
+        binding.btnSignIn.setTextColor(context!!.resources.getColor(R.color.colorAccent))
+
         return binding.root
     }
 
     override fun onDetach() {
         super.onDetach()
+        Timber.d("onDetach")
+        compositeDisposable.clear()
         listener = null
     }
 

@@ -1,13 +1,10 @@
 package com.example.mymallupgrade.data
 
 import com.example.mymallupgrade.domain.repository.AuthFirebaseSource
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Completable
-import io.reactivex.CompletableEmitter
-import io.reactivex.CompletableOnSubscribe
 import timber.log.Timber
 
 class FirebaseSourceImpl : AuthFirebaseSource {

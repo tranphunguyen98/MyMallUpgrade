@@ -1,13 +1,10 @@
 package com.example.mymallupgrade.domain
 
-import io.reactivex.Completable
-import java.io.IOException
-
 object UtilCheckValid {
     private val REGEX_EMAIL =
         "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$".toRegex()
     private val REGEX_PASSWORD =
-        "/.*?(?:[a-z].*?[0-9]|[0-9].*?[a-z]).*?/".toRegex()
+        ".*?(?:[a-z].*?[0-9]|[0-9].*?[a-z]).*?".toRegex()
 
     fun checkEmail(email: String): Result{
         if (REGEX_EMAIL.matches(email)) {
