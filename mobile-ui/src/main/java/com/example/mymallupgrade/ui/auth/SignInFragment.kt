@@ -72,7 +72,7 @@ class SignInFragment : Fragment(), KodeinAware {
 
         viewModel.errorState.observe(viewLifecycleOwner, Observer {message ->
             if(message.isNotEmpty()) {
-                Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_LONG).show()
+                Snackbar.make(activity!!.findViewById(android.R.id.content), message,Snackbar.LENGTH_LONG).show()
             }
         })
 

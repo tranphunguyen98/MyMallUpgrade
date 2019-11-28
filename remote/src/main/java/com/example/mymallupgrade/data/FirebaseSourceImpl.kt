@@ -1,57 +1,47 @@
 package com.example.mymallupgrade.data
 
 import com.example.mymallupgrade.domain.repository.AuthFirebaseSource
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
+import io.reactivex.CompletableOnSubscribe
 import timber.log.Timber
 
-class FirebaseSourceImpl : AuthFirebaseSource{
+class FirebaseSourceImpl : AuthFirebaseSource {
     init {
         Timber.d("CCC FirebaseSourceImpl")
     }
+
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
 
-    override fun login(email: String, password: String) = Completable.create { emitter ->
-        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener{task ->
-            if(!emitter.isDisposed) {
-                if(task.isSuccessful) {
-                    emitter.onComplete()
-                } else {
-                    emitter.onError(task.exception!!)
+    private fun <T> createCompletableByTask(taskResult: Task<T>): Completable {
+        return Completable.create { emitter ->
+            taskResult.addOnCompleteListener { task ->
+                if (!emitter.isDisposed) {
+                    if (task.isSuccessful) {
+                        emitter.onComplete()
+                    } else {
+                        emitter.onError(task.exception!!)
+                    }
                 }
             }
         }
     }
 
-    override fun register(email: String, password: String) = Completable.create {emitter ->
-        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{task ->
-            if(!emitter.isDisposed) {
-                if(task.isSuccessful) {
-                    Timber.d("CCC1 FirebaseSourceImpl")
-                    emitter.onComplete()
-                } else {
-                    emitter.onError(task.exception!!)
-                }
-            }
-        }
-    }
+    override fun login(email: String, password: String) = createCompletableByTask<AuthResult>(
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+    )
 
-    override fun sendEmailResetPassword(email: String) = Completable.create { emitter ->
-        Timber.d("sendEmailResetPassword")
-        Thread.sleep(2000)
-        emitter.onComplete()
-   //     emitter.onError(Throwable("Hu ne"))
-//        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener{task ->
-//            if(!emitter.isDisposed) {
-//                if(task.isSuccessful) {
-//                    emitter.onComplete()
-//
-//                } else {
-//                    emitter.onError(task.exception!!)
-//                }
-//            }
-//        }
-    }
+    override fun register(email: String, password: String) = createCompletableByTask<AuthResult>(
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+    )
+
+    override fun sendEmailResetPassword(email: String) = createCompletableByTask<Void>(
+        firebaseAuth.sendPasswordResetEmail(email)
+    )
 }

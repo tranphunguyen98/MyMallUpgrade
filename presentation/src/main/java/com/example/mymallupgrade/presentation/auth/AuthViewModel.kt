@@ -97,6 +97,7 @@ class AuthViewModel(
                 _successState.value = true
             },{
                 _loadingState.value =  View.GONE
+                _errorState.value = it.message
             })
 
         disposables.add(disposable)
