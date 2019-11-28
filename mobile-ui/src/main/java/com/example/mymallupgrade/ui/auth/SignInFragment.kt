@@ -49,7 +49,7 @@ class SignInFragment : Fragment(), KodeinAware {
         val factory: AuthViewModelFactory by instance()
         // Inflate the layout for this fragment
         binding =
-            DataBindingUtil.inflate(inflater, com.example.mymallupgrade.R.layout.fragment_sign_in, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
 
         viewModel = ViewModelProvider(
             this,
@@ -58,6 +58,14 @@ class SignInFragment : Fragment(), KodeinAware {
 
         binding.viewmodel = viewModel
 
+        handleObserve()
+
+        checkValidEdittext()
+
+        return binding.root
+    }
+
+    private fun handleObserve() {
         viewModel.eventJumpToSignUp.observe(viewLifecycleOwner, Observer { isJump ->
             if (isJump) {
                 listener?.onJumpToSignUpFragment()
@@ -85,7 +93,9 @@ class SignInFragment : Fragment(), KodeinAware {
                 context!!.startHomeActivity()
             }
         })
+    }
 
+    private fun checkValidEdittext() {
         compositeDisposable.add(
             ValidEditedObservable.execute(binding.edtEmail, binding.edtEmailLayout)
                 .subscribe { string ->
@@ -117,8 +127,6 @@ class SignInFragment : Fragment(), KodeinAware {
                     }
                 }
         )
-
-        return binding.root
     }
 
     private fun disableButtonSignIn() {
