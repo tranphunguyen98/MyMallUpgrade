@@ -65,9 +65,11 @@
             android:layout_marginBottom="8dp"
             android:onClick="@{() -> viewmodel.login()}"
             android:text="@string/sign_in"
+            android:enabled="false"
             android:textColor="@color/btnTextColorDisable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/btnDisable"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edt_password_layout"
             app:layout_constraintVertical_bias="0.48000002" />

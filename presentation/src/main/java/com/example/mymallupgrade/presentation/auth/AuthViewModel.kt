@@ -20,10 +20,10 @@ class AuthViewModel(
 ) : ViewModel() {
 
     //    private var user = User()
-    var email: String? = null
-    var password: String? = null
-    var confirmPassword: String? =null
-    var fullName: String? = null
+    var email: String = ""
+    var password: String = ""
+    var confirmPassword: String =""
+    var fullName: String = ""
 
     private val _eventJumpToSignUp = MutableLiveData<Boolean>()
     val eventJumpToSignUp : LiveData<Boolean>
@@ -73,7 +73,7 @@ class AuthViewModel(
     fun login() {
         _loadingState.value = View.VISIBLE
 
-        val disposable = loginWithEmailUseCase(email!!,password!!)
+        val disposable = loginWithEmailUseCase(email,password)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -95,7 +95,7 @@ class AuthViewModel(
 
         _loadingState.value = View.VISIBLE
 
-        val disposable = sendEmailResetPasswordUseCase(email!!)
+        val disposable = sendEmailResetPasswordUseCase(email)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
