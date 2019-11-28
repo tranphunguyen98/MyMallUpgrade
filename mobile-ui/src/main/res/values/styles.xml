@@ -20,7 +20,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorPrimary</item>
     </style>
-    
+
     <style name="EditTextStandard">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -29,6 +29,10 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textColorHint">@color/textColorHint</item>
         <item name="android:backgroundTint">@color/backgroudTintEditText</item>
+    </style>
+
+    <style name="EditTextStandardMaterial" parent="EditTextStandard">
+        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="EditTextSecond" parent="EditTextStandard">
@@ -57,5 +61,15 @@
         <item name="android:backgroundTint">@color/colorPrimary</item>
 
 
+    </style>
+
+    <style name="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.MyCustom" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="errorTextAppearance">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:textColorHint">#80E2E2E2</item>
     </style>
 </resources>

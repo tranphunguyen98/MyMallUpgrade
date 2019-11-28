@@ -20,10 +20,10 @@ class AuthViewModel(
 ) : ViewModel() {
 
     //    private var user = User()
-    var email: String? = "tranphu199@gmail.com"
-    var password: String? = "123456"
-    var confirmPassword: String? ="123456"
-    var fullName: String? = ""
+    var email: String? = null
+    var password: String? = null
+    var confirmPassword: String? =null
+    var fullName: String? = null
 
     private val _eventJumpToSignUp = MutableLiveData<Boolean>()
     val eventJumpToSignUp : LiveData<Boolean>

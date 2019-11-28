@@ -16,46 +16,61 @@
         android:background="@color/colorPrimary"
         tools:context=".ui.auth.SignUpFragment">
 
-        <EditText
-            android:id="@+id/edt_password"
-            style="@style/EditTextStandard"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:hint="@string/password"
-            android:importantForAutofill="no"
-            android:inputType="textWebPassword"
-            android:text="@={viewmodel.password}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_email"
-            tools:targetApi="o" />
-
-        <EditText
-            android:id="@+id/edt_email"
-            style="@style/EditTextStandard"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_email_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.MyCustom"
+            app:boxBackgroundColor="#80FA8181"
             android:layout_marginTop="48dp"
-            android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:text="@={viewmodel.email}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_logo" />
+            app:layout_constraintTop_toBottomOf="@+id/img_logo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:text="@={viewmodel.email}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.MyCustom"
+            app:boxBackgroundColor="#80FA8181"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:passwordToggleEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/edt_email_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:hint="@string/password"
+                android:inputType="textWebPassword"
+                android:text="@={viewmodel.password}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sign_in"
             style="@style/ButtonRedLong"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/sign_in"
             android:onClick="@{() -> viewmodel.login()}"
+            android:text="@string/sign_in"
             android:textColor="@color/btnTextColorDisable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edt_password"
-            app:layout_constraintVertical_bias="0.525" />
+            app:layout_constraintTop_toBottomOf="@id/edt_password_layout"
+            app:layout_constraintVertical_bias="0.48000002" />
 
         <ImageButton
             android:id="@+id/btn_close_sign_in"
@@ -80,7 +95,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.100000024" />
 
         <ProgressBar
             android:id="@+id/prg_sign_in"
@@ -92,7 +107,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_password" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_password_layout" />
 
         <TextView
             android:id="@+id/tv_forgot_password"
@@ -100,22 +115,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
-            android:text="@string/forgot_password_italic"
             android:onClick="@{() -> viewmodel.jumpToForgotPassword()}"
+            android:text="@string/forgot_password_italic"
             android:textColor="@color/colorAccent"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/edt_password"
-            app:layout_constraintTop_toBottomOf="@+id/edt_password" />
+            app:layout_constraintStart_toStartOf="@+id/edt_password_layout"
+            app:layout_constraintTop_toBottomOf="@+id/edt_password_layout" />
 
         <TextView
             android:id="@+id/tv_dont_have_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="48dp"
+            android:onClick="@{() -> viewmodel.jumpToSignUp()}"
             android:text="@string/dont_have_account"
             android:textColor="@color/colorAccent"
             android:textSize="16sp"
-            android:onClick="@{() -> viewmodel.jumpToSignUp()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

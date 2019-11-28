@@ -37,11 +37,6 @@ class SignInFragment : Fragment(), KodeinAware {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,8 +81,8 @@ class SignInFragment : Fragment(), KodeinAware {
             }
         })
 
-        compositeDisposable.add(ValidEditedObservable.execute(binding.edtEmail,UtilCheckValid::checkEmail))
-        compositeDisposable.add(ValidEditedObservable.execute(binding.edtPassword,UtilCheckValid::checkPassword))
+        compositeDisposable.add(ValidEditedObservable.execute(binding.edtEmail, binding.edtEmailLayout,UtilCheckValid::checkEmail))
+        compositeDisposable.add(ValidEditedObservable.execute(binding.edtPassword, binding.edtPasswordLayout,UtilCheckValid::checkPassword))
 
         binding.btnSignIn.setTextColor(context!!.resources.getColor(R.color.colorAccent))
 
