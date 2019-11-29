@@ -79,7 +79,7 @@ class AuthViewModel(
         }
 
         _loadingState.value = View.VISIBLE
-
+        Timber.d("email $email")
         val disposable = sendEmailResetPasswordUseCase(email)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
