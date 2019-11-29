@@ -44,7 +44,7 @@ class SignUpFragment : Fragment(), KodeinAware {
 
     private fun handleDirection() {
         binding.tvAlreadyHaveAnAccount.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.signInFragment)
+            Navigation.findNavController(it).popBackStack()
         }
     }
 

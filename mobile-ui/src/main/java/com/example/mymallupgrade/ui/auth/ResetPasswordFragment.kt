@@ -54,7 +54,7 @@ class ResetPasswordFragment : Fragment(), KodeinAware {
     private fun handleDirection() {
 
         binding.btnGoBack.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.signInFragment)
+            Navigation.findNavController(it).popBackStack()
         }
     }
 

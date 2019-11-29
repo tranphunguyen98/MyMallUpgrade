@@ -55,11 +55,13 @@ class SignInFragment : Fragment(), KodeinAware {
     private fun handleDirection() {
 
         binding.tvDontHaveAccount.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.signUpFragment)
+            val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
+            Navigation.findNavController(it).navigate(action)
         }
 
         binding.tvForgotPassword.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.resetPasswordFragment)
+            val action = SignInFragmentDirections.actionSignInFragmentToResetPasswordFragment()
+            Navigation.findNavController(it).navigate(action)
         }
 
         viewModel.errorState.observe(viewLifecycleOwner, Observer { message ->
