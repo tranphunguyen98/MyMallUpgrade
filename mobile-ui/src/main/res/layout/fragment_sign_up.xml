@@ -116,7 +116,6 @@
             android:text="@string/already_have_an_account"
             android:textColor="@color/colorAccent"
             android:textSize="16sp"
-            android:onClick="@{() -> viewmodel.jumpToSignIn()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

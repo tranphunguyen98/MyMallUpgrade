@@ -1,6 +1,5 @@
 package com.example.mymallupgrade.ui.auth
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignUpBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
@@ -18,101 +18,57 @@ import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
-import timber.log.Timber
 
 class SignUpFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
 
-    private lateinit var viewModel: AuthViewModel
-
-    private var listener: OnSignUpFragmentInteractionListener? = null
-
-    override fun onAttach(context: Context) {
-        Timber.d("onAttach")
-        super.onAttach(context)
-        if (context is OnSignUpFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnSignInFragmentInteractionListener")
-        }
+    private val viewModel: AuthViewModel by lazy {
+        val factory: AuthViewModelFactory by instance()
+        ViewModelProvider(this, factory).get(AuthViewModel::class.java)
     }
+    lateinit var binding: FragmentSignUpBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val factory : AuthViewModelFactory by instance()
         // Inflate the layout for this fragment
-        val binding: FragmentSignUpBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
-        viewModel = ViewModelProvider(this,factory).get(AuthViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         binding.viewmodel = viewModel
 
-        viewModel.eventJumpToSignIn.observe(viewLifecycleOwner, Observer {isJump ->
-            if(isJump) {
-                listener?.onJumpToSignInFragment()
-            }
-        })
+        handleDirection()
+        handleObserve()
 
-        viewModel.loadingState.observe(viewLifecycleOwner, Observer {isLoading ->
-                binding.prgSignUp.visibility = isLoading
-        })
-
-        viewModel.errorState.observe(viewLifecycleOwner, Observer {message ->
-            if(message.isNotEmpty()) {
-                Snackbar.make(activity!!.findViewById(android.R.id.content),"onFailure $message",Snackbar.LENGTH_LONG).show()
-            }
-        })
-
-        viewModel.successState.observe(viewLifecycleOwner, Observer {isSuccess ->
-            if(isSuccess) {
-                context!!.startHomeActivity()
-            }
-        })
         return binding.root
     }
 
-//    fun onButtonPressed(uri: Uri) {
-//        listener?.onFragmentInteraction(uri)
-//    }
-
-
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
+    private fun handleDirection() {
+        binding.tvAlreadyHaveAnAccount.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.signInFragment)
+        }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnSignUpFragmentInteractionListener {
-       fun onJumpToSignInFragment()
-    }
+    private fun handleObserve() {
+        viewModel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
+            binding.prgSignUp.visibility = isLoading
+        })
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment SignUpFragment.
-         */
-        @JvmStatic
-        fun newInstance() =
-            SignUpFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
+        viewModel.errorState.observe(viewLifecycleOwner, Observer { message ->
+            if (message.isNotEmpty()) {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    "onFailure $message",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
+        })
+
+        viewModel.successState.observe(viewLifecycleOwner, Observer { isSuccess ->
+            if (isSuccess) {
+                context!!.startHomeActivity()
+            }
+        })
     }
+
 
 }

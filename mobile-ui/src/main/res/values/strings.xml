@@ -17,4 +17,5 @@
     <string name="sub_forgot_password">Don\'t worry we just need your \n registered email address and its done!</string>
     <string name="go_back">Go Back</string>
     <string name="reset_password">Reset Password</string>
+    <string name="notify_send_email_reset_password_successful">Recovery email sent successful! Please check Inbox!</string>
 </resources>

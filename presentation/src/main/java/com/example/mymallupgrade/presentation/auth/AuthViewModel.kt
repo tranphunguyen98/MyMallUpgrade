@@ -18,24 +18,11 @@ class AuthViewModel(
     private val sendEmailResetPasswordUseCase: SendEmailResetPasswordUseCase,
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase
 ) : ViewModel() {
-
     //    private var user = User()
     var email: String = ""
     var password: String = ""
-    var confirmPassword: String =""
+    var confirmPassword: String = ""
     var fullName: String = ""
-
-    private val _eventJumpToSignUp = MutableLiveData<Boolean>()
-    val eventJumpToSignUp : LiveData<Boolean>
-        get() = _eventJumpToSignUp
-
-    private val _eventJumpToSignIn = MutableLiveData<Boolean>()
-    val eventJumpToSignIn : LiveData<Boolean>
-        get() = _eventJumpToSignIn
-
-    private val _eventJumpToForgotPassword = MutableLiveData<Boolean>()
-    val eventJumpToForgotPassword : LiveData<Boolean>
-        get() = _eventJumpToForgotPassword
 
     private val _loadingState = MutableLiveData<Int>()
     val loadingState : LiveData<Int>
@@ -53,9 +40,7 @@ class AuthViewModel(
     private val disposables = CompositeDisposable()
 
     fun signup() {
-
         _loadingState.value = View.VISIBLE
-
         val disposable: Disposable = signUpWithEmailUseCase(email!!,password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -107,18 +92,6 @@ class AuthViewModel(
             })
 
         disposables.add(disposable)
-    }
-
-    fun jumpToSignIn() {
-        _eventJumpToSignIn.value = true
-    }
-
-    fun jumpToSignUp() {
-        _eventJumpToSignUp.value = true
-    }
-
-    fun jumpToForgotPassword() {
-        _eventJumpToForgotPassword.value = true
     }
 
     override fun onCleared() {

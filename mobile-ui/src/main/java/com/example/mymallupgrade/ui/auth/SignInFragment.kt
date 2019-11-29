@@ -1,22 +1,21 @@
 package com.example.mymallupgrade.ui.auth
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignInBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
 import com.example.mymallupgrade.domain.Result
 import com.example.mymallupgrade.domain.UtilCheckValid
+import com.example.mymallupgrade.presentation.auth.AuthViewModel
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
@@ -28,55 +27,40 @@ import timber.log.Timber
 
 class SignInFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
-    private lateinit var viewModel: com.example.mymallupgrade.presentation.auth.AuthViewModel
-    private var listener: OnSignInFragmentInteractionListener? = null
-    private val compositeDisposable = CompositeDisposable()
-    lateinit var binding :FragmentSignInBinding
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnSignInFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnSignInFragmentInteractionListener")
-        }
-
+    private val viewModel: AuthViewModel by lazy {
+        val factory: AuthViewModelFactory by instance()
+        ViewModelProvider(
+            this,
+            factory
+        ).get(AuthViewModel::class.java)
     }
+    private val compositeDisposable = CompositeDisposable()
+    lateinit var binding: FragmentSignInBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val factory: AuthViewModelFactory by instance()
         // Inflate the layout for this fragment
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
-
-        viewModel = ViewModelProvider(
-            this,
-            factory
-        ).get(com.example.mymallupgrade.presentation.auth.AuthViewModel::class.java)
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
         binding.viewmodel = viewModel
 
-        handleObserve()
+        handleDirection()
 
         checkValidEdittext()
 
         return binding.root
     }
 
-    private fun handleObserve() {
-        viewModel.eventJumpToSignUp.observe(viewLifecycleOwner, Observer { isJump ->
-            if (isJump) {
-                listener?.onJumpToSignUpFragment()
-            }
-        })
+    private fun handleDirection() {
 
-        viewModel.eventJumpToForgotPassword.observe(viewLifecycleOwner, Observer { isJump ->
-            if (isJump) {
-                listener?.onJumpToForgotPasswordFragment()
-            }
-        })
+        binding.tvDontHaveAccount.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.signUpFragment)
+        }
+
+        binding.tvForgotPassword.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.resetPasswordFragment)
+        }
 
         viewModel.errorState.observe(viewLifecycleOwner, Observer { message ->
             if (message.isNotEmpty()) {
@@ -137,11 +121,11 @@ class SignInFragment : Fragment(), KodeinAware {
     }
 
     private fun activeButtonSignIn() {
-        if(binding.edtEmail.text.toString().isNotEmpty() && binding.edtEmailLayout.error.isNullOrEmpty() && binding.edtPasswordLayout.error.isNullOrEmpty() ) {
+        if (binding.edtEmail.text.toString().isNotEmpty() && binding.edtEmailLayout.error.isNullOrEmpty() && binding.edtPasswordLayout.error.isNullOrEmpty()) {
             Timber.d("activeButtonSignIn " + binding.edtEmail.text)
             binding.btnSignIn.isEnabled = true
             binding.btnSignIn.setTextColor(context!!.resources.getColor(R.color.colorPrimary))
-            ViewCompat.setBackground(binding.btnSignIn,context!!.getDrawable(R.drawable.btn_whtie))
+            ViewCompat.setBackground(binding.btnSignIn, context!!.getDrawable(R.drawable.btn_whtie))
         }
     }
 
@@ -149,18 +133,6 @@ class SignInFragment : Fragment(), KodeinAware {
         super.onDetach()
         Timber.d("onDetach")
         compositeDisposable.clear()
-        listener = null
-    }
-
-    interface OnSignInFragmentInteractionListener {
-        fun onJumpToSignUpFragment()
-        fun onJumpToForgotPasswordFragment()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            SignInFragment()
     }
 
 }
