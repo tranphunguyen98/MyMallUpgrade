@@ -1,6 +1,5 @@
-package com.example.mymallupgrade.data.repositories
+package com.example.mymallupgrade.data.repository.auth
 
-import com.example.mymallupgrade.data.FirebaseSourceImpl
 import com.example.mymallupgrade.domain.repository.auth.AuthRepository
 
 class AuthRepositoryImpl(

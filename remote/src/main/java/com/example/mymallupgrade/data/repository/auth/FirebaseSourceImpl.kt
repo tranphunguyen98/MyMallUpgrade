@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.data
+package com.example.mymallupgrade.data.repository.auth
 
 import com.example.mymallupgrade.domain.repository.auth.AuthDataSource
 import com.google.android.gms.tasks.Task

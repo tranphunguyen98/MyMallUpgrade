@@ -35,6 +35,10 @@ dependencies {
     implementation remoteDependencies.firebaseAuth
     implementation remoteDependencies.timber
 
+    implementation remoteDependencies.retrofit
+    implementation remoteDependencies.retrofitConverter
+    implementation remoteDependencies.retrofitAdapter
+
 }
 
 apply plugin: 'com.google.gms.google-services'

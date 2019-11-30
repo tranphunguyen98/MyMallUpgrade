@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain
+package com.example.mymallupgrade.domain.common
 
 sealed class Result<T>{
     data class Success<T>(val value: T) : Result<T>()

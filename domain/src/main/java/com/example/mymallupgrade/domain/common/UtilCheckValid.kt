@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain
+package com.example.mymallupgrade.domain.common
 
 object UtilCheckValid {
     private val REGEX_EMAIL =
@@ -6,14 +6,14 @@ object UtilCheckValid {
     private val REGEX_PASSWORD =
         ".*?(?:[a-z].*?[0-9]|[0-9].*?[a-z]).*?".toRegex()
 
-    fun checkEmail(email: String): Result<Unit>{
+    fun checkEmail(email: String): Result<Unit> {
         if (REGEX_EMAIL.matches(email)) {
             return Result.Success(Unit)
         }
         return Result.Failure(IllegalArgumentException("Email is not valid."))
     }
 
-    fun checkPassword(password: String): Result<Unit>{
+    fun checkPassword(password: String): Result<Unit> {
         if (password.length < 6) {
             return Result.Failure(IllegalArgumentException("Length password must be greater than 6."))
         }
@@ -23,7 +23,7 @@ object UtilCheckValid {
         return Result.Failure(IllegalArgumentException("Password must contain both number and letter."))
     }
 
-    fun checkConfirmPassword(password: String, confirmPassword: String): Result<Unit>{
+    fun checkConfirmPassword(password: String, confirmPassword: String): Result<Unit> {
         if (password == confirmPassword) {
             return Result.Success(Unit)
         }

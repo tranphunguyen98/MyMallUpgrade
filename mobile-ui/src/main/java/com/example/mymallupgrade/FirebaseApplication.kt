@@ -1,8 +1,8 @@
 package com.example.mymallupgrade
 
 import android.app.Application
-import com.example.mymallupgrade.data.FirebaseSourceImpl
-import com.example.mymallupgrade.data.repositories.AuthRepositoryImpl
+import com.example.mymallupgrade.data.repository.auth.FirebaseSourceImpl
+import com.example.mymallupgrade.data.repository.auth.AuthRepositoryImpl
 import com.example.mymallupgrade.domain.interactor.auth.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SignUpWithEmailUseCase

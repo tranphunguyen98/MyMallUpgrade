@@ -13,8 +13,8 @@ import androidx.navigation.Navigation
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignInBinding
 import com.example.mymallupgrade.di.AuthViewModelFactory
-import com.example.mymallupgrade.domain.Result
-import com.example.mymallupgrade.domain.UtilCheckValid
+import com.example.mymallupgrade.domain.common.Result
+import com.example.mymallupgrade.domain.common.UtilCheckValid
 import com.example.mymallupgrade.presentation.auth.AuthViewModel
 import com.example.mymallupgrade.utils.startHomeActivity
 import com.google.android.material.snackbar.Snackbar

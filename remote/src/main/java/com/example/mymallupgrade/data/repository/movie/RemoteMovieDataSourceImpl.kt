@@ -1,0 +1,27 @@
+package com.example.mymallupgrade.data.repository.movie
+
+import com.example.mymallupgrade.data.api.Api
+import com.example.mymallupgrade.data.mapper.MovieDataMapper
+import com.example.mymallupgrade.domain.entity.movie.MovieEntity
+import com.example.mymallupgrade.domain.entity.movie.Optional
+import com.example.mymallupgrade.domain.repository.movie.RemoteMovieDataSource
+import io.reactivex.Observable
+
+class RemoteMovieDataSourceImpl (private val api: Api): RemoteMovieDataSource {
+    override fun getMovieById(movieId: Int): Observable<Optional<MovieEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private val movieDataMapper = MovieDataMapper()
+
+    override fun getMovies(): Observable<List<MovieEntity>> {
+        return api.getPopularMovies().map{results ->
+            results.map { movieDataMapper.mapFrom(it)}
+        }
+    }
+
+    override fun search(query: String): Observable<List<MovieEntity>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+}

@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.data
+package com.example.mymallupgrade.data.repository.auth
 
 import com.example.mymallupgrade.domain.entity.auth.Gender
 import com.example.mymallupgrade.domain.entity.auth.User

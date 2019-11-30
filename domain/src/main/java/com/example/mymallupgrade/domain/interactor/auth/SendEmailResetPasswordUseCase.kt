@@ -1,7 +1,7 @@
 package com.example.mymallupgrade.domain.interactor.auth
 
-import com.example.mymallupgrade.domain.Result
-import com.example.mymallupgrade.domain.UtilCheckValid
+import com.example.mymallupgrade.domain.common.Result
+import com.example.mymallupgrade.domain.common.UtilCheckValid
 import com.example.mymallupgrade.domain.repository.auth.AuthRepository
 import io.reactivex.Completable
 
