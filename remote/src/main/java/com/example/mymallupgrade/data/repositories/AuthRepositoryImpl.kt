@@ -1,7 +1,7 @@
 package com.example.mymallupgrade.data.repositories
 
 import com.example.mymallupgrade.data.FirebaseSourceImpl
-import com.example.mymallupgrade.domain.repository.AuthRepository
+import com.example.mymallupgrade.domain.repository.auth.AuthRepository
 
 class AuthRepositoryImpl(
     private val firebase: FirebaseSourceImpl

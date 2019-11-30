@@ -2,7 +2,7 @@ package com.example.mymallupgrade.data
 
 import com.example.mymallupgrade.domain.entity.auth.Gender
 import com.example.mymallupgrade.domain.entity.auth.User
-import com.example.mymallupgrade.domain.repository.UserRepository
+import com.example.mymallupgrade.domain.repository.auth.UserRepository
 
 class UserRepositoryImp : UserRepository {
 

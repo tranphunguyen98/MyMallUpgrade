@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain.repository
+package com.example.mymallupgrade.domain.repository.auth
 
 import io.reactivex.Completable
 

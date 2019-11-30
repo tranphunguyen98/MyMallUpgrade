@@ -1,13 +1,13 @@
 package com.example.mymallupgrade.data
 
-import com.example.mymallupgrade.domain.repository.AuthFirebaseSource
+import com.example.mymallupgrade.domain.repository.auth.AuthDataSource
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Completable
 import timber.log.Timber
 
-class FirebaseSourceImpl : AuthFirebaseSource {
+class FirebaseSourceImpl : AuthDataSource {
     init {
         Timber.d("CCC FirebaseSourceImpl")
     }

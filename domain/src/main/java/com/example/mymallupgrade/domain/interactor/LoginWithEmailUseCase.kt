@@ -2,7 +2,7 @@ package com.example.mymallupgrade.domain.interactor
 
 import com.example.mymallupgrade.domain.Result
 import com.example.mymallupgrade.domain.UtilCheckValid
-import com.example.mymallupgrade.domain.repository.AuthRepository
+import com.example.mymallupgrade.domain.repository.auth.AuthRepository
 import io.reactivex.Completable
 
 class LoginWithEmailUseCase constructor(private val authRepository: AuthRepository) {

@@ -2,7 +2,7 @@ package com.example.mymallupgrade.domain.interactor
 
 import com.example.mymallupgrade.domain.entity.auth.Gender
 import com.example.mymallupgrade.domain.entity.auth.User
-import com.example.mymallupgrade.domain.repository.UserRepository
+import com.example.mymallupgrade.domain.repository.auth.UserRepository
 
 class CreateUserUseCase constructor(private val repository: UserRepository) {
     /**
