@@ -4,9 +4,9 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mymallupgrade.domain.interactor.LoginWithEmailUseCase
-import com.example.mymallupgrade.domain.interactor.SendEmailResetPasswordUseCase
-import com.example.mymallupgrade.domain.interactor.SignUpWithEmailUseCase
+import com.example.mymallupgrade.domain.interactor.auth.LoginWithEmailUseCase
+import com.example.mymallupgrade.domain.interactor.auth.SendEmailResetPasswordUseCase
+import com.example.mymallupgrade.domain.interactor.auth.SignUpWithEmailUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

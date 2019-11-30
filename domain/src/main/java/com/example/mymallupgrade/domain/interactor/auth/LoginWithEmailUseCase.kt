@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain.interactor
+package com.example.mymallupgrade.domain.interactor.auth
 
 import com.example.mymallupgrade.domain.Result
 import com.example.mymallupgrade.domain.UtilCheckValid
