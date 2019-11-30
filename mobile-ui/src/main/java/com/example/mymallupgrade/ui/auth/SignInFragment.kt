@@ -87,7 +87,7 @@ class SignInFragment : Fragment(), KodeinAware {
                 .subscribe { string ->
                     when (val result = UtilCheckValid.checkEmail(string)) {
                         is Result.Failure -> {
-                            binding.edtEmailLayout.error = result.message
+                            binding.edtEmailLayout.error = result.throwable.message
                             disableButtonSignIn()
                         }
                         is Result.Success -> {
@@ -103,7 +103,7 @@ class SignInFragment : Fragment(), KodeinAware {
                 .subscribe { string ->
                     when (val result = UtilCheckValid.checkPassword(string)) {
                         is Result.Failure -> {
-                            binding.edtPasswordLayout.error = result.message
+                            binding.edtPasswordLayout.error = result.throwable.message
                             disableButtonSignIn()
                         }
                         is Result.Success -> {

@@ -8,7 +8,7 @@ import io.reactivex.Completable
 class SendEmailResetPasswordUseCase constructor(private val authRepository: AuthRepository) {
     operator fun invoke(email: String): Completable {
         when(val result = UtilCheckValid.checkEmail(email)) {
-            is Result.Failure -> return Completable.error(IllegalArgumentException(result.message))
+            is Result.Failure -> return Completable.error(IllegalArgumentException(result.throwable.message))
         }
         return authRepository.sendEmailResetPassword(email)
     }
