@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain.entity
+package com.example.mymallupgrade.domain.entity.auth
 
 enum class Gender {
     MALE,

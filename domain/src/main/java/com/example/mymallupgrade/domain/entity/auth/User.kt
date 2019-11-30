@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain.entity
+package com.example.mymallupgrade.domain.entity.auth
 
 data class User(
     val id : String,

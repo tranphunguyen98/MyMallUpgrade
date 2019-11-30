@@ -1,6 +1,6 @@
 package com.example.mymallupgrade.domain.repository
 
-import com.example.mymallupgrade.domain.entity.User
+import com.example.mymallupgrade.domain.entity.auth.User
 
 interface UserRepository {
     fun getUser() : User

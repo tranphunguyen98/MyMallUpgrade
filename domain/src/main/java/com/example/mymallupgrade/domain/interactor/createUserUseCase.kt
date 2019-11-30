@@ -1,7 +1,7 @@
 package com.example.mymallupgrade.domain.interactor
 
-import com.example.mymallupgrade.domain.entity.Gender
-import com.example.mymallupgrade.domain.entity.User
+import com.example.mymallupgrade.domain.entity.auth.Gender
+import com.example.mymallupgrade.domain.entity.auth.User
 import com.example.mymallupgrade.domain.repository.UserRepository
 
 class CreateUserUseCase constructor(private val repository: UserRepository) {
@@ -14,7 +14,7 @@ class CreateUserUseCase constructor(private val repository: UserRepository) {
             throw IllegalArgumentException("name user must not be none")
         } else {
 
-            val user =  User(
+            val user = User(
                 id = "",
                 name = "",
                 age = 0,
