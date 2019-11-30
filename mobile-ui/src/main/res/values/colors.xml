@@ -13,4 +13,14 @@
     <color name="black">#0C0C0C</color>
     <color name="backgroundProgress">#FFB9B9</color>
     <color name="btnDisable">#99A59191</color>
+    <color name="colorPrimaryLightWhile">#DD6D6D</color>
+    <color name="white">#ffffff</color>
+    <color name="while80">#80ffffff</color>
+    <color name="green">#38EC3E</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="gray">#969696</color>
+    <color name="grayLight">#E6E6E6</color>
+    <color name="dark_green">#24AF32</color>
+    <color name="black_blue">#485F70</color>
+    <color name="blue">#3006BA</color>
 </resources>

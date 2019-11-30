@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple android:color="#F7C1C1"
+xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@android:id/background"
+    android:drawable="@drawable/background_circle_white_card" />
+</ripple>
