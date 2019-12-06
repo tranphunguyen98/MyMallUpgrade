@@ -4,8 +4,12 @@ import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.entity.movie.Optional
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import io.reactivex.Observable
+import timber.log.Timber
 
 class MovieRepositoryImpl (private val remoteMovieDataSourceImpl: RemoteMovieDataSourceImpl) : MovieRepository {
+    init {
+        Timber.d("MovieRepositoryImpl created")
+    }
     override fun getMovieById(movieId: Int): Observable<Optional<MovieEntity>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

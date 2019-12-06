@@ -2,7 +2,7 @@ package com.example.mymallupgrade.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieData(
+data class MovieRemote(
     @SerializedName("id")
     val id: Int = -1,
 

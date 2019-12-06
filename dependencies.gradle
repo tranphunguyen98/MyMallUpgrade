@@ -21,7 +21,7 @@ ext {
     supportLibraryVersion = '26.0.1'
     timberVersion = '4.7.1'
     glideVersion = '4.0.0'
-    daggerVersion = '2.11'
+    daggerVersion = '2.25.2'
     glassfishAnnotationVersion = '10.0-b28'
     firebaseAuthVersion = '19.1.0'
     lifecycleVersion = '2.2.0-rc02'
@@ -181,8 +181,11 @@ ext {
     ]
 
     mobileUiDependencies = [
+            //Dagger
             daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger             : "com.google.dagger:dagger:${daggerVersion}",
+            daggerSupport      : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            daggerProcessor    : "com.google.dagger:dagger-android-processor:${daggerVersion}",
             rxJava             : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxKotlin           : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
@@ -198,8 +201,6 @@ ext {
             supportRecyclerView: "com.android.support:recyclerview-v7:${supportLibraryVersion}",
             supportDesign      : "com.android.support:design:${supportLibraryVersion}",
             timber             : "com.jakewharton.timber:timber:${timberVersion}",
-            daggerSupport      : "com.google.dagger:dagger-android-support:${daggerVersion}",
-            daggerProcessor    : "com.google.dagger:dagger-android-processor:${daggerVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
             //UI
             appCompatV7        : "com.android.support:appcompat-v7:${supportLibraryVersion}",

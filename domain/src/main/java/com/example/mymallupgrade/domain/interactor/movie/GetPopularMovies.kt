@@ -2,7 +2,6 @@ package com.example.mymallupgrade.domain.interactor.movie
 
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 
-class GetMovies (private val movieRepository: MovieRepository) {
+class GetPopularMovies (private val movieRepository: MovieRepository) {
     operator fun invoke() = movieRepository.getMovies()
-
 }

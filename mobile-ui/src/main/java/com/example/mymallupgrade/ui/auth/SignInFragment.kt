@@ -118,8 +118,8 @@ class SignInFragment : Fragment(), KodeinAware {
     private fun disableButtonSignIn() {
         Timber.d("disableButtonSignIn")
         binding.btnSignIn.isEnabled = false
-        binding.btnSignIn.setTextColor(context!!.resources.getColor(com.example.mymallupgrade.R.color.btnTextColorDisable))
-        binding.btnSignIn.setBackgroundColor(context!!.resources.getColor(com.example.mymallupgrade.R.color.btnDisable))
+        binding.btnSignIn.setTextColor(context!!.resources.getColor(R.color.btnTextColorDisable))
+        binding.btnSignIn.setBackgroundColor(context!!.resources.getColor(R.color.btnDisable))
     }
 
     private fun activeButtonSignIn() {

@@ -4,52 +4,53 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.example.mymallupgrade.data.api.ProviderApi
-import com.example.mymallupgrade.data.repository.movie.MovieRepositoryImpl
-import com.example.mymallupgrade.data.repository.movie.RemoteMovieDataSourceImpl
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+import androidx.lifecycle.ViewModelProvider
+import com.example.mymallupgrade.R
+import com.example.mymallupgrade.common.App
+import javax.inject.Inject
 
 
 class MovieFragment : Fragment() {
 
-    private lateinit var galleryViewModel: MovieViewModel
+    @Inject
+    lateinit var factory: PopularMoviesViewModelFactory
 
+    private lateinit var viewmodel: PopularMoviesViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity?.application as App).createPopularComponent().inject(this)
+        viewmodel = ViewModelProvider(this,factory).get(PopularMoviesViewModel::class.java)
+        viewmodel.getPopularMovies()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-            ViewModelProviders.of(this).get(MovieViewModel::class.java)
-        val root = inflater.inflate(com.example.mymallupgrade.R.layout.fragment_movie, container, false)
-        val textView: TextView = root.findViewById(com.example.mymallupgrade.R.id.text_gallery)
-        galleryViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
+
+        val root =
+            inflater.inflate(R.layout.fragment_movie, container, false)
+
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val providerApi = ProviderApi()
+//        val providerApi = ProviderApi()
+//
+//        val remoteMovieDataSourceImpl = RemoteMovieDataSourceImpl(providerApi.create())
+//        val movieRepository = MovieRepositoryImpl(remoteMovieDataSourceImpl)
+//
+//        providerApi.create().getPopularMovies()
 
-        val remoteMovieDataSourceImpl = RemoteMovieDataSourceImpl(providerApi.create())
-        val movieRepository = MovieRepositoryImpl(remoteMovieDataSourceImpl)
-
-        providerApi.create().getPopularMovies()
-
-        val disposable = movieRepository.getMovies()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {list->
-                Timber.d("title ${list[0].title}")
-            }
+//        val disposable = movieRepository.getMovies()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe {list->
+//                Timber.d("title ${list[0].title}")
+//            }
     }
 }
