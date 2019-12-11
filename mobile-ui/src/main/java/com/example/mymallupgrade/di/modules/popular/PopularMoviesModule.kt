@@ -3,7 +3,7 @@ package com.example.mymallupgrade.di.modules.popular
 import com.example.mymallupgrade.common.MovieEntityToMovieMapper
 import com.example.mymallupgrade.domain.interactor.movie.GetPopularMovies
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
-import com.example.mymallupgrade.ui.home.ui.movie.PopularMoviesViewModelFactory
+import com.example.mymallupgrade.ui.movie.PopularMoviesViewModelFactory
 import dagger.Module
 import dagger.Provides
 import timber.log.Timber

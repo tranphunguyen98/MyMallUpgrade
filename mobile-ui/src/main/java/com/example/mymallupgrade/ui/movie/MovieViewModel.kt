@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.ui.home.ui.movie
+package com.example.mymallupgrade.ui.movie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
