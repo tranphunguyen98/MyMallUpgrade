@@ -18,6 +18,7 @@ class RemoteMovieDataSourceImpl (private val api: MovieApi): RemoteMovieDataSour
     override fun getMovies(): Observable<List<MovieEntity>> {
         return api.getPopularMovies().map{results ->
             Timber.d("getPopularMovies ${results.page}")
+            Timber.d("url = ${results.movies[0].posterPath}")
             results.movies.map {
                 movieDataMapper.mapFrom(it)
             }

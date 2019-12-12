@@ -83,6 +83,7 @@ class App : Application(), KodeinAware {
         popularMovieComponent = mainComponent.plus(PopularMoviesModule())
         return popularMovieComponent!!
     }
+
     fun releasePopularComponent() {
         popularMovieComponent = null
     }

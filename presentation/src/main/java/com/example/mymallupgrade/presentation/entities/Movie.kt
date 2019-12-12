@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.entities
+package com.example.mymallupgrade.presentation.entities
 
 data class Movie (
     var id: Int = 0,

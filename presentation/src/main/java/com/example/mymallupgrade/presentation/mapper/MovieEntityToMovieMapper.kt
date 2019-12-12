@@ -1,13 +1,19 @@
-package com.example.mymallupgrade.common
+package com.example.mymallupgrade.presentation.mapper
 
 import com.example.mymallupgrade.domain.common.Mapper
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
-import com.example.mymallupgrade.entities.Movie
+import com.example.mymallupgrade.presentation.entities.Movie
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MovieEntityToMovieMapper @Inject constructor(): Mapper<MovieEntity,Movie>() {
+    companion object {
+        const val posterBaseUrl = "https://image.tmdb.org/t/p/w342"
+        const val backdropBaseUrl = "https://image.tmdb.org/t/p/w780"
+        const val youTubeBaseUrl = "https://www.youtube.com/watch?v="
+    }
+
     override fun mapFrom(from: MovieEntity): Movie {
         val movie = Movie(
             id = from.id,
@@ -20,7 +26,8 @@ class MovieEntityToMovieMapper @Inject constructor(): Mapper<MovieEntity,Movie>(
             originalTitle = from.originalTitle,
             adult = from.adult,
             releaseDate = from.releaseDate,
-            overview = from.overview
+            overview = from.overview,
+            posterPath = from.posterPath?.let { posterBaseUrl + it }
         )
         return movie
     }

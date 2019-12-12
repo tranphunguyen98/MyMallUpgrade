@@ -1,6 +1,6 @@
 package com.example.mymallupgrade.di.modules.popular
 
-import com.example.mymallupgrade.common.MovieEntityToMovieMapper
+import com.example.mymallupgrade.presentation.mapper.MovieEntityToMovieMapper
 import com.example.mymallupgrade.domain.interactor.movie.GetPopularMovies
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import com.example.mymallupgrade.ui.movie.PopularMoviesViewModelFactory

@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.domain.common.Mapper
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.interactor.movie.GetPopularMovies
-import com.example.mymallupgrade.entities.Movie
+import com.example.mymallupgrade.presentation.entities.Movie
+import com.example.mymallupgrade.presentation.movie.PopularMoviesViewModel
 
 class PopularMoviesViewModelFactory(
     private val useCase: GetPopularMovies,
