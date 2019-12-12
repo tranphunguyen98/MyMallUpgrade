@@ -38,10 +38,11 @@ class MovieFragment : Fragment() {
         if(savedInstanceState != null) {
             Timber.d("bundle: not null")
         } else {
+            viewmodel.getPopularMovies()
             Timber.d("bundle null")
         }
 
-        viewmodel.getPopularMovies()
+
     }
 
     override fun onCreateView(
