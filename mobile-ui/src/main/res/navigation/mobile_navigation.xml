@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/nav_movie"
-        android:name="com.example.mymallupgrade.ui.movie.MovieFragment"
+        android:name="com.example.mymallupgrade.ui.movie.popular.MovieFragment"
         android:label="Movie"
         tools:layout="@layout/fragment_movie" />
 

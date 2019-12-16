@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.di
+package com.example.mymallupgrade.di.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

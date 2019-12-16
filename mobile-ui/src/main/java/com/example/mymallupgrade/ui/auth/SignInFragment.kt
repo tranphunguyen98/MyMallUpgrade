@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentSignInBinding
-import com.example.mymallupgrade.di.AuthViewModelFactory
+import com.example.mymallupgrade.di.auth.AuthViewModelFactory
 import com.example.mymallupgrade.domain.common.Result
 import com.example.mymallupgrade.domain.common.UtilCheckValid
 import com.example.mymallupgrade.presentation.auth.AuthViewModel

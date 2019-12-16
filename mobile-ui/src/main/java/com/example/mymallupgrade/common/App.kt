@@ -7,11 +7,11 @@ import com.example.mymallupgrade.data.repository.auth.AuthRepositoryImpl
 import com.example.mymallupgrade.data.repository.auth.FirebaseSourceImpl
 import com.example.mymallupgrade.data.repository.movie.MovieRepositoryImpl
 import com.example.mymallupgrade.data.repository.movie.RemoteMovieDataSourceImpl
-import com.example.mymallupgrade.di.AuthViewModelFactory
+import com.example.mymallupgrade.di.auth.AuthViewModelFactory
 import com.example.mymallupgrade.di.DaggerMainComponent
 import com.example.mymallupgrade.di.MainComponent
-import com.example.mymallupgrade.di.modules.popular.PopularMoviesModule
-import com.example.mymallupgrade.di.modules.popular.PopularSubComponent
+import com.example.mymallupgrade.di.movie.popular.PopularMoviesModule
+import com.example.mymallupgrade.di.movie.popular.PopularSubComponent
 import com.example.mymallupgrade.domain.interactor.auth.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SignUpWithEmailUseCase

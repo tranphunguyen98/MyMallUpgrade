@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.databinding.FragmentResetPasswordBinding
-import com.example.mymallupgrade.di.AuthViewModelFactory
+import com.example.mymallupgrade.di.auth.AuthViewModelFactory
 import com.example.mymallupgrade.presentation.auth.AuthViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.KodeinAware

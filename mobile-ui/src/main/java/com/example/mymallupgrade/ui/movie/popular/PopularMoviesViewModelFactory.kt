@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.ui.movie
+package com.example.mymallupgrade.ui.movie.popular
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
