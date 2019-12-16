@@ -2,20 +2,18 @@ package com.example.mymallupgrade.common
 
 import android.app.Application
 import com.example.mymallupgrade.BuildConfig
-import com.example.mymallupgrade.data.api.ProviderApi
 import com.example.mymallupgrade.data.repository.auth.AuthRepositoryImpl
 import com.example.mymallupgrade.data.repository.auth.FirebaseSourceImpl
-import com.example.mymallupgrade.data.repository.movie.MovieRepositoryImpl
-import com.example.mymallupgrade.data.repository.movie.RemoteMovieDataSourceImpl
-import com.example.mymallupgrade.di.auth.AuthViewModelFactory
 import com.example.mymallupgrade.di.DaggerMainComponent
 import com.example.mymallupgrade.di.MainComponent
+import com.example.mymallupgrade.di.auth.AuthViewModelFactory
+import com.example.mymallupgrade.di.movie.detail.DetailSubComponent
+import com.example.mymallupgrade.di.movie.detail.MovieDetailModule
 import com.example.mymallupgrade.di.movie.popular.PopularMoviesModule
 import com.example.mymallupgrade.di.movie.popular.PopularSubComponent
 import com.example.mymallupgrade.domain.interactor.auth.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SignUpWithEmailUseCase
-import com.example.mymallupgrade.domain.interactor.movie.GetPopularMovies
 import org.jetbrains.annotations.NotNull
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -29,6 +27,7 @@ import timber.log.Timber
 class App : Application(), KodeinAware {
     lateinit var mainComponent: MainComponent
     private var popularMovieComponent: PopularSubComponent? = null
+    private var movieDetailComponent: DetailSubComponent? = null
     override val kodein = Kodein.lazy {
         import(androidXModule(this@App))
         // AUTH - FIREBASE
@@ -60,12 +59,6 @@ class App : Application(), KodeinAware {
                 instance()
             )
         }
-
-        // MOVIE - API
-        bind() from singleton { ProviderApi().create() }
-        bind() from singleton { RemoteMovieDataSourceImpl(instance())}
-        bind() from singleton { MovieRepositoryImpl(instance())}
-        bind() from singleton { GetPopularMovies(instance()) }
     }
 
     override fun onCreate() {
@@ -87,6 +80,16 @@ class App : Application(), KodeinAware {
     fun releasePopularComponent() {
         popularMovieComponent = null
     }
+
+    fun createDetailComponent(): DetailSubComponent {
+        movieDetailComponent = mainComponent.plus(MovieDetailModule())
+        return movieDetailComponent!!
+    }
+
+    fun releaseDetailComponent() {
+        movieDetailComponent = null
+    }
+
 
     inner class DebugTree : Timber.DebugTree() {
         override fun createStackElementTag(@NotNull element: StackTraceElement): String? {

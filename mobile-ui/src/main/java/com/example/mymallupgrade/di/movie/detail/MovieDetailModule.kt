@@ -13,6 +13,6 @@ class MovieDetailModule {
 
     @Provides
     fun provideGetMovieDetailUseCase(movieRepository: MovieRepository): GetMovieDetail {
-
+        return GetMovieDetail(movieRepository)
     }
 }

@@ -11,7 +11,7 @@ class MovieRepositoryImpl (private val remoteMovieDataSourceImpl: RemoteMovieDat
         Timber.d("MovieRepositoryImpl created")
     }
     override fun getMovieById(movieId: Int): Observable<Optional<MovieEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return remoteMovieDataSourceImpl.getMovieById(movieId)
     }
 
     override fun getMovies(): Observable<List<MovieEntity>> {

@@ -1,24 +1,25 @@
 package com.example.mymallupgrade.data.repository.movie
 
 import com.example.mymallupgrade.data.api.MovieApi
-import com.example.mymallupgrade.data.mapper.MovieDataMapper
+import com.example.mymallupgrade.data.mapper.MovieDetailRemoteToEntityMapper
+import com.example.mymallupgrade.data.mapper.MovieRemoteToEntityMapper
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.entity.movie.Optional
 import com.example.mymallupgrade.domain.repository.movie.RemoteMovieDataSource
 import io.reactivex.Observable
-import timber.log.Timber
 
 class RemoteMovieDataSourceImpl (private val api: MovieApi): RemoteMovieDataSource {
-    override fun getMovieById(movieId: Int): Observable<Optional<MovieEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private val movieDataMapper = MovieRemoteToEntityMapper()
+    private val movieDetailMapper = MovieDetailRemoteToEntityMapper();
 
-    private val movieDataMapper = MovieDataMapper()
+    override fun getMovieById(movieId: Int): Observable<Optional<MovieEntity>> {
+        return api.getMovieDetail(movieId).flatMap {detailData ->
+            Observable.just(Optional.of(movieDetailMapper.mapFrom(detailData)))
+        }
+    }
 
     override fun getMovies(): Observable<List<MovieEntity>> {
         return api.getPopularMovies().map{results ->
-            Timber.d("getPopularMovies ${results.page}")
-            Timber.d("url = ${results.movies[0].posterPath}")
             results.movies.map {
                 movieDataMapper.mapFrom(it)
             }
