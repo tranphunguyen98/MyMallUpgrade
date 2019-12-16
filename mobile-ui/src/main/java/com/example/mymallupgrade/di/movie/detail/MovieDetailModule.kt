@@ -1,5 +1,6 @@
 package com.example.mymallupgrade.di.movie.detail
 
+import com.example.mymallupgrade.common.ASyncTransformer
 import com.example.mymallupgrade.domain.interactor.movie.GetMovieDetail
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import dagger.Module
@@ -13,6 +14,6 @@ class MovieDetailModule {
 
     @Provides
     fun provideGetMovieDetailUseCase(movieRepository: MovieRepository): GetMovieDetail {
-        return GetMovieDetail(movieRepository)
+        return GetMovieDetail(ASyncTransformer(), movieRepository)
     }
 }

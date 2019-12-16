@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.domain.interactor.movie.GetMovieDetail
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -40,8 +38,6 @@ class DetailMoviesActivity : AppCompatActivity() {
 
 
         val disposable = getMovieDetail(512200)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
             .subscribe (
                 {
                     Timber.d("details ${it.value?.overview}")
@@ -50,20 +46,5 @@ class DetailMoviesActivity : AppCompatActivity() {
                     Timber.d("error: ${it.message}" )
                 }
             )
-//        val module = NetworkModule()
-//        val component = DaggerMainComponent.builder().networkModule(module).build()
-//        val api = component.provideApi()
-//        val disposable = api.getMovieDetail(512200)
-//            .flatMap { detail -> Observable.just(MovieDetailRemoteToEntityMapper().mapFrom(detail)) }
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe (
-//                {
-//                    Timber.d("details ${it.overview}")
-//                },
-//                {
-//                    Timber.d("error: ${it.message}" )
-//                }
-//            )
     }
 }
