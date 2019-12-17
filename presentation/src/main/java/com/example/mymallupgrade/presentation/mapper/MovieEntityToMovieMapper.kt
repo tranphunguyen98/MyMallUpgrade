@@ -27,7 +27,8 @@ class MovieEntityToMovieMapper @Inject constructor(): Mapper<MovieEntity,Movie>(
             adult = from.adult,
             releaseDate = from.releaseDate,
             overview = from.overview,
-            posterPath = from.posterPath?.let { posterBaseUrl + it }
+            posterPath = from.posterPath?.let { posterBaseUrl + it },
+            backdropPath = from.backdropPath?.let { backdropBaseUrl + it }
         )
         return movie
     }

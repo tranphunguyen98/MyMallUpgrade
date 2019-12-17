@@ -5,16 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
-import com.example.mymallupgrade.domain.interactor.movie.GetMovieDetail
+import com.example.mymallupgrade.presentation.movie.MovieDetailViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
 class DetailMoviesActivity : AppCompatActivity() {
-
     @Inject
-    lateinit var getMovieDetail: GetMovieDetail
+    lateinit var factory: DetailMovieViewModelFactory
+
+    lateinit var viewModel: MovieDetailViewModel
 
     companion object {
         private const val MOVIE_ID = "extra_movie_id"
@@ -36,15 +39,19 @@ class DetailMoviesActivity : AppCompatActivity() {
 
         (application as App).createDetailComponent().inject(this)
 
+        viewModel = ViewModelProvider(this,factory).get(MovieDetailViewModel::class.java)
 
-        val disposable = getMovieDetail(512200)
-            .subscribe (
-                {
-                    Timber.d("details ${it.value?.overview}")
-                },
-                {
-                    Timber.d("error: ${it.message}" )
-                }
-            )
+        if(savedInstanceState == null) {
+            viewModel.getMovieDetail(512200)
+        }
+
+        handleObservable()
+    }
+
+
+    private fun handleObservable() {
+        viewModel.movie.observe(this, Observer {movie ->
+            Timber.d(movie.backdropPath)
+        })
     }
 }

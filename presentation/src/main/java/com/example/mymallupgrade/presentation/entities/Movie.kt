@@ -13,7 +13,6 @@ data class Movie (
     var backdropPath: String? = null,
     var adult: Boolean = false,
     var releaseDate: String,
-    //var details: MovieDetails? = null,
     var isFavorite: Boolean = false,
     var overview: String? = null) {
 
