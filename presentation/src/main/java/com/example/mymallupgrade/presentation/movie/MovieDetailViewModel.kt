@@ -45,7 +45,6 @@ class MovieDetailViewModel(
                     {
                         _movie.value = it
                         _loadingState.value = false
-                        Timber.d("it= ${it.backdropPath}")
                     },
                     {
                         _errorState.value = it
