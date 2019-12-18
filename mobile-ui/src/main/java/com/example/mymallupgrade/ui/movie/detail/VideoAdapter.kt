@@ -1,11 +1,11 @@
 package com.example.mymallupgrade.ui.movie.detail
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymallupgrade.R
+import com.example.mymallupgrade.databinding.VideoCellBinding
 import com.example.mymallupgrade.presentation.entities.Video
 
 /**
@@ -13,8 +13,8 @@ import com.example.mymallupgrade.presentation.entities.Video
  */
 
 class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
-
-    var videos = emptyList<Video>()
+    private var layoutInflater: LayoutInflater? = null
+    private var videos = emptyList<Video>()
 
     fun setData(videos: List<Video>) {
         this.videos = videos
@@ -22,8 +22,11 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.video_cell,parent,false)
-        return VideoHolder(view)
+        if(layoutInflater == null) {
+            layoutInflater = LayoutInflater.from(parent.context)
+        }
+        val binding = DataBindingUtil.inflate<VideoCellBinding>(layoutInflater!!,R.layout.video_cell,parent,false)
+        return VideoHolder(binding)
     }
 
     override fun getItemCount(): Int = videos.size
@@ -32,9 +35,9 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
         holder.bind(videos[position])
     }
 
-    class VideoHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class VideoHolder(val binding: VideoCellBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(video: Video) {
-            itemView.findViewById<TextView>(R.id.video_adapter_name).text = video.name
+            this.binding.video = video
         }
     }
 }
