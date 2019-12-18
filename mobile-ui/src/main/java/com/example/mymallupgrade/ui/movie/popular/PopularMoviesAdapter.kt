@@ -3,12 +3,11 @@ package com.example.mymallupgrade.ui.movie.popular
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymallupgrade.R
+import com.example.mymallupgrade.databinding.PopularMoviesAdapterCellBinding
 import com.example.mymallupgrade.presentation.entities.Movie
-import com.squareup.picasso.Picasso
 
 /**
  * Created by Tran Phu Nguyen on 12/12/2019.
@@ -16,11 +15,15 @@ import com.squareup.picasso.Picasso
 
 class PopularMoviesAdapter(private val onMovieSelected : (Movie,View) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data: MutableList<Movie> = mutableListOf()
+    private var layoutInflater: LayoutInflater? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view: View = LayoutInflater.from(parent.context!!)
-            .inflate(R.layout.popular_movies_adapter_cell, parent, false)
+        if(layoutInflater == null) {
+            layoutInflater = LayoutInflater.from(parent.context!!)
+        }
+        val binding = DataBindingUtil.inflate<PopularMoviesAdapterCellBinding>(layoutInflater!!,R.layout.popular_movies_adapter_cell, parent, false)
         return MovieViewHolder(
-            view
+            binding
         )
     }
 
@@ -32,13 +35,9 @@ class PopularMoviesAdapter(private val onMovieSelected : (Movie,View) -> Unit) :
         }
     }
 
-    class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val imgMovie = view.findViewById<ImageView>(R.id.img_movie)
-        private val tvTitle = view.findViewById<TextView>(R.id.tv_title_movie)
-
+    class MovieViewHolder(val binding: PopularMoviesAdapterCellBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: Movie, listener : (Movie, View) -> Unit) = with(itemView) {
-            tvTitle.text = movie.title
-            Picasso.get().load(movie.posterPath).into(imgMovie)
+            binding.movie = movie
             setOnClickListener { listener(movie, itemView) }
         }
     }

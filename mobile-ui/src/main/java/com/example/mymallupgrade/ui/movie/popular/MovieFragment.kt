@@ -20,12 +20,10 @@ import com.example.mymallupgrade.presentation.entities.Movie
 import com.example.mymallupgrade.presentation.movie.PopularMoviesViewModel
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
 import com.google.android.material.snackbar.Snackbar
-import timber.log.Timber
 import javax.inject.Inject
 
 
 class MovieFragment : Fragment() {
-
 
     @Inject
     lateinit var factory: PopularMoviesViewModelFactory
@@ -40,13 +38,9 @@ class MovieFragment : Fragment() {
         (activity?.application as App).createPopularComponent().inject(this)
         viewmodel = ViewModelProvider(this, factory).get(PopularMoviesViewModel::class.java)
 
-        if (savedInstanceState != null) {
-            Timber.d("bundle: not null")
-        } else {
+        if (savedInstanceState == null) {
             viewmodel.getPopularMovies()
-            Timber.d("bundle null")
         }
-
 
     }
 
@@ -56,12 +50,9 @@ class MovieFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_movie, container, false)
-
+        binding.lifecycleOwner = this
+        binding.viewModel = viewmodel
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -76,15 +67,14 @@ class MovieFragment : Fragment() {
 
     private fun handleObserve() {
         viewmodel.movies.observe(viewLifecycleOwner, Observer { movies ->
-            Timber.d(movies[0].title)
             popularMoviesAdapter.addData(movies)
-            binding.prgPopularMovie.visibility = View.GONE
-
         })
 
         viewmodel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
                 binding.prgPopularMovie.visibility = View.VISIBLE
+            } else {
+                binding.prgPopularMovie.visibility = View.GONE
             }
         })
 
@@ -96,7 +86,6 @@ class MovieFragment : Fragment() {
                     Snackbar.LENGTH_SHORT
                 )
             }
-            binding.prgPopularMovie.visibility = View.GONE
         })
     }
 
