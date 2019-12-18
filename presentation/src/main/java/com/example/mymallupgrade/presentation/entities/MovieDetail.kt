@@ -12,5 +12,6 @@ data class MovieDetail(
     var revenue: Int? = null,
     var runtime: Int? = null,
     var status: String? = null,
-    var tagline: String? = null
+    var tagline: String? = null,
+    var videos: List<Video>? = null
 )

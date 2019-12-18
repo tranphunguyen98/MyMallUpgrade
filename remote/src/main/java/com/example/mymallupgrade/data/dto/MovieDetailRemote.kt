@@ -16,9 +16,9 @@ data class MovieDetailRemote(
 //    @SerializedName("genres")
 //    var genres: List<GenreData>? = null,
 
-//    @SerializedName("videos")
-//    var videos: VideoResult? = null,
-//
+    @SerializedName("videos")
+    var videos: VideoResult? = null,
+
 //    @SerializedName("reviews")
 //    var reviews: ReviewsResult? = null,
 

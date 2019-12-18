@@ -153,6 +153,7 @@
                 <include
                     android:id="@+id/details_overview_section"
                     layout="@layout/details_overview_section"
+                    app:overview="@{viewModel.movie.overview}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cv_details_poster"
@@ -161,6 +162,20 @@
                     android:layout_marginTop="@dimen/sections_margin"
                     android:visibility="gone"
                     tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/details_video_section"
+                    layout="@layout/detail_video_section"
+                    app:videos="@{viewModel.movie.details.videos}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/details_overview_section"
+                    android:layout_marginBottom="@dimen/generic_margin"
+                    android:layout_marginEnd="@dimen/generic_margin"
+                    android:layout_marginStart="@dimen/generic_margin"
+                    android:layout_marginTop="@dimen/sections_margin"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
 
             </RelativeLayout>
 
@@ -173,7 +188,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/generic_margin"
             android:src="@drawable/ic_favorite_border_white_36dp"
-            android:visibility="gone"
+            android:backgroundTint="@color/colorPrimary"
             tools:visibility="visible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

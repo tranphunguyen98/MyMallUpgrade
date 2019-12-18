@@ -3,6 +3,8 @@ package com.example.mymallupgrade.presentation.mapper
 import com.example.mymallupgrade.domain.common.Mapper
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.presentation.entities.Movie
+import com.example.mymallupgrade.presentation.entities.MovieDetail
+import com.example.mymallupgrade.presentation.entities.Video
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,11 +27,38 @@ class MovieEntityToMovieMapper @Inject constructor(): Mapper<MovieEntity,Movie>(
             originalLanguage = from.originalLanguage,
             originalTitle = from.originalTitle,
             adult = from.adult,
-            releaseDate = from.releaseDate,
+            releaseDate = from.releaseDate.let { "Released: $it" },
             overview = from.overview,
             posterPath = from.posterPath?.let { posterBaseUrl + it },
             backdropPath = from.backdropPath?.let { backdropBaseUrl + it }
         )
+
+        val fromDetails = from.details ?: return movie
+
+        val details = MovieDetail()
+        details.belongsToCollection = fromDetails.belongsToCollection
+        details.budget = fromDetails.budget
+        details.homepage = fromDetails.homepage
+        details.imdbId = fromDetails.imdbId
+        details.overview = fromDetails.overview
+        details.revenue = fromDetails.revenue
+        details.runtime = fromDetails.runtime
+        details.status = fromDetails.status
+        details.tagline = fromDetails.tagline
+
+        fromDetails.videos?.let{
+            val videos = it.map {videoEntity ->
+                return@map Video(
+                    id = videoEntity.id,
+                    name = videoEntity.name,
+                    url = youTubeBaseUrl + videoEntity.youtubeKey
+                )
+            }
+            details.videos = videos
+        }
+
+        movie.details = details
+
         return movie
     }
 

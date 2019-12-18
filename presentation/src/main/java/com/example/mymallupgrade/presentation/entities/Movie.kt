@@ -14,12 +14,13 @@ data class Movie (
     var adult: Boolean = false,
     var releaseDate: String,
     var isFavorite: Boolean = false,
+    var details: MovieDetail? = null,
     var overview: String? = null) {
 
-//    fun containsVideos(): Boolean {
-//        return details?.videos != null && details?.videos?.isNotEmpty() ?: false
-//    }
-//
+    fun containsVideos(): Boolean {
+        return details?.videos != null && details?.videos?.isNotEmpty() ?: false
+    }
+
 //    fun containsReviews(): Boolean {
 //        return details?.reviews != null && details?.reviews?.isNotEmpty() ?: false
 //    }

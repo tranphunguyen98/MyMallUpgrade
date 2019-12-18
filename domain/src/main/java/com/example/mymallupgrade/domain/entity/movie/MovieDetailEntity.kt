@@ -11,6 +11,6 @@ data class MovieDetailEntity(
     val status: String? = null,
     val tagline: String? = null,
     val reviews: List<ReviewEntity>? = null,
-    val videos: List<VideoEntity>? = null,
+    var videos: List<VideoEntity>? = null,
     val genres: List<GenreEntity>? = null
 )

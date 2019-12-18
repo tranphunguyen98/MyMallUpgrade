@@ -7,7 +7,7 @@ data class MovieEntity (
     val voteAverage: Double = 0.0,
     val popularity: Double = 0.0,
     val adult: Boolean = false,
-    val details: MovieDetailEntity? = null,
+    var details: MovieDetailEntity? = null,
     val title: String,
     val posterPath: String?,
     val originalLanguage: String,

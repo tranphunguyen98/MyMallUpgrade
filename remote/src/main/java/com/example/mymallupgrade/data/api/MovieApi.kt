@@ -9,6 +9,6 @@ interface MovieApi {
     @GET("movie/popular?api_key=3e8e250e9d20db7a41ad86ed088149cb")
     fun getPopularMovies(): Observable<MovieListResult>
 
-    @GET("movie/{id}?api_key=3e8e250e9d20db7a41ad86ed088149cb")
+    @GET("movie/{id}?api_key=3e8e250e9d20db7a41ad86ed088149cb&append_to_response=videos")
     fun getMovieDetail(@Path("id") movieId : Int): Observable<MovieDetailRemote>
 }

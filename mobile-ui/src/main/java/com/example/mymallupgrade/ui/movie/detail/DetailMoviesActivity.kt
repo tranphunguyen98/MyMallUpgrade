@@ -8,7 +8,9 @@ import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.common.SimpleTransitionEndedCallback
@@ -23,6 +25,7 @@ class DetailMoviesActivity : AppCompatActivity() {
 
     lateinit var viewModel: MovieDetailViewModel
     lateinit var binding: ActivityDetailMoviesBinding
+    lateinit var adapter: VideoAdapter
 
     companion object {
         private const val MOVIE_ID = "extra_movie_id"
@@ -59,11 +62,26 @@ class DetailMoviesActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        handleObservable()
+        setUpVideoRecyclerview()
+
+       // handleObservable()
     }
 
 
     private fun handleObservable() {
+        viewModel.movie.observe(this, Observer {
+            it.details?.videos?.let{videos ->
+                adapter.setData(videos)
+            }
+        })
+    }
+
+    private fun setUpVideoRecyclerview() {
+        adapter = VideoAdapter()
+        binding.detailsVideoSection.detailsVideos.also {
+            it.adapter = adapter
+            it.layoutManager = LinearLayoutManager(this)
+        }
     }
 
     private fun handleViewState() {
@@ -75,6 +93,8 @@ class DetailMoviesActivity : AppCompatActivity() {
         binding.detailsTitle.visibility = View.VISIBLE
         binding.detailsReleaseDateLayout.visibility = View.VISIBLE
         binding.detailsScoreLayout.visibility = View.VISIBLE
+        binding.detailsOverviewSection.root.visibility = View.VISIBLE
+        binding.detailsVideoSection.root.visibility = View.VISIBLE
 
     }
 }

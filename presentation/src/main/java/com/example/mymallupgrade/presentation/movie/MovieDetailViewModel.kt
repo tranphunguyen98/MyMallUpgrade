@@ -46,6 +46,7 @@ class MovieDetailViewModel(
                     {
                         _movie.value = it
                         _loadingState.value = false
+                        Timber.d("video = ${it.details?.videos?.size}")
                     },
                     {
                         _errorState.value = it

@@ -7,6 +7,7 @@ import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.entity.movie.Optional
 import com.example.mymallupgrade.domain.repository.movie.RemoteMovieDataSource
 import io.reactivex.Observable
+import timber.log.Timber
 
 class RemoteMovieDataSourceImpl (private val api: MovieApi): RemoteMovieDataSource {
     private val movieDataMapper = MovieRemoteToEntityMapper()
@@ -14,6 +15,7 @@ class RemoteMovieDataSourceImpl (private val api: MovieApi): RemoteMovieDataSour
 
     override fun getMovieById(movieId: Int): Observable<Optional<MovieEntity>> {
         return api.getMovieDetail(movieId).flatMap {detailData ->
+            Timber.d("video1 = ${detailData.videos?.results?.size}")
             Observable.just(Optional.of(movieDetailMapper.mapFrom(detailData)))
         }
     }
