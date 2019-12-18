@@ -15,7 +15,8 @@ class DetailMovieViewModelFactory(
     private val useCase: GetMovieDetail,
     private val mapper: Mapper<MovieEntity, Movie>
 ) : ViewModelProvider.Factory {
+    var movieId: Int = -1
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MovieDetailViewModel(useCase,mapper) as T
+        return MovieDetailViewModel(useCase,mapper,movieId) as T
     }
 }

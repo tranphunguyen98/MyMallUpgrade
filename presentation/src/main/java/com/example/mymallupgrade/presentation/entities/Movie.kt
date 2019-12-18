@@ -4,7 +4,7 @@ data class Movie (
     var id: Int = 0,
     var voteCount: Int = 0,
     var video: Boolean = false,
-    var voteAverage: Double = 0.0,
+    var voteAverage: String = "",
     var title: String,
     var popularity: Double = 0.0,
     var posterPath: String? = null,

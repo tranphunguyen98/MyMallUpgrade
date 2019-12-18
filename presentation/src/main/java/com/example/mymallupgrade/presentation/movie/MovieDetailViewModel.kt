@@ -15,7 +15,8 @@ import timber.log.Timber
 
 class MovieDetailViewModel(
     private val _getMovieDetail: GetMovieDetail,
-    private val mapper: Mapper<MovieEntity, Movie>
+    private val mapper: Mapper<MovieEntity, Movie>,
+    private val movieId: Int
 ) :BaseViewModel() {
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie>
@@ -29,7 +30,7 @@ class MovieDetailViewModel(
     val errorState: LiveData<Throwable>
         get() = _errorState
 
-    fun getMovieDetail(movieId : Int) {
+    fun getMovieDetail() {
         _loadingState.value = true
         Timber.d("getMovieDetail")
         addDispoable(
