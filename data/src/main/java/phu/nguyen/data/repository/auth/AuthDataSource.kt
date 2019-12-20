@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain.repository.auth
+package phu.nguyen.data.repository.auth
 
 import io.reactivex.Completable
 

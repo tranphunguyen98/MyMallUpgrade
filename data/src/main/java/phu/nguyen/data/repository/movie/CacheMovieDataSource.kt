@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.domain.repository.movie
+package phu.nguyen.data.repository.movie
 
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.entity.movie.Optional
@@ -7,7 +7,7 @@ import io.reactivex.Observable
 /**
  * Created by Tran Phu Nguyen on 12/18/2019.
  */
-interface MoviesCache {
+interface CacheMovieDataSource {
     fun clear()
     fun save(movieEntity: MovieEntity)
     fun remove(movieEntity: MovieEntity)

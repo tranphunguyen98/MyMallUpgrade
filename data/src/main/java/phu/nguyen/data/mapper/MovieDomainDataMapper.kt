@@ -1,11 +1,13 @@
-package com.example.mymallupgrade.data.mapper
+package phu.nguyen.data.mapper
 
-import com.example.mymallupgrade.data.model.MovieRemote
+import com.example.mymallupgrade.domain.common.Mapper
+import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import phu.nguyen.data.model.MovieData
+import javax.inject.Inject
 
-class MovieRemoteToEntityMapper : Mapper<MovieRemote, MovieData>() {
-    override fun mapFrom(from: MovieRemote): MovieData {
-        return MovieData(
+class MovieDomainDataMapper @Inject constructor() : Mapper<MovieData, MovieEntity>() {
+    override fun mapFrom(from: MovieData): MovieEntity {
+        return MovieEntity(
             id = from.id,
             voteCount = from.voteCount,
             voteAverage = from.voteAverage,

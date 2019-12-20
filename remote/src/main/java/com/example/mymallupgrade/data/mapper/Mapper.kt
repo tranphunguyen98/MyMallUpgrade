@@ -1,16 +1,15 @@
-package com.example.mymallupgrade.domain.common
+package com.example.mymallupgrade.data.mapper
 
-import com.example.mymallupgrade.domain.entity.movie.Optional
 import io.reactivex.Observable
 
 abstract class Mapper<E,T> {
     abstract fun mapFrom(from: E): T
 
-    fun mapOptional(from: Optional<E>): Optional<T> {
-        from.value?.let{
-            return Optional.of(mapFrom(it))
-        } ?: return Optional.empty()
-    }
+//    fun mapOptional(from: Optional<E>): Optional<T> {
+//        from.value?.let{
+//            return Optional.of(mapFrom(it))
+//        } ?: return Optional.empty()
+//    }
 
     fun observable(from: E) :Observable<T> {
         return Observable.fromCallable { mapFrom(from) }

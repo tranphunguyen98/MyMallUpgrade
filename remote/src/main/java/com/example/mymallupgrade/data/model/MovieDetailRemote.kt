@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.data.dto
+package com.example.mymallupgrade.data.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -17,7 +17,7 @@ data class MovieDetailRemote(
 //    var genres: List<GenreData>? = null,
 
     @SerializedName("videos")
-    var videos: VideoResult? = null,
+    var videos: VideoResultRemote? = null,
 
 //    @SerializedName("reviews")
 //    var reviews: ReviewsResult? = null,

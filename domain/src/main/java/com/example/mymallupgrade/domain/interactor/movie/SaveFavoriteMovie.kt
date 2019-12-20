@@ -3,7 +3,7 @@ package com.example.mymallupgrade.domain.interactor.movie
 import com.example.mymallupgrade.domain.common.Transformer
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.interactor.UseCase
-import com.example.mymallupgrade.domain.repository.movie.MoviesCache
+import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import io.reactivex.Observable
 
 /**
@@ -12,8 +12,7 @@ import io.reactivex.Observable
 
 class SaveFavoriteMovie(
     transformer: Transformer<Boolean>,
-    private val moviesCache: MoviesCache
-) : UseCase<Boolean>(transformer) {
+    private val movieRepository: MovieRepository) : UseCase<Boolean>(transformer) {
 
     companion object {
         private const val PARAM_MOVIE_ENTITY = "param:movieEntity"
@@ -25,7 +24,7 @@ class SaveFavoriteMovie(
         movieEntity?.let {
             return Observable.fromCallable {
                 val entity = it as MovieEntity
-                moviesCache.save(entity)
+                movieRepository.save(entity)
                 return@fromCallable true
             }
         } ?: return Observable.error { IllegalArgumentException("MovieEntity must be provided") }

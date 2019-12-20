@@ -17,7 +17,7 @@ class MovieDetailViewModel(
     private val _getMovieDetail: GetMovieDetail,
     private val mapper: Mapper<MovieEntity, Movie>,
     private val movieId: Int
-) :BaseViewModel() {
+) : BaseViewModel() {
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie>
         get() = _movie
@@ -36,11 +36,7 @@ class MovieDetailViewModel(
         addDispoable(
             _getMovieDetail(movieId)
                 .map {
-                    it.value?.let {movieEntity ->
-                        mapper.mapFrom(movieEntity)
-                    } ?: run {
-                        throw Throwable("Something went wrong")
-                    }
+                    mapper.mapFrom(it)
                 }
                 .subscribe(
                     {

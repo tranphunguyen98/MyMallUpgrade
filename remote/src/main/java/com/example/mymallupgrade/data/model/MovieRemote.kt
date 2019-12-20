@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.data.dto
+package com.example.mymallupgrade.data.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -22,7 +22,7 @@ data class MovieRemote(
     val title: String,
 
     @SerializedName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String? = "",
 
     @SerializedName("original_language")
     val originalLanguage: String,
@@ -31,11 +31,11 @@ data class MovieRemote(
     val originalTitle: String,
 
     @SerializedName("backdrop_path")
-    val backdropPath: String? = null,
+    val backdropPath: String? = "",
 
     @SerializedName("release_date")
     val releaseDate: String,
 
     @SerializedName("overview")
-    val overview: String? = null
+    val overview: String? = ""
 )
