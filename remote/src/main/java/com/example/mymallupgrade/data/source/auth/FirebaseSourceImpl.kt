@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.data.dataSource.auth
+package com.example.mymallupgrade.data.source.auth
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.data.dataSource.movie
+package com.example.mymallupgrade.data.source.movie
 
 import com.example.mymallupgrade.data.api.MovieApi
 import com.example.mymallupgrade.data.mapper.MovieDetailRemoteToEntityMapper

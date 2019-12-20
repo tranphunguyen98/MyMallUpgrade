@@ -1,7 +1,7 @@
 package com.example.mymallupgrade.di.modules
 
 import com.example.mymallupgrade.data.api.MovieApi
-import com.example.mymallupgrade.data.dataSource.movie.RemoteMovieDataSourceImpl
+import com.example.mymallupgrade.data.source.movie.RemoteMovieDataSourceImpl
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import dagger.Module
 import dagger.Provides

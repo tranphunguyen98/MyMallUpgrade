@@ -3,7 +3,7 @@ package com.example.mymallupgrade.common
 import android.app.Application
 import com.example.mymallupgrade.BuildConfig
 import phu.nguyen.data.repository.auth.AuthRepositoryImpl
-import com.example.mymallupgrade.data.dataSource.auth.FirebaseSourceImpl
+import com.example.mymallupgrade.data.source.auth.FirebaseSourceImpl
 import com.example.mymallupgrade.di.DaggerMainComponent
 import com.example.mymallupgrade.di.MainComponent
 import com.example.mymallupgrade.di.auth.AuthViewModelFactory
