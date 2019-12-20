@@ -13,6 +13,7 @@ import phu.nguyen.data.mapper.MovieDomainDataMapper
 import phu.nguyen.data.repository.movie.CacheMovieDataSource
 import phu.nguyen.data.repository.movie.MovieRepositoryImpl
 import phu.nguyen.data.repository.movie.RemoteMovieDataSource
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -20,6 +21,7 @@ class DataModule {
     @Provides
     @Singleton
     fun provideCacheMovieDataSource(database: MoviesDatabase,mapper: MovieCacheDataMapper): CacheMovieDataSource {
+        Timber.d("provideCacheMovieDataSource")
         return CacheMovieDataSourceImpl(database,mapper)
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mymallupgrade.domain.common.Mapper
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.interactor.movie.GetMovieDetail
+import com.example.mymallupgrade.domain.interactor.movie.SaveFavoriteMovie
 import com.example.mymallupgrade.presentation.BaseViewModel
 import com.example.mymallupgrade.presentation.entities.Movie
 import timber.log.Timber
@@ -14,10 +15,12 @@ import timber.log.Timber
  */
 
 class MovieDetailViewModel(
+    private val _saveFavoriteMovie: SaveFavoriteMovie,
     private val _getMovieDetail: GetMovieDetail,
     private val mapper: Mapper<MovieEntity, Movie>,
     private val movieId: Int
 ) : BaseViewModel() {
+    private lateinit var movieEntity: MovieEntity
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie>
         get() = _movie
@@ -30,12 +33,19 @@ class MovieDetailViewModel(
     val errorState: LiveData<Throwable>
         get() = _errorState
 
+    var favoriteState: MutableLiveData<Boolean> = MutableLiveData()
+
+    init {
+        favoriteState.value = true
+    }
+
     fun getMovieDetail() {
         _loadingState.value = true
         Timber.d("getMovieDetail")
         addDispoable(
             _getMovieDetail(movieId)
                 .map {
+                    movieEntity = it
                     mapper.mapFrom(it)
                 }
                 .subscribe(
@@ -53,4 +63,16 @@ class MovieDetailViewModel(
         )
 
     }
+
+    fun saveMovieFavorite() {
+        Timber.d("mo ${movieEntity.title}")
+        val disposable = _saveFavoriteMovie(movieEntity).subscribe({
+            Timber.d("Successful")
+        },{
+            Timber.d("err: ${it.message}")
+        })
+        Timber.d("Save ${Thread.currentThread().name}")
+        favoriteState.value = favoriteState.value != true
+    }
+
 }

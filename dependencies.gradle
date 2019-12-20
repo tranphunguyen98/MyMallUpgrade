@@ -17,7 +17,7 @@ ext {
     okHttpVersion = '3.8.1'
     androidAnnotationsVersion = '21.0.3'
     retrofitVersion = '2.4.0'
-    roomVersion = '1.0.0-alpha6'
+    roomVersion = '2.2.3'
     supportLibraryVersion = '26.0.1'
     timberVersion = '4.7.1'
     glideVersion = '4.0.0'
@@ -135,9 +135,9 @@ ext {
             javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
-            roomRuntime       : "android.arch.persistence.room:runtime:${roomVersion}",
-            roomCompiler      : "android.arch.persistence.room:compiler:${roomVersion}",
-            roomRxJava        : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            roomRuntime       : "androidx.room:room-runtime:${roomVersion}",
+            roomCompiler      : "androidx.room:room-compiler:${roomVersion}",
+            roomRxJava        : "androidx.room:room-rxjava2:${roomVersion}",
     ]
 
     cacheTestDependencies = [

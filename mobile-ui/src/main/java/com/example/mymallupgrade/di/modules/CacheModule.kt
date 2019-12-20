@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.mymallupgrade.cache.db.MoviesDatabase
 import dagger.Module
 import dagger.Provides
+import timber.log.Timber
 import javax.inject.Singleton
 
 /**
@@ -23,6 +24,7 @@ class CacheModule {
     @Provides
     @Singleton
     fun providesDatabase(context: Context): MoviesDatabase {
+        Timber.d("providesDatabase")
         return MoviesDatabase.getInstance(context)
     }
 

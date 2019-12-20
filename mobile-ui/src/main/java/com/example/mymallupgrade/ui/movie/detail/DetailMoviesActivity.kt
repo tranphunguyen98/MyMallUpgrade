@@ -7,6 +7,7 @@ import android.transition.Slide
 import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -64,15 +65,16 @@ class DetailMoviesActivity : AppCompatActivity() {
 
         setUpVideoRecyclerview()
 
-       // handleObservable()
+        binding.detailsFavoriteFab.setOnClickListener {
+            viewModel.saveMovieFavorite()
+        }
+        handleObservable()
     }
 
 
     private fun handleObservable() {
-        viewModel.movie.observe(this, Observer {
-            it.details?.videos?.let{videos ->
-                adapter.setData(videos)
-            }
+        viewModel.favoriteState.observe(this, Observer {
+            handleFavoriteStateChange(it)
         })
     }
 
@@ -96,5 +98,16 @@ class DetailMoviesActivity : AppCompatActivity() {
         binding.detailsOverviewSection.root.visibility = View.VISIBLE
         binding.detailsVideoSection.root.visibility = View.VISIBLE
 
+    }
+
+    private fun handleFavoriteStateChange(favorite: Boolean?) {
+        if (favorite == null) return
+        binding.detailsFavoriteFab.setImageDrawable(
+            if (favorite)
+                ContextCompat.getDrawable(this, R.drawable.ic_favorite_white_36dp)
+            else
+                ContextCompat.getDrawable(this, R.drawable.ic_favorite_border_white_36dp)
+
+        )
     }
 }

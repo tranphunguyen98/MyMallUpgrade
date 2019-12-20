@@ -3,6 +3,7 @@ package com.example.mymallupgrade.di.modules
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import timber.log.Timber
 import javax.inject.Singleton
 
 /**
@@ -16,6 +17,7 @@ class AppModule constructor(context: Context) {
     @Singleton
     @Provides
     fun provideAppContext(): Context {
+        Timber.d("provideAppContext")
         return appContext
     }
 }

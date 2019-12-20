@@ -2,6 +2,7 @@ package com.example.mymallupgrade.cache.mapper
 
 import com.example.mymallupgrade.cache.model.MovieCache
 import phu.nguyen.data.model.MovieData
+import timber.log.Timber
 import javax.inject.Inject
 
 class MovieCacheDataMapper @Inject constructor(): Mapper<MovieCache, MovieData>() {
@@ -23,6 +24,7 @@ class MovieCacheDataMapper @Inject constructor(): Mapper<MovieCache, MovieData>(
     }
 
     override fun to(from: MovieData): MovieCache {
+        Timber.d("Test to mapper aaaaaaaaaaaaa")
         return MovieCache(
             id = from.id,
             voteCount = from.voteCount,

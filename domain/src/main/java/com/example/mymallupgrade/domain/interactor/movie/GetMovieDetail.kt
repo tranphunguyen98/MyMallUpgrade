@@ -1,15 +1,15 @@
 package com.example.mymallupgrade.domain.interactor.movie
 
-import com.example.mymallupgrade.domain.common.Transformer
+import com.example.mymallupgrade.domain.common.TransformerObservable
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
-import com.example.mymallupgrade.domain.interactor.UseCase
+import com.example.mymallupgrade.domain.interactor.UseCaseObservable
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import io.reactivex.Observable
 
 class GetMovieDetail(
-    transformer: Transformer<MovieEntity>,
+    transformerObservable: TransformerObservable<MovieEntity>,
     private val movieRepository: MovieRepository
-) : UseCase<MovieEntity>(transformer) {
+) : UseCaseObservable<MovieEntity>(transformerObservable) {
 
     companion object {
         private const val PARAM_MOVIE_ENTITY = "param:movieEntity"

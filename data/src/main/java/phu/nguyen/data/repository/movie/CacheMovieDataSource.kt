@@ -1,5 +1,6 @@
 package phu.nguyen.data.repository.movie
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import phu.nguyen.data.model.MovieData
 
@@ -8,7 +9,7 @@ import phu.nguyen.data.model.MovieData
  */
 interface CacheMovieDataSource {
     fun clear()
-    fun save(movieData: MovieData)
+    fun save(movieData: MovieData): Completable
     fun remove(movieData: MovieData)
     fun saveAll(moviesData: List<MovieData>)
     fun getAll(): Observable<List<MovieData>>
