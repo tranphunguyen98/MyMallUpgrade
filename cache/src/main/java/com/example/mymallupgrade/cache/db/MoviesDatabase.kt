@@ -1,0 +1,36 @@
+package com.example.mymallupgrade.cache.db
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.mymallupgrade.cache.dao.MoviesDao
+import com.example.mymallupgrade.cache.model.MovieCache
+
+/**
+ * Created by Tran Phu Nguyen on 12/20/2019.
+ */
+@Database(entities = [MovieCache::class],version = 1)
+abstract class MoviesDatabase constructor(): RoomDatabase() {
+
+    abstract fun getMoviesDao() : MoviesDao
+
+    private var INSTANCE: MoviesDatabase? = null
+    private val lock = Any()
+
+    fun getInstance(context: Context): MoviesDatabase {
+        if(INSTANCE == null) {
+            synchronized(lock) {
+                if(INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        MoviesDatabase::class.java,
+                        "movies.db"
+                        ).build()
+                }
+                return INSTANCE as MoviesDatabase
+            }
+        }
+        return INSTANCE as MoviesDatabase
+    }
+}
