@@ -7,6 +7,7 @@ import phu.nguyen.data.mapper.MovieDetailDomainDataMapper
 import phu.nguyen.data.mapper.MovieDomainDataMapper
 
 class MovieRepositoryImpl(
+    private val cacheMovieDataSource: CacheMovieDataSource,
     private val remoteMovieDataSource: RemoteMovieDataSource,
     private val movieDetailDomainDataMapper: MovieDetailDomainDataMapper,
     private val movieDomainDataMapper: MovieDomainDataMapper
@@ -25,7 +26,7 @@ class MovieRepositoryImpl(
         }
 
     override fun save(movieEntity: MovieEntity) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        cacheMovieDataSource.save(movieDomainDataMapper.to(movieEntity))
     }
 
 

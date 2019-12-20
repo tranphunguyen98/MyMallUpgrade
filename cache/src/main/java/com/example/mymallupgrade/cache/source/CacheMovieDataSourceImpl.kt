@@ -6,12 +6,13 @@ import com.example.mymallupgrade.cache.mapper.MovieCacheDataMapper
 import io.reactivex.Observable
 import phu.nguyen.data.model.MovieData
 import phu.nguyen.data.repository.movie.CacheMovieDataSource
+import javax.inject.Inject
 
 /**
  * Created by Tran Phu Nguyen on 12/20/2019.
  */
 
-class CacheMovieDataSourceImpl(
+class CacheMovieDataSourceImpl @Inject constructor(
     database: MoviesDatabase,
     private val mapper: MovieCacheDataMapper
 

@@ -2,8 +2,9 @@ package com.example.mymallupgrade.cache.mapper
 
 import com.example.mymallupgrade.cache.model.MovieCache
 import phu.nguyen.data.model.MovieData
+import javax.inject.Inject
 
-class MovieCacheDataMapper : Mapper<MovieCache, MovieData>() {
+class MovieCacheDataMapper @Inject constructor(): Mapper<MovieCache, MovieData>() {
     override fun from(from: MovieCache): MovieData {
         return MovieData(
             id = from.id,

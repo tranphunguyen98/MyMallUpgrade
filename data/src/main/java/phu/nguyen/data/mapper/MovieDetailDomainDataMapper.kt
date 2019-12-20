@@ -64,4 +64,8 @@ class MovieDetailDomainDataMapper @Inject constructor() : Mapper<MovieData, Movi
 
     }
 
+    override fun to(from: MovieEntity): MovieData {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.mymallupgrade.di
 
+import com.example.mymallupgrade.di.modules.AppModule
+import com.example.mymallupgrade.di.modules.CacheModule
 import com.example.mymallupgrade.di.modules.DataModule
 import com.example.mymallupgrade.di.modules.NetworkModule
 import com.example.mymallupgrade.di.movie.detail.DetailSubComponent
@@ -12,8 +14,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        AppModule::class,
         NetworkModule::class,
-        DataModule::class
+        DataModule::class,
+        CacheModule::class
     ]
 )
 

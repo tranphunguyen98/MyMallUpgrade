@@ -5,6 +5,7 @@ import io.reactivex.Observable
 
 abstract class Mapper<E,T> {
     abstract fun mapFrom(from: E): T
+    abstract fun to(from: T): E
 
     fun mapOptional(from: Optional<E>): Optional<T> {
         from.value?.let{

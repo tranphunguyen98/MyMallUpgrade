@@ -2,11 +2,14 @@ package com.example.mymallupgrade.common
 
 import android.app.Application
 import com.example.mymallupgrade.BuildConfig
-import phu.nguyen.data.repository.auth.AuthRepositoryImpl
 import com.example.mymallupgrade.data.source.auth.FirebaseSourceImpl
 import com.example.mymallupgrade.di.DaggerMainComponent
 import com.example.mymallupgrade.di.MainComponent
 import com.example.mymallupgrade.di.auth.AuthViewModelFactory
+import com.example.mymallupgrade.di.modules.AppModule
+import com.example.mymallupgrade.di.modules.CacheModule
+import com.example.mymallupgrade.di.modules.DataModule
+import com.example.mymallupgrade.di.modules.NetworkModule
 import com.example.mymallupgrade.di.movie.detail.DetailSubComponent
 import com.example.mymallupgrade.di.movie.detail.MovieDetailModule
 import com.example.mymallupgrade.di.movie.popular.PopularMoviesModule
@@ -22,10 +25,12 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import phu.nguyen.data.repository.auth.AuthRepositoryImpl
 import timber.log.Timber
 
 class App : Application(), KodeinAware {
-    lateinit var mainComponent: MainComponent
+
+    private lateinit var mainComponent: MainComponent
     private var popularMovieComponent: PopularSubComponent? = null
     private var movieDetailComponent: DetailSubComponent? = null
     override val kodein = Kodein.lazy {
@@ -67,9 +72,17 @@ class App : Application(), KodeinAware {
             Timber.plant(DebugTree())
         }
         initDependencies()
+
     }
+
     private fun initDependencies() {
-        mainComponent = DaggerMainComponent.create()
+        mainComponent = DaggerMainComponent
+            .builder()
+            .appModule(AppModule(applicationContext))
+            .networkModule(NetworkModule())
+            .dataModule(DataModule())
+            .cacheModule(CacheModule())
+            .build()
     }
 
     fun createPopularComponent(): PopularSubComponent {
@@ -100,4 +113,6 @@ class App : Application(), KodeinAware {
             )
         }
     }
+
+
 }
