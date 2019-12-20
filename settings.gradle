@@ -1,2 +1,3 @@
+include ':cache'
 include ':mobile-ui', ':domain', ':remote', ':data', ':presentation'
 rootProject.name='MyMallUpgrade'
