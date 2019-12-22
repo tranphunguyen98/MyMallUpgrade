@@ -41,6 +41,10 @@ class CacheMovieDataSourceImpl @Inject constructor(
         return dao.setFavoriteStatus(isFavorite,movieId)
     }
 
+    override fun getFavoriteStatus(movieId: Int): Observable<Boolean> {
+        return dao.getFavoriteStatus(movieId)
+    }
+
     override fun getAll(): Observable<List<MovieData>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

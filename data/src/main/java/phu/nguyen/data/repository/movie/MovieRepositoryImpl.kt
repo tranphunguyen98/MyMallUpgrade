@@ -4,8 +4,10 @@ import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import phu.nguyen.data.mapper.MovieDetailDomainDataMapper
 import phu.nguyen.data.mapper.MovieDomainDataMapper
+import phu.nguyen.data.model.MovieData
 import timber.log.Timber
 
 class MovieRepositoryImpl(
@@ -16,7 +18,16 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     override fun getMovieById(movieId: Int): Observable<MovieEntity> =
-        remoteMovieDataSource.getMovieById(movieId).map {
+        Observable.zip(
+            cacheMovieDataSource.getFavoriteStatus(movieId),
+            remoteMovieDataSource.getMovieById(movieId),
+            BiFunction<Boolean, MovieData, MovieData> { isFavorite, movieData ->
+                Timber.d("isFavorite: $isFavorite")
+                return@BiFunction movieData.copy(
+                    isFavorite = isFavorite
+                )
+            }
+        ).map {
             movieDetailDomainDataMapper.mapFrom(it)
         }
 
@@ -50,11 +61,11 @@ class MovieRepositoryImpl(
     }
 
     override fun setMovieAsFavorite(movieId: Int): Completable {
-        return cacheMovieDataSource.setFavoriteStatus(true,movieId)
+        return cacheMovieDataSource.setFavoriteStatus(true, movieId)
     }
 
     override fun setMovieAsNotFavorite(movieId: Int): Completable {
-        return cacheMovieDataSource.setFavoriteStatus(false,movieId)
+        return cacheMovieDataSource.setFavoriteStatus(false, movieId)
     }
 
 }

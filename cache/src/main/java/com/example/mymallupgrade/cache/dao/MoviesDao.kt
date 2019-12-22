@@ -3,6 +3,7 @@ package com.example.mymallupgrade.cache.dao
 import androidx.room.*
 import com.example.mymallupgrade.cache.model.MovieCache
 import io.reactivex.Completable
+import io.reactivex.Observable
 
 /**
  * Created by Tran Phu Nguyen on 12/20/2019.
@@ -23,4 +24,7 @@ interface MoviesDao {
 
     @Query("UPDATE movies SET isFavorite = :isFavorite WHERE id = :movieId")
     fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable
+
+    @Query("SELECT isFavorite FROM movies WHERE id = :movieId")
+    fun getFavoriteStatus(movieId: Int): Observable<Boolean>
 }

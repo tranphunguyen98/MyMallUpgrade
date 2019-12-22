@@ -40,10 +40,6 @@ class MovieDetailViewModel(
 
     var favoriteState: MutableLiveData<Boolean> = MutableLiveData()
 
-    init {
-        favoriteState.value = false
-    }
-
     fun getMovieDetail() {
         _loadingState.value = true
         Timber.d("getMovieDetail")
@@ -57,6 +53,7 @@ class MovieDetailViewModel(
                     {
                         _movie.value = it
                         _loadingState.value = false
+                        favoriteState.value = it.isFavorite
                         Timber.d("video = ${it.details?.videos?.size}")
                     },
                     {
