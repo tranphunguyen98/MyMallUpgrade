@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.ui.home.ui.tools
+package com.example.mymallupgrade.ui.movie.tools
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.mymallupgrade.R
 
-class ToolsFragment : Fragment() {
+class FavoriteMovieFragment : Fragment() {
 
     private lateinit var toolsViewModel: ToolsViewModel
 
@@ -21,9 +21,9 @@ class ToolsFragment : Fragment() {
     ): View? {
         toolsViewModel =
             ViewModelProviders.of(this).get(ToolsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_tools, container, false)
+        val root = inflater.inflate(R.layout.fragment_favorite_movie, container, false)
         val textView: TextView = root.findViewById(R.id.text_tools)
-        toolsViewModel.text.observe(this, Observer {
+        toolsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
