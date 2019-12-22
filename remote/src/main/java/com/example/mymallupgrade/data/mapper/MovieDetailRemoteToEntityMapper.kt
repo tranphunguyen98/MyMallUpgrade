@@ -49,7 +49,8 @@ class MovieDetailRemoteToEntityMapper : Mapper<MovieDetailRemote, MovieData>() {
             originalLanguage = from.originalLanguage,
             releaseDate = from.releaseDate,
             overview = from.overview,
-            details = details
+            details = details,
+            isFavorite = false
         )
     }
 

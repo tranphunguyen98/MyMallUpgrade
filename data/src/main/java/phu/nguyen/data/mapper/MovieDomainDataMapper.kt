@@ -19,7 +19,8 @@ class MovieDomainDataMapper @Inject constructor() : Mapper<MovieData, MovieEntit
             backdropPath = from.backdropPath,
             originalTitle = from.originalTitle,
             releaseDate = from.releaseDate,
-            overview = from.overview
+            overview = from.overview,
+            isFavorite = from.isFavorite
         )
     }
 

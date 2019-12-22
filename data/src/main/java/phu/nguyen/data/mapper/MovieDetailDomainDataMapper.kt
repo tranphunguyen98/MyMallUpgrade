@@ -58,6 +58,7 @@ class MovieDetailDomainDataMapper @Inject constructor() : Mapper<MovieData, Movi
             originalLanguage = from.originalLanguage,
             releaseDate = from.releaseDate,
             overview = from.overview,
+            isFavorite = from.isFavorite,
             details = details
         )
 

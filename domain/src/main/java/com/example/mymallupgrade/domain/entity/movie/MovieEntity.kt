@@ -9,10 +9,11 @@ data class MovieEntity (
     val adult: Boolean = false,
     var details: MovieDetailEntity? = null,
     val title: String,
-    val posterPath: String?,
+    val posterPath: String? = "",
     val originalLanguage: String,
     val originalTitle: String,
     val backdropPath: String?,
     val releaseDate: String,
-    val overview: String? = null
+    val overview: String? = null,
+    val isFavorite: Boolean = false
 )

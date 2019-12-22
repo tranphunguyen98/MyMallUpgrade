@@ -17,7 +17,8 @@ class MovieRemoteToEntityMapper : Mapper<MovieRemote, MovieData>() {
             backdropPath = from.backdropPath,
             originalTitle = from.originalTitle,
             releaseDate = from.releaseDate,
-            overview = from.overview
+            overview = from.overview,
+            isFavorite = false
         )
     }
 

@@ -38,4 +38,5 @@ data class MovieRemote(
 
     @SerializedName("overview")
     val overview: String? = ""
+
 )

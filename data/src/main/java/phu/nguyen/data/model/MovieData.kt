@@ -14,5 +14,6 @@ data class MovieData (
     val originalTitle: String,
     val backdropPath: String? = "",
     val releaseDate: String,
-    val overview: String? = ""
+    val overview: String? = "",
+    val isFavorite: Boolean = false
 )

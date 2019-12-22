@@ -30,7 +30,8 @@ class MovieEntityToMovieMapper @Inject constructor(): Mapper<MovieEntity,Movie>(
             releaseDate = from.releaseDate.let { "Released: $it" },
             overview = from.overview,
             posterPath = from.posterPath?.let { posterBaseUrl + it },
-            backdropPath = from.backdropPath?.let { backdropBaseUrl + it }
+            backdropPath = from.backdropPath?.let { backdropBaseUrl + it },
+            isFavorite = from.isFavorite
         )
 
         val fromDetails = from.details ?: return movie

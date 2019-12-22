@@ -19,7 +19,8 @@ class MovieCacheDataMapper @Inject constructor(): Mapper<MovieCache, MovieData>(
             backdropPath = from.backdropPath,
             originalTitle = from.originalTitle,
             releaseDate = from.releaseDate,
-            overview = from.overview
+            overview = from.overview,
+            isFavorite = from.isFavorite
         )
     }
 
@@ -37,7 +38,8 @@ class MovieCacheDataMapper @Inject constructor(): Mapper<MovieCache, MovieData>(
             backdropPath = from.backdropPath,
             originalTitle = from.originalTitle,
             releaseDate = from.releaseDate,
-            overview = from.overview
+            overview = from.overview,
+            isFavorite = from.isFavorite
         )
     }
 

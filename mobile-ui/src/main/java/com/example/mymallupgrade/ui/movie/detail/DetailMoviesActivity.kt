@@ -1,5 +1,6 @@
 package com.example.mymallupgrade.ui.movie.detail
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -86,6 +87,7 @@ class DetailMoviesActivity : AppCompatActivity() {
         }
     }
 
+
     private fun handleViewState() {
         val transition = Slide()
         transition.excludeTarget(binding.detailsPoster, true)
@@ -98,10 +100,13 @@ class DetailMoviesActivity : AppCompatActivity() {
         binding.detailsOverviewSection.root.visibility = View.VISIBLE
         binding.detailsVideoSection.root.visibility = View.VISIBLE
 
+
     }
 
+    @SuppressLint("RestrictedApi")
     private fun handleFavoriteStateChange(favorite: Boolean?) {
         if (favorite == null) return
+        binding.detailsFavoriteFab.visibility = View.VISIBLE
         binding.detailsFavoriteFab.setImageDrawable(
             if (favorite)
                 ContextCompat.getDrawable(this, R.drawable.ic_favorite_white_36dp)
