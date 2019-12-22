@@ -27,4 +27,13 @@ interface MoviesDao {
 
     @Query("SELECT isFavorite FROM movies WHERE id = :movieId")
     fun getFavoriteStatus(movieId: Int): Observable<Boolean>
+
+    @Query("SELECT * FROM movies")
+    fun getMovies(): Observable<List<MovieCache>>
+
+    @Query("SELECT* FROM movies LIMIT 1")
+    fun getOneMovie(): MovieCache?
+
+    @Query("SELECT * FROM movies")
+    fun gettMovies(): List<MovieCache>
 }

@@ -32,19 +32,25 @@ class MovieRepositoryImpl(
         }
 
     override fun getMovies(): Observable<List<MovieEntity>> =
-        remoteMovieDataSource.getMovies()
-            .flatMap { movies ->
-                val andThen = cacheMovieDataSource
-                    .saveAll(movies)
-                    .doOnError {
-                        Timber.d("Error: ${it.message}")
+        cacheMovieDataSource.areMoviesCached().flatMap { isCached ->
+            Timber.d("isCached $isCached")
+            if (isCached) {
+                cacheMovieDataSource.getAll()
+            } else {
+                remoteMovieDataSource.getMovies()
+                    .flatMap { movies ->
+                        cacheMovieDataSource
+                            .saveAll(movies)
+                            .doOnError {
+                                Timber.d("Error: ${it.message}")
+                            }
+                            .doOnComplete {
+                                Timber.d("Luu movies thanh cong!")
+                            }
+                            .andThen(Observable.just(movies))
                     }
-                    .doOnComplete {
-                        Timber.d("Luu movies thanh cong!")
-                    }
-                    .andThen(Observable.just(movies))
-                andThen
             }
+        }
             .map { movies ->
                 movies.map {
                     movieDomainDataMapper.mapFrom(it)

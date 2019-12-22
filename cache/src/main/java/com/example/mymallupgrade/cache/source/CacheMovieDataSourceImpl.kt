@@ -38,7 +38,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
     }
 
     override fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable {
-        return dao.setFavoriteStatus(isFavorite,movieId)
+        return dao.setFavoriteStatus(isFavorite, movieId)
     }
 
     override fun getFavoriteStatus(movieId: Int): Observable<Boolean> {
@@ -46,7 +46,11 @@ class CacheMovieDataSourceImpl @Inject constructor(
     }
 
     override fun getAll(): Observable<List<MovieData>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getMovies().map { movies ->
+            movies.map {
+                mapper.from(it)
+            }
+        }
     }
 
     override fun get(movieId: Int): Observable<MovieData> {
@@ -59,6 +63,12 @@ class CacheMovieDataSourceImpl @Inject constructor(
 
     override fun isEmpty(): Observable<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun areMoviesCached(): Observable<Boolean> {
+        return Observable.fromCallable {
+            dao.getOneMovie() != null
+        }
     }
 
 }
