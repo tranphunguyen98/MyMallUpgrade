@@ -16,8 +16,11 @@ interface MoviesDao {
     fun saveMovies(movies: List<MovieCache>): Completable
 
     @Delete
-    fun removeMovie(movie: MovieCache)
+    fun removeMovie(movie: MovieCache): Completable
 
     @Query("DELETE FROM movies")
-    fun clear()
+    fun clear(): Completable
+
+    @Query("UPDATE movies SET isFavorite = :isFavorite WHERE id = :movieId")
+    fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable
 }

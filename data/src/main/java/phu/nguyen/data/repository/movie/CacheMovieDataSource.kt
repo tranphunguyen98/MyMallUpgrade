@@ -12,6 +12,7 @@ interface CacheMovieDataSource {
     fun save(movieData: MovieData): Completable
     fun remove(movieData: MovieData): Completable
     fun saveAll(moviesData: List<MovieData>): Completable
+    fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable
     fun getAll(): Observable<List<MovieData>>
     fun get(movieId: Int): Observable<MovieData>
     fun search(query: String): Observable<List<MovieData>>

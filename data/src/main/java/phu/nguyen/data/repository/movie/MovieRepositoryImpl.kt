@@ -49,4 +49,12 @@ class MovieRepositoryImpl(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun setMovieAsFavorite(movieId: Int): Completable {
+        return cacheMovieDataSource.setFavoriteStatus(true,movieId)
+    }
+
+    override fun setMovieAsNotFavorite(movieId: Int): Completable {
+        return cacheMovieDataSource.setFavoriteStatus(false,movieId)
+    }
+
 }

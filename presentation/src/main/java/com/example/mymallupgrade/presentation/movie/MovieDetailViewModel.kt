@@ -6,8 +6,11 @@ import com.example.mymallupgrade.domain.common.Mapper
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.interactor.movie.GetMovieDetail
 import com.example.mymallupgrade.domain.interactor.movie.SaveFavoriteMovie
+import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsFavorite
+import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsNotFavorite
 import com.example.mymallupgrade.presentation.BaseViewModel
 import com.example.mymallupgrade.presentation.entities.Movie
+import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
 /**
@@ -15,6 +18,8 @@ import timber.log.Timber
  */
 
 class MovieDetailViewModel(
+    private val _setMovieAsFavorite: SetMovieAsFavorite,
+    private val _setMovieAsNotFavorite: SetMovieAsNotFavorite,
     private val _saveFavoriteMovie: SaveFavoriteMovie,
     private val _getMovieDetail: GetMovieDetail,
     private val mapper: Mapper<MovieEntity, Movie>,
@@ -36,7 +41,7 @@ class MovieDetailViewModel(
     var favoriteState: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        favoriteState.value = true
+        favoriteState.value = false
     }
 
     fun getMovieDetail() {
@@ -65,14 +70,23 @@ class MovieDetailViewModel(
     }
 
     fun saveMovieFavorite() {
-        Timber.d("mo ${movieEntity.title}")
-        val disposable = _saveFavoriteMovie(movieEntity).subscribe({
-            Timber.d("Successful")
-        },{
-            Timber.d("err: ${it.message}")
-        })
-        Timber.d("Save ${Thread.currentThread().name}")
-        favoriteState.value = favoriteState.value != true
+        val disposable: Disposable
+        if(favoriteState.value == true) {
+            disposable = _setMovieAsNotFavorite(movieEntity.id).subscribe({
+                Timber.d("Successful")
+                favoriteState.value = false
+            },{
+                Timber.d("err: ${it.message}")
+            })
+        } else {
+            disposable = _setMovieAsFavorite(movieEntity.id).subscribe({
+                Timber.d("Successful")
+                favoriteState.value = true
+            },{
+                Timber.d("err: ${it.message}")
+            })
+        }
+        addDispoable(disposable)
     }
 
 }

@@ -9,4 +9,6 @@ interface MovieRepository {
     fun getMovies(): Observable<List<MovieEntity>>
     fun save(movieEntity: MovieEntity): Completable
     fun search(query: String): Observable<List<MovieEntity>>
+    fun setMovieAsFavorite(movieId: Int): Completable
+    fun setMovieAsNotFavorite(movieId: Int): Completable
 }
