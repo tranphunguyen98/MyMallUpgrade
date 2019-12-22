@@ -3,7 +3,7 @@ package com.example.mymallupgrade.cache.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "movies")
 data class MovieCache (
     @PrimaryKey
     val id: Int = 0,

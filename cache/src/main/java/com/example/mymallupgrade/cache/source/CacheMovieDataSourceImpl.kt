@@ -7,7 +7,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import phu.nguyen.data.model.MovieData
 import phu.nguyen.data.repository.movie.CacheMovieDataSource
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -20,9 +19,9 @@ class CacheMovieDataSourceImpl @Inject constructor(
 
 ) : CacheMovieDataSource {
 
-    private val dao : MoviesDao = database.getMoviesDao()
+    private val dao: MoviesDao = database.getMoviesDao()
 
-    override fun clear() {
+    override fun clear(): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -30,12 +29,12 @@ class CacheMovieDataSourceImpl @Inject constructor(
         return dao.saveMovie(mapper.to(movieData))
     }
 
-    override fun remove(movieData: MovieData) {
+    override fun remove(movieData: MovieData): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun saveAll(moviesData: List<MovieData>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun saveAll(moviesData: List<MovieData>): Completable {
+        return dao.saveMovies(moviesData.map { mapper.to(it) })
     }
 
     override fun getAll(): Observable<List<MovieData>> {

@@ -1,8 +1,6 @@
 package com.example.mymallupgrade.cache.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.*
 import com.example.mymallupgrade.cache.model.MovieCache
 import io.reactivex.Completable
 
@@ -13,4 +11,13 @@ import io.reactivex.Completable
 interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveMovie(movie: MovieCache): Completable
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveMovies(movies: List<MovieCache>): Completable
+
+    @Delete
+    fun removeMovie(movie: MovieCache)
+
+    @Query("DELETE FROM movies")
+    fun clear()
 }

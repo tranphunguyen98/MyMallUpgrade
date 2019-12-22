@@ -6,13 +6,14 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import phu.nguyen.data.mapper.MovieDetailDomainDataMapper
 import phu.nguyen.data.mapper.MovieDomainDataMapper
+import timber.log.Timber
 
 class MovieRepositoryImpl(
     private val cacheMovieDataSource: CacheMovieDataSource,
     private val remoteMovieDataSource: RemoteMovieDataSource,
     private val movieDetailDomainDataMapper: MovieDetailDomainDataMapper,
     private val movieDomainDataMapper: MovieDomainDataMapper
-    ) : MovieRepository {
+) : MovieRepository {
 
     override fun getMovieById(movieId: Int): Observable<MovieEntity> =
         remoteMovieDataSource.getMovieById(movieId).map {
@@ -20,14 +21,27 @@ class MovieRepositoryImpl(
         }
 
     override fun getMovies(): Observable<List<MovieEntity>> =
-        remoteMovieDataSource.getMovies().map {
-            it.map { movieData ->
-                movieDomainDataMapper.mapFrom(movieData)
+        remoteMovieDataSource.getMovies()
+            .flatMap { movies ->
+                val andThen = cacheMovieDataSource
+                    .saveAll(movies)
+                    .doOnError {
+                        Timber.d("Error: ${it.message}")
+                    }
+                    .doOnComplete {
+                        Timber.d("Luu movies thanh cong!")
+                    }
+                    .andThen(Observable.just(movies))
+                andThen
             }
-        }
+            .map { movies ->
+                movies.map {
+                    movieDomainDataMapper.mapFrom(it)
+                }
+            }
 
     override fun save(movieEntity: MovieEntity): Completable {
-       return cacheMovieDataSource.save(movieDomainDataMapper.to(movieEntity))
+        return cacheMovieDataSource.save(movieDomainDataMapper.to(movieEntity))
     }
 
 
