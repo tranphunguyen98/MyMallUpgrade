@@ -31,6 +31,9 @@ interface MoviesDao {
     @Query("SELECT * FROM movies")
     fun getMovies(): Observable<List<MovieCache>>
 
+    @Query("SELECT * FROM movies WHERE isFavorite = 1")
+    fun getFavoriteMovies(): Observable<List<MovieCache>>
+
     @Query("SELECT* FROM movies LIMIT 1")
     fun getOneMovie(): MovieCache?
 

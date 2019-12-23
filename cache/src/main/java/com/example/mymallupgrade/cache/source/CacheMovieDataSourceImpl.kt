@@ -71,4 +71,11 @@ class CacheMovieDataSourceImpl @Inject constructor(
         }
     }
 
+    override fun getFavoriteMovies(): Observable<List<MovieData>> =
+        dao.getFavoriteMovies().map { movies ->
+            movies.map {
+                mapper.from(it)
+            }
+        }
+
 }
