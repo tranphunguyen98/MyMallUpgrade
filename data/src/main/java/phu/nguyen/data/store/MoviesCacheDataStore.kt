@@ -41,4 +41,8 @@ class MoviesCacheDataStore @Inject constructor(private val cacheMovieDataSource:
     override fun getFavoriteStatus(movieId: Int): Observable<Boolean> =
         cacheMovieDataSource.getFavoriteStatus(movieId)
 
+    override fun searchMovies(query: String): Observable<List<MovieData>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

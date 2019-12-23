@@ -42,4 +42,8 @@ class MoviesRemoteDataStore @Inject constructor(private val remoteMovieDataSourc
     override fun getFavoriteStatus(movieId: Int): Observable<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun searchMovies(query: String): Observable<List<MovieData>> =
+        remoteMovieDataSource.searchMovies(query)
+
 }

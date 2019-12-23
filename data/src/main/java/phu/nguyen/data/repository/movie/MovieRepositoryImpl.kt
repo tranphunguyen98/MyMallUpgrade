@@ -23,6 +23,7 @@ class MovieRepositoryImpl(
             factory.getCacheDataStore().getFavoriteStatus(movieId),
             factory.getRemoteDataStore().getMovieById(movieId),
             BiFunction<Boolean, MovieData, MovieData> { isFavorite, movieData ->
+                Timber.d("isFav $isFavorite moviedata ${movieData.title}")
                 return@BiFunction movieData.copy(
                     isFavorite = isFavorite
                 )
@@ -70,9 +71,13 @@ class MovieRepositoryImpl(
     }
 
 
-    override fun search(query: String): Observable<List<MovieEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun search(query: String): Observable<List<MovieEntity>> =
+        factory.getRemoteDataStore().searchMovies(query).map {movies ->
+            movies.map {
+                movieDomainDataMapper.mapFrom(it)
+            }
+        }
+
 
     override fun setMovieAsFavorite(movieId: Int): Completable {
         return factory.getCacheDataStore().setMovieAsFavorite(movieId)

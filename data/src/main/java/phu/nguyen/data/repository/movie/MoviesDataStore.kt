@@ -25,4 +25,6 @@ interface MoviesDataStore {
     fun setMovieAsNotFavorite(movieId: Int): Completable
 
     fun getFavoriteStatus(movieId: Int): Observable<Boolean>
+
+    fun searchMovies(query: String): Observable<List<MovieData>>
 }

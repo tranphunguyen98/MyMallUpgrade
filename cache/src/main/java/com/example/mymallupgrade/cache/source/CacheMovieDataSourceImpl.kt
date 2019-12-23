@@ -7,6 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import phu.nguyen.data.model.MovieData
 import phu.nguyen.data.repository.movie.CacheMovieDataSource
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -42,7 +43,8 @@ class CacheMovieDataSourceImpl @Inject constructor(
     }
 
     override fun getFavoriteStatus(movieId: Int): Observable<Boolean> {
-        return dao.getFavoriteStatus(movieId)
+        Timber.d("movieId $movieId")
+        return dao.getFavoriteStatus(movieId).defaultIfEmpty(false).toObservable()
     }
 
     override fun getMovies(): Observable<List<MovieData>> {
