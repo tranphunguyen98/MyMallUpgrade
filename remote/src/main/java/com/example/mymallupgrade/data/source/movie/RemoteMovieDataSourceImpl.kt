@@ -26,8 +26,12 @@ class RemoteMovieDataSourceImpl (private val api: MovieApi):
         }
     }
 
-    override fun search(query: String): Observable<List<MovieData>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun searchMovies(query: String): Observable<List<MovieData>> =
+        api.searchMovies(query).map {movieResult ->
+            movieResult.movies.map {
+                movieDataMapper.mapFrom(it)
+            }
+        }
+
 
 }
