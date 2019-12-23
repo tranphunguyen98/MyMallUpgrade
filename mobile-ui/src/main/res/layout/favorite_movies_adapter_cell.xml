@@ -23,7 +23,7 @@
             android:background="?attr/selectableItemBackgroundBorderless">
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/img_movie_favorite"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:background="@color/white"
@@ -44,7 +44,7 @@
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image"
+                app:layout_constraintStart_toEndOf="@+id/img_movie_favorite"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
