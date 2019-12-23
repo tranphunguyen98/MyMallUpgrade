@@ -2,6 +2,8 @@ package com.example.mymallupgrade.ui.movie.search
 
 import android.app.ActivityOptions
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +20,11 @@ import com.example.mymallupgrade.presentation.entities.Movie
 import com.example.mymallupgrade.presentation.movie.search.SearchMoviesViewModel
 import com.example.mymallupgrade.presentation.movie.search.SearchMoviesViewModelFactory
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchMovieFragment : Fragment() {
@@ -29,6 +35,8 @@ class SearchMovieFragment : Fragment() {
     private lateinit var viewmodel: SearchMoviesViewModel
     private lateinit var searchMoviesAdapter: SearchMoviesAdapter
     private lateinit var binding: FragmentSearchMoviesBinding
+    private lateinit var searchSubject: PublishSubject<String>
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +44,21 @@ class SearchMovieFragment : Fragment() {
         (activity!!.application as App).createSearchComponent().inject(this)
 
         viewmodel = ViewModelProvider(this,factory).get(SearchMoviesViewModel::class.java)
+        searchSubject = PublishSubject.create()
 
-        if(savedInstanceState == null) {
-            viewmodel.search("star")
-        }
+        val disposable = searchSubject
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if(it.isNotEmpty()) {
+                    Timber.d("query= $it")
+                    viewmodel.search(it)
+                } else {
+                    viewmodel.search("~")
+                }
+            }
+        compositeDisposable.add(disposable)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +76,21 @@ class SearchMovieFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setUpRecyclerView()
         handleObservable()
+        binding.searchMoviesEditText.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //Timber.d("s = ${s.toString()}")
+                s?.let {
+                    searchSubject.onNext(it.toString())
+                }
+            }
+
+        })
     }
 
     private fun setUpRecyclerView() {
@@ -101,5 +135,11 @@ class SearchMovieFragment : Fragment() {
         )
 
         activity?.overridePendingTransition(0,0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+        (activity?.application as App).releaseSearchComponent()
     }
 }
