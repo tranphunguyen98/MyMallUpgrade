@@ -8,6 +8,7 @@ import com.example.mymallupgrade.presentation.entities.Video
 import com.example.mymallupgrade.ui.movie.detail.VideoAdapter
 import com.example.mymallupgrade.ui.movie.favorite.FavoriteMoviesAdapter
 import com.example.mymallupgrade.ui.movie.popular.PopularMoviesAdapter
+import com.example.mymallupgrade.ui.movie.search.SearchMoviesAdapter
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 
@@ -29,7 +30,6 @@ class BindingAdapter {
         @JvmStatic
         @BindingAdapter("loadVideo")
         fun setRecyclerViewProperties(recyclerView: RecyclerView, videos: List<Video>?) {
-            Timber.d("loadData ${videos?.get(0)?.name}")
             videos?.let {
                 if(recyclerView.adapter is VideoAdapter) {
                     (recyclerView.adapter as VideoAdapter).setData(it)
@@ -41,7 +41,6 @@ class BindingAdapter {
         @JvmStatic
         @BindingAdapter("loadMovie")
         fun setRecyclerViewData(recyclerView: RecyclerView, movies : List<Movie>?) {
-//            Timber.d("loadMovie ${movies?.get(0)?.title}")
             movies?.let {movies ->
                 when(recyclerView.adapter) {
                     is PopularMoviesAdapter -> {
@@ -49,6 +48,9 @@ class BindingAdapter {
                     }
                     is FavoriteMoviesAdapter -> {
                         (recyclerView.adapter as FavoriteMoviesAdapter).addData(movies)
+                    }
+                    is SearchMoviesAdapter -> {
+                        (recyclerView.adapter as SearchMoviesAdapter).addData(movies)
                     }
                 }
             }

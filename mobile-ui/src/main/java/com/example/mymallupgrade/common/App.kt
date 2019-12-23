@@ -16,6 +16,8 @@ import com.example.mymallupgrade.di.movie.favorite.FavoriteMoviesModule
 import com.example.mymallupgrade.di.movie.favorite.FavoriteSubComponent
 import com.example.mymallupgrade.di.movie.popular.PopularMoviesModule
 import com.example.mymallupgrade.di.movie.popular.PopularSubComponent
+import com.example.mymallupgrade.di.movie.search.SearchMoviesModule
+import com.example.mymallupgrade.di.movie.search.SearchMoviesSubComponent
 import com.example.mymallupgrade.domain.interactor.auth.LoginWithEmailUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SendEmailResetPasswordUseCase
 import com.example.mymallupgrade.domain.interactor.auth.SignUpWithEmailUseCase
@@ -36,6 +38,7 @@ class App : Application(), KodeinAware {
     private var popularMovieComponent: PopularSubComponent? = null
     private var movieDetailComponent: DetailSubComponent? = null
     private var favoriteMoviesComponent: FavoriteSubComponent? = null
+    private var searchMoviesComponent: SearchMoviesSubComponent? = null
 
     override val kodein = Kodein.lazy {
         import(androidXModule(this@App))
@@ -115,6 +118,16 @@ class App : Application(), KodeinAware {
     fun releaseFavoriteComponent() {
         Timber.d("releaseFavoriteComponent ")
         favoriteMoviesComponent = null
+    }
+
+    fun createSearchComponent(): SearchMoviesSubComponent {
+        searchMoviesComponent = mainComponent.plus(SearchMoviesModule())
+        return searchMoviesComponent!!
+    }
+
+    fun releaseSearchComponent() {
+        Timber.d("releaseSearchComponent ")
+        searchMoviesComponent = null
     }
 
     inner class DebugTree : Timber.DebugTree() {

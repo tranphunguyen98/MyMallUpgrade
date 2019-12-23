@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.mymallupgrade.ui.home.ui.send.SendFragment"
+        android:name="com.example.mymallupgrade.ui.movie.search.SearchMovieFragment"
         android:label="Account"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_search_movies" />
 </navigation>
