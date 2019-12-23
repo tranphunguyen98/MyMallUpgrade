@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.ui.movie.detail
+package com.example.mymallupgrade.presentation.movie.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +9,6 @@ import com.example.mymallupgrade.domain.interactor.movie.SaveFavoriteMovie
 import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsFavorite
 import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsNotFavorite
 import com.example.mymallupgrade.presentation.entities.Movie
-import com.example.mymallupgrade.presentation.movie.MovieDetailViewModel
 
 /**
  * Created by Tran Phu Nguyen on 12/17/2019.

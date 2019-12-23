@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.mymallupgrade.presentation.movie.MovieDetailViewModel" />
+            type="com.example.mymallupgrade.presentation.movie.detail.MovieDetailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

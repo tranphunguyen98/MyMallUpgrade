@@ -13,6 +13,7 @@ import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.databinding.FragmentFavoriteMovieBinding
 import com.example.mymallupgrade.presentation.movie.favorite.FavoriteMoviesViewModel
+import com.example.mymallupgrade.presentation.movie.favorite.FavoriteMoviesViewModelFactory
 import timber.log.Timber
 import javax.inject.Inject
 

@@ -4,7 +4,7 @@ import com.example.mymallupgrade.common.ASyncTransformer
 import com.example.mymallupgrade.domain.interactor.movie.GetFavoriteMovies
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import com.example.mymallupgrade.presentation.mapper.MovieEntityToMovieMapper
-import com.example.mymallupgrade.ui.movie.favorite.FavoriteMoviesViewModelFactory
+import com.example.mymallupgrade.presentation.movie.favorite.FavoriteMoviesViewModelFactory
 import dagger.Module
 import dagger.Provides
 

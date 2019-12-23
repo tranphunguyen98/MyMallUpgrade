@@ -15,7 +15,8 @@ import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.databinding.FragmentMovieBinding
 import com.example.mymallupgrade.presentation.entities.Movie
-import com.example.mymallupgrade.presentation.movie.PopularMoviesViewModel
+import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModel
+import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModelFactory
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject

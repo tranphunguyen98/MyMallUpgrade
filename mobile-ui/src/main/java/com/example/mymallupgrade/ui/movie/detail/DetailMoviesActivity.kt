@@ -17,7 +17,8 @@ import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.common.SimpleTransitionEndedCallback
 import com.example.mymallupgrade.databinding.ActivityDetailMoviesBinding
-import com.example.mymallupgrade.presentation.movie.MovieDetailViewModel
+import com.example.mymallupgrade.presentation.movie.detail.DetailMovieViewModelFactory
+import com.example.mymallupgrade.presentation.movie.detail.MovieDetailViewModel
 import kotlinx.android.synthetic.main.activity_detail_movies.*
 import javax.inject.Inject
 

@@ -8,7 +8,7 @@ import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsFavorite
 import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsNotFavorite
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import com.example.mymallupgrade.presentation.mapper.MovieEntityToMovieMapper
-import com.example.mymallupgrade.ui.movie.detail.DetailMovieViewModelFactory
+import com.example.mymallupgrade.presentation.movie.detail.DetailMovieViewModelFactory
 import dagger.Module
 import dagger.Provides
 
