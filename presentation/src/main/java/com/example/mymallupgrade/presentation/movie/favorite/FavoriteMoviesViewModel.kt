@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.presentation.movie
+package com.example.mymallupgrade.presentation.movie.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,15 +27,25 @@ class FavoriteMoviesViewModel(
     }
 
     fun getPopularMovies() {
-        _favoriteMoviesState.value = FavoriteMovieState(true)
+        _favoriteMoviesState.value =
+            FavoriteMovieState(
+                true
+            )
         addDispoable(_getFavoriteMovies()
             .flatMap { mapper.observable(it) }
             .subscribe({ movies ->
                 Timber.d("mv ${movies.size}")
-                FavoriteMovieState(false, null, movies)
+                _favoriteMoviesState.value = FavoriteMovieState(
+                    false,
+                    null,
+                    movies
+                )
             }, {
                 Timber.d(it)
-                FavoriteMovieState(false, it)
+                _favoriteMoviesState.value = FavoriteMovieState(
+                    false,
+                    it
+                )
             })
         )
     }

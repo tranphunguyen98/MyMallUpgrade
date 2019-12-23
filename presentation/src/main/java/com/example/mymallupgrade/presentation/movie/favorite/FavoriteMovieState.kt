@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.presentation.movie
+package com.example.mymallupgrade.presentation.movie.favorite
 
 import com.example.mymallupgrade.presentation.entities.Movie
 
