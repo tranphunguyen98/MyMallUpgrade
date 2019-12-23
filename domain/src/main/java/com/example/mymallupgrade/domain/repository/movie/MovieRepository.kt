@@ -7,6 +7,7 @@ import io.reactivex.Observable
 interface MovieRepository {
     fun getMovieById(movieId: Int): Observable<MovieEntity>
     fun getMovies(): Observable<List<MovieEntity>>
+    fun getFavoriteMovies(): Observable<List<MovieEntity>>
     fun save(movieEntity: MovieEntity): Completable
     fun search(query: String): Observable<List<MovieEntity>>
     fun setMovieAsFavorite(movieId: Int): Completable
