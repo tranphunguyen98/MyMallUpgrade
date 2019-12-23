@@ -12,6 +12,8 @@ import com.example.mymallupgrade.di.modules.DataModule
 import com.example.mymallupgrade.di.modules.NetworkModule
 import com.example.mymallupgrade.di.movie.detail.DetailSubComponent
 import com.example.mymallupgrade.di.movie.detail.MovieDetailModule
+import com.example.mymallupgrade.di.movie.favorite.FavoriteMoviesModule
+import com.example.mymallupgrade.di.movie.favorite.FavoriteSubComponent
 import com.example.mymallupgrade.di.movie.popular.PopularMoviesModule
 import com.example.mymallupgrade.di.movie.popular.PopularSubComponent
 import com.example.mymallupgrade.domain.interactor.auth.LoginWithEmailUseCase
@@ -33,6 +35,8 @@ class App : Application(), KodeinAware {
     private lateinit var mainComponent: MainComponent
     private var popularMovieComponent: PopularSubComponent? = null
     private var movieDetailComponent: DetailSubComponent? = null
+    private var favoriteMoviesComponent: FavoriteSubComponent? = null
+
     override val kodein = Kodein.lazy {
         import(androidXModule(this@App))
         // AUTH - FIREBASE
@@ -103,6 +107,15 @@ class App : Application(), KodeinAware {
         movieDetailComponent = null
     }
 
+    fun createFavoriteComponent(): FavoriteSubComponent {
+        favoriteMoviesComponent = mainComponent.plus(FavoriteMoviesModule())
+        return favoriteMoviesComponent!!
+    }
+
+    fun releaseFavoriteComponent() {
+        Timber.d("releaseFavoriteComponent ")
+        favoriteMoviesComponent = null
+    }
 
     inner class DebugTree : Timber.DebugTree() {
         override fun createStackElementTag(@NotNull element: StackTraceElement): String? {

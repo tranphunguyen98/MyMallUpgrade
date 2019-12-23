@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymallupgrade.presentation.entities.Movie
 import com.example.mymallupgrade.presentation.entities.Video
 import com.example.mymallupgrade.ui.movie.detail.VideoAdapter
+import com.example.mymallupgrade.ui.movie.favorite.FavoriteMoviesAdapter
 import com.example.mymallupgrade.ui.movie.popular.PopularMoviesAdapter
 import com.squareup.picasso.Picasso
 import timber.log.Timber
@@ -40,10 +41,15 @@ class BindingAdapter {
         @JvmStatic
         @BindingAdapter("loadMovie")
         fun setRecyclerViewData(recyclerView: RecyclerView, movies : List<Movie>?) {
-            Timber.d("loadMovie ${movies?.get(0)?.title}")
-            movies?.let {
-                if(recyclerView.adapter is PopularMoviesAdapter) {
-                    (recyclerView.adapter as PopularMoviesAdapter).addData(it)
+//            Timber.d("loadMovie ${movies?.get(0)?.title}")
+            movies?.let {movies ->
+                when(recyclerView.adapter) {
+                    is PopularMoviesAdapter -> {
+                        (recyclerView.adapter as PopularMoviesAdapter).addData(movies)
+                    }
+                    is FavoriteMoviesAdapter -> {
+                        (recyclerView.adapter as FavoriteMoviesAdapter).addData(movies)
+                    }
                 }
             }
         }
