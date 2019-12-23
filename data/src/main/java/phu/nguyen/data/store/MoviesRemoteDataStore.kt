@@ -2,6 +2,7 @@ package phu.nguyen.data.store
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import phu.nguyen.data.model.MovieData
 import phu.nguyen.data.repository.movie.MoviesDataStore
 import phu.nguyen.data.repository.movie.RemoteMovieDataSource
@@ -31,11 +32,11 @@ class MoviesRemoteDataStore @Inject constructor(private val remoteMovieDataSourc
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setMovieAsFavorite(movieId: Int): Completable {
+    override fun setMovieAsFavorite(movieId: Int): Single<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setMovieAsNotFavorite(movieId: Int): Completable {
+    override fun setMovieAsNotFavorite(movieId: Int): Single<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

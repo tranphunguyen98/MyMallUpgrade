@@ -2,6 +2,7 @@ package phu.nguyen.data.repository.movie
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import phu.nguyen.data.model.MovieData
 
 /**
@@ -20,9 +21,9 @@ interface MoviesDataStore {
 
     fun getFavoriteMovies(): Observable<List<MovieData>>
 
-    fun setMovieAsFavorite(movieId: Int): Completable
+    fun setMovieAsFavorite(movieId: Int): Single<Int>
 
-    fun setMovieAsNotFavorite(movieId: Int): Completable
+    fun setMovieAsNotFavorite(movieId: Int): Single<Int>
 
     fun getFavoriteStatus(movieId: Int): Observable<Boolean>
 

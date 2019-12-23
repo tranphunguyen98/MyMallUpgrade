@@ -10,6 +10,7 @@ import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsFavorite
 import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsNotFavorite
 import com.example.mymallupgrade.presentation.BaseViewModel
 import com.example.mymallupgrade.presentation.entities.Movie
+import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
@@ -68,20 +69,29 @@ class MovieDetailViewModel(
 
     fun saveMovieFavorite() {
         val disposable: Disposable
-        if(favoriteState.value == true) {
-            disposable = _setMovieAsNotFavorite(movieEntity.id).subscribe({
-                Timber.d("Successful")
-                favoriteState.value = false
-            },{
-                Timber.d("err: ${it.message}")
-            })
+        if (favoriteState.value == true) {
+            disposable = _setMovieAsNotFavorite(movieEntity.id)
+                .subscribe({
+                    Timber.d("Successful")
+                    favoriteState.value = false
+                }, {
+                    Timber.d("err: ${it.message}")
+                })
         } else {
-            disposable = _setMovieAsFavorite(movieEntity.id).subscribe({
-                Timber.d("Successful")
-                favoriteState.value = true
-            },{
-                Timber.d("err: ${it.message}")
-            })
+            disposable = _setMovieAsFavorite(movieEntity.id)
+                .flatMapCompletable {
+                    if (it > 0) {
+                        Completable.complete()
+                    } else {
+                        _saveFavoriteMovie(movieEntity.copy(isFavorite = true))
+                    }
+                }
+                .subscribe({
+                    Timber.d("Successful ne")
+                    favoriteState.value = true
+                }, {
+                    Timber.d("err: ${it.message}")
+                })
         }
         addDispoable(disposable)
     }

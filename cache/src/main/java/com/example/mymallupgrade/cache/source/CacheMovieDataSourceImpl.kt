@@ -5,6 +5,7 @@ import com.example.mymallupgrade.cache.db.MoviesDatabase
 import com.example.mymallupgrade.cache.mapper.MovieCacheDataMapper
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import phu.nguyen.data.model.MovieData
 import phu.nguyen.data.repository.movie.CacheMovieDataSource
 import timber.log.Timber
@@ -27,6 +28,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
     }
 
     override fun save(movieData: MovieData): Completable {
+        Timber.d("save movie ${movieData.title}")
         return dao.saveMovie(mapper.to(movieData))
     }
 
@@ -38,7 +40,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
         return dao.saveMovies(moviesData.map { mapper.to(it) })
     }
 
-    override fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable {
+    override fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Single<Int> {
         return dao.setFavoriteStatus(isFavorite, movieId)
     }
 

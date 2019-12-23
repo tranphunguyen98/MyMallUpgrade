@@ -4,6 +4,7 @@ import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import phu.nguyen.data.mapper.MovieDetailDomainDataMapper
 import phu.nguyen.data.mapper.MovieDomainDataMapper
@@ -66,9 +67,9 @@ class MovieRepositoryImpl(
         }
 
 
-    override fun save(movieEntity: MovieEntity): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun save(movieEntity: MovieEntity): Completable =
+       cacheMovieDataSource.save(movieDomainDataMapper.to(movieEntity))
+
 
 
     override fun search(query: String): Observable<List<MovieEntity>> =
@@ -79,11 +80,11 @@ class MovieRepositoryImpl(
         }
 
 
-    override fun setMovieAsFavorite(movieId: Int): Completable {
+    override fun setMovieAsFavorite(movieId: Int): Single<Int> {
         return factory.getCacheDataStore().setMovieAsFavorite(movieId)
     }
 
-    override fun setMovieAsNotFavorite(movieId: Int): Completable {
+    override fun setMovieAsNotFavorite(movieId: Int): Single<Int> {
         return factory.getCacheDataStore().setMovieAsNotFavorite(movieId)
     }
 

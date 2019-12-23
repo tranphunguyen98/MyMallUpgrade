@@ -5,6 +5,7 @@ import com.example.mymallupgrade.cache.model.MovieCache
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Created by Tran Phu Nguyen on 12/20/2019.
@@ -24,7 +25,7 @@ interface MoviesDao {
     fun clear(): Completable
 
     @Query("UPDATE movies SET isFavorite = :isFavorite WHERE id = :movieId")
-    fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable
+    fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Single<Int>
 
     @Query("SELECT isFavorite FROM movies WHERE id = :movieId")
     fun getFavoriteStatus(movieId: Int): Maybe<Boolean>

@@ -2,6 +2,7 @@ package phu.nguyen.data.repository.movie
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import phu.nguyen.data.model.MovieData
 
 /**
@@ -12,7 +13,7 @@ interface CacheMovieDataSource {
     fun save(movieData: MovieData): Completable
     fun remove(movieData: MovieData): Completable
     fun saveMovies(moviesData: List<MovieData>): Completable
-    fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable
+    fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Single<Int>
     fun getFavoriteStatus(movieId: Int): Observable<Boolean>
     fun getMovies(): Observable<List<MovieData>>
     fun get(movieId: Int): Observable<MovieData>

@@ -2,6 +2,7 @@ package com.example.mymallupgrade.di.movie.detail
 
 import com.example.mymallupgrade.common.ASyncTransformer
 import com.example.mymallupgrade.common.ASyncTransformerCompletable
+import com.example.mymallupgrade.common.ASyncTransformerSingle
 import com.example.mymallupgrade.domain.interactor.movie.GetMovieDetail
 import com.example.mymallupgrade.domain.interactor.movie.SaveFavoriteMovie
 import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsFavorite
@@ -30,12 +31,12 @@ class MovieDetailModule {
 
     @Provides
     fun provideSetMovieAsFavorite(movieRepository: MovieRepository): SetMovieAsFavorite {
-        return SetMovieAsFavorite(ASyncTransformerCompletable(), movieRepository)
+        return SetMovieAsFavorite(ASyncTransformerSingle(), movieRepository)
     }
 
     @Provides
     fun provideSetMovieAsNotFavorite(movieRepository: MovieRepository): SetMovieAsNotFavorite {
-        return SetMovieAsNotFavorite(ASyncTransformerCompletable(), movieRepository)
+        return SetMovieAsNotFavorite(ASyncTransformerSingle(), movieRepository)
     }
 
     @Provides
