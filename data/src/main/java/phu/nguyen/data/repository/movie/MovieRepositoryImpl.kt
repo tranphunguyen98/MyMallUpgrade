@@ -8,21 +8,21 @@ import io.reactivex.functions.BiFunction
 import phu.nguyen.data.mapper.MovieDetailDomainDataMapper
 import phu.nguyen.data.mapper.MovieDomainDataMapper
 import phu.nguyen.data.model.MovieData
+import phu.nguyen.data.store.MoviesDataStoreFactory
 import timber.log.Timber
 
 class MovieRepositoryImpl(
     private val cacheMovieDataSource: CacheMovieDataSource,
-    private val remoteMovieDataSource: RemoteMovieDataSource,
     private val movieDetailDomainDataMapper: MovieDetailDomainDataMapper,
-    private val movieDomainDataMapper: MovieDomainDataMapper
+    private val movieDomainDataMapper: MovieDomainDataMapper,
+    private val factory: MoviesDataStoreFactory
 ) : MovieRepository {
 
     override fun getMovieById(movieId: Int): Observable<MovieEntity> =
         Observable.zip(
-            cacheMovieDataSource.getFavoriteStatus(movieId),
-            remoteMovieDataSource.getMovieById(movieId),
+            factory.getCacheDataStore().getFavoriteStatus(movieId),
+            factory.getRemoteDataStore().getMovieById(movieId),
             BiFunction<Boolean, MovieData, MovieData> { isFavorite, movieData ->
-                Timber.d("isFavorite: $isFavorite")
                 return@BiFunction movieData.copy(
                     isFavorite = isFavorite
                 )
@@ -32,33 +32,31 @@ class MovieRepositoryImpl(
         }
 
     override fun getMovies(): Observable<List<MovieEntity>> =
-        cacheMovieDataSource.areMoviesCached().flatMap { isCached ->
-            Timber.d("isCached $isCached")
-            if (isCached) {
-                cacheMovieDataSource.getAll()
-            } else {
-                remoteMovieDataSource.getMovies()
-                    .flatMap { movies ->
-                        cacheMovieDataSource
-                            .saveAll(movies)
+        cacheMovieDataSource.areMoviesCached()
+            .flatMap { isCached ->
+                val dataStore: MoviesDataStore =
+                    factory.getDataStore(isCached)
+                if(dataStore is RemoteMovieDataSource) {
+                    Timber.d(dataStore::class.toString())
+                    return@flatMap dataStore.getMovies().flatMap {movies ->
+                        factory
+                            .getCacheDataStore()
+                            .saveMovies(movies)
                             .doOnError {
-                                Timber.d("Error: ${it.message}")
-                            }
-                            .doOnComplete {
-                                Timber.d("Luu movies thanh cong!")
+                                Timber.d("Error save movies: ${it.message}")
                             }
                             .andThen(Observable.just(movies))
                     }
+                }
+                return@flatMap dataStore.getMovies()
             }
-        }
             .map { movies ->
                 movies.map {
                     movieDomainDataMapper.mapFrom(it)
                 }
             }
-
     override fun save(movieEntity: MovieEntity): Completable {
-        return cacheMovieDataSource.save(movieDomainDataMapper.to(movieEntity))
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
@@ -67,11 +65,11 @@ class MovieRepositoryImpl(
     }
 
     override fun setMovieAsFavorite(movieId: Int): Completable {
-        return cacheMovieDataSource.setFavoriteStatus(true, movieId)
+        return factory.getCacheDataStore().setMovieAsFavorite(movieId)
     }
 
     override fun setMovieAsNotFavorite(movieId: Int): Completable {
-        return cacheMovieDataSource.setFavoriteStatus(false, movieId)
+        return factory.getCacheDataStore().setMovieAsNotFavorite(movieId)
     }
 
 }

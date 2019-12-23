@@ -8,13 +8,13 @@ import phu.nguyen.data.model.MovieData
  * Created by Tran Phu Nguyen on 12/18/2019.
  */
 interface CacheMovieDataSource {
-    fun clear(): Completable
+    fun clearMovies(): Completable
     fun save(movieData: MovieData): Completable
     fun remove(movieData: MovieData): Completable
-    fun saveAll(moviesData: List<MovieData>): Completable
+    fun saveMovies(moviesData: List<MovieData>): Completable
     fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Completable
     fun getFavoriteStatus(movieId: Int): Observable<Boolean>
-    fun getAll(): Observable<List<MovieData>>
+    fun getMovies(): Observable<List<MovieData>>
     fun get(movieId: Int): Observable<MovieData>
     fun search(query: String): Observable<List<MovieData>>
     fun isEmpty(): Observable<Boolean>

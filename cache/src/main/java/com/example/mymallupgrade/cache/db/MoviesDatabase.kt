@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.mymallupgrade.cache.dao.MoviesDao
 import com.example.mymallupgrade.cache.model.MovieCache
-import timber.log.Timber
 
 /**
  * Created by Tran Phu Nguyen on 12/20/2019.
@@ -31,7 +30,7 @@ abstract class MoviesDatabase: RoomDatabase() {
                             MoviesDatabase::class.java,
                             "movies.db"
                         ).build()
-                        Timber.d("MoviesDatabase Successful")
+//                        Timber.d("MoviesDatabase Successful")
                     }
                 }
             }

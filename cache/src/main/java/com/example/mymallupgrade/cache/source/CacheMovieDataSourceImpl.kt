@@ -21,7 +21,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
 
     private val dao: MoviesDao = database.getMoviesDao()
 
-    override fun clear(): Completable {
+    override fun clearMovies(): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -33,7 +33,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun saveAll(moviesData: List<MovieData>): Completable {
+    override fun saveMovies(moviesData: List<MovieData>): Completable {
         return dao.saveMovies(moviesData.map { mapper.to(it) })
     }
 
@@ -45,7 +45,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
         return dao.getFavoriteStatus(movieId)
     }
 
-    override fun getAll(): Observable<List<MovieData>> {
+    override fun getMovies(): Observable<List<MovieData>> {
         return dao.getMovies().map { movies ->
             movies.map {
                 mapper.from(it)
