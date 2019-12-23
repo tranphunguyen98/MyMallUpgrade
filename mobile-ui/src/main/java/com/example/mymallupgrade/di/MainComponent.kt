@@ -10,6 +10,8 @@ import com.example.mymallupgrade.di.movie.favorite.FavoriteMoviesModule
 import com.example.mymallupgrade.di.movie.favorite.FavoriteSubComponent
 import com.example.mymallupgrade.di.movie.popular.PopularMoviesModule
 import com.example.mymallupgrade.di.movie.popular.PopularSubComponent
+import com.example.mymallupgrade.di.movie.search.SearchMoviesModule
+import com.example.mymallupgrade.di.movie.search.SearchMoviesSubComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -27,4 +29,5 @@ interface MainComponent {
     fun plus(popularMoviesModule: PopularMoviesModule): PopularSubComponent
     fun plus(movieDetailModule: MovieDetailModule): DetailSubComponent
     fun plus(favoriteMoviesModule: FavoriteMoviesModule): FavoriteSubComponent
+    fun plus(searchMoviesModule: SearchMoviesModule): SearchMoviesSubComponent
 }
