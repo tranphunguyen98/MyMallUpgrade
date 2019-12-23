@@ -19,4 +19,5 @@ interface CacheMovieDataSource {
     fun search(query: String): Observable<List<MovieData>>
     fun isEmpty(): Observable<Boolean>
     fun areMoviesCached(): Observable<Boolean>
+    fun getFavoriteMovies(): Observable<List<MovieData>>
 }

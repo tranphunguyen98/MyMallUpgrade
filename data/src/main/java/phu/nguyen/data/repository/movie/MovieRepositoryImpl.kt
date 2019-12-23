@@ -36,8 +36,9 @@ class MovieRepositoryImpl(
             .flatMap { isCached ->
                 val dataStore: MoviesDataStore =
                     factory.getDataStore(isCached)
+                Timber.d(dataStore::class.toString())
                 if(dataStore is RemoteMovieDataSource) {
-                    Timber.d(dataStore::class.toString())
+                    Timber.d("Save movies")
                     return@flatMap dataStore.getMovies().flatMap {movies ->
                         factory
                             .getCacheDataStore()
@@ -55,6 +56,15 @@ class MovieRepositoryImpl(
                     movieDomainDataMapper.mapFrom(it)
                 }
             }
+
+    override fun getFavoriteMovies(): Observable<List<MovieEntity>> =
+        cacheMovieDataSource.getFavoriteMovies().map {movies ->
+            movies.map {
+                movieDomainDataMapper.mapFrom(it)
+            }
+        }
+
+
     override fun save(movieEntity: MovieEntity): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
