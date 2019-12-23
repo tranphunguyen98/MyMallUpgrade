@@ -43,6 +43,7 @@ class FavoriteMoviesAdapter(private val onMovieSelected : (Movie, View) -> Unit)
     }
 
     fun addData(movies: List<Movie>) {
+        this.data.clear()
         this.data.addAll(movies)
         notifyDataSetChanged()
     }
