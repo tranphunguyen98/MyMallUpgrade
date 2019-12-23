@@ -115,4 +115,9 @@ class DetailMoviesActivity : AppCompatActivity() {
 
         )
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (this.application as App).releaseDetailComponent()
+    }
 }
