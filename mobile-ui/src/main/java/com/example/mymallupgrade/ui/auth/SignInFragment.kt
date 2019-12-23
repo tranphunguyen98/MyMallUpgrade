@@ -24,7 +24,6 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-
 class SignInFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
     private val viewModel: AuthViewModel by lazy {

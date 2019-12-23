@@ -121,4 +121,6 @@ class DetailMoviesActivity : AppCompatActivity() {
         super.onDestroy()
         (this.application as App).releaseDetailComponent()
     }
+
+
 }

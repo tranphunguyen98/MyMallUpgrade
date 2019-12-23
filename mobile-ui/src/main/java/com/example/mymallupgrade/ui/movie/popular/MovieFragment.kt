@@ -19,8 +19,8 @@ import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewMod
 import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModelFactory
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 import javax.inject.Inject
-
 
 class MovieFragment : Fragment() {
 
@@ -35,7 +35,7 @@ class MovieFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (activity?.application as App).createPopularComponent().inject(this)
         viewmodel = ViewModelProvider(this, factory).get(PopularMoviesViewModel::class.java)
-
+        Timber.d("onCreate")
         if (savedInstanceState == null) {
             viewmodel.getPopularMovies()
         }
@@ -47,19 +47,30 @@ class MovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.d("onCreateView")
+
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_movie, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewmodel
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated")
+
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Timber.d("onActivityCreated")
+
         popularMoviesAdapter = PopularMoviesAdapter { movie, view ->
             navigateToMovieDetail(movie,view)
         }
         binding.rcPopularMovie.layoutManager = GridLayoutManager(context, 2)
         binding.rcPopularMovie.adapter = popularMoviesAdapter
+
         handleObserve()
     }
 
@@ -105,8 +116,27 @@ class MovieFragment : Fragment() {
         activity?.overridePendingTransition(0,0)
     }
 
+
+    override fun onStart() {
+        super.onStart()
+        Timber.d("onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("onResume")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         (activity?.application as App).releasePopularComponent()
+        Timber.d("onDestroy")
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Timber.d("onDetach")
+
     }
 }
