@@ -1,4 +1,4 @@
-package com.example.mymallupgrade.ui.movie.tools
+package com.example.mymallupgrade.ui.movie.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/navigation_favorite_movie"
-        android:name="com.example.mymallupgrade.ui.movie.tools.FavoriteMovieFragment"
+        android:name="com.example.mymallupgrade.ui.movie.favorite.FavoriteMovieFragment"
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite_movie">
     </fragment>
