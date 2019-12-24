@@ -47,7 +47,8 @@
             android:id="@+id/search_movies_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/colorPrimary"/>
 
     </RelativeLayout>
 </layout>

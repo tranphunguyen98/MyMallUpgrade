@@ -24,7 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.movie.detail.DetailMoviesActivity" />
+        <activity
+            android:name=".ui.movie.detail.DetailMoviesActivity"
+            android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" >
