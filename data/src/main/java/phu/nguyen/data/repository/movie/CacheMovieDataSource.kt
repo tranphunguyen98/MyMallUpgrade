@@ -10,7 +10,7 @@ import phu.nguyen.data.model.MovieData
  */
 interface CacheMovieDataSource {
     fun clearMovies(): Completable
-    fun save(movieData: MovieData): Completable
+    fun save(movieData: MovieData): Single<Long>
     fun remove(movieData: MovieData): Completable
     fun saveMovies(moviesData: List<MovieData>): Completable
     fun setFavoriteStatus(isFavorite: Boolean, movieId: Int): Single<Int>

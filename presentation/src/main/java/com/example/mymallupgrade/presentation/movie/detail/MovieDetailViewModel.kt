@@ -10,7 +10,7 @@ import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsFavorite
 import com.example.mymallupgrade.domain.interactor.movie.SetMovieAsNotFavorite
 import com.example.mymallupgrade.presentation.BaseViewModel
 import com.example.mymallupgrade.presentation.entities.Movie
-import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
@@ -79,20 +79,22 @@ class MovieDetailViewModel(
                 })
         } else {
             disposable = _setMovieAsFavorite(movieEntity.id)
-                .flatMapCompletable {
+                .flatMap {
                     if (it > 0) {
-                        Completable.complete()
+                        Single.just(1L)
                     } else {
-                        _saveFavoriteMovie(movieEntity.copy(isFavorite = true))
+                        return@flatMap _saveFavoriteMovie(movieEntity.copy(isFavorite = true))
                     }
                 }
                 .subscribe({
-                    Timber.d("Successful ne")
+                    Timber.d("Successful ne $it  a")
                     favoriteState.value = true
                 }, {
                     Timber.d("err: ${it.message}")
                 })
         }
+
+
         addDispoable(disposable)
     }
 

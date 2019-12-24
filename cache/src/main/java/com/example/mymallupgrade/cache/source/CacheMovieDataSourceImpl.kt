@@ -27,7 +27,7 @@ class CacheMovieDataSourceImpl @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun save(movieData: MovieData): Completable {
+    override fun save(movieData: MovieData): Single<Long> {
         Timber.d("save movie ${movieData.title}")
         return dao.saveMovie(mapper.to(movieData))
     }

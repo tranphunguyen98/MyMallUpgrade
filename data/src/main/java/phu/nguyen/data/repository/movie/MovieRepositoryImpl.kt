@@ -2,7 +2,6 @@ package phu.nguyen.data.repository.movie
 
 import com.example.mymallupgrade.domain.entity.movie.MovieEntity
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -68,7 +67,7 @@ class MovieRepositoryImpl(
         }
 
 
-    override fun save(movieEntity: MovieEntity): Completable =
+    override fun save(movieEntity: MovieEntity): Single<Long> =
        cacheMovieDataSource.save(movieDomainDataMapper.to(movieEntity))
 
 

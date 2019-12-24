@@ -13,7 +13,7 @@ import io.reactivex.Single
 @Dao
 interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveMovie(movie: MovieCache): Completable
+    fun saveMovie(movie: MovieCache): Single<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveMovies(movies: List<MovieCache>): Completable
