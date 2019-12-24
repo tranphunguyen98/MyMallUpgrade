@@ -19,6 +19,7 @@ import com.example.mymallupgrade.common.SimpleTransitionEndedCallback
 import com.example.mymallupgrade.databinding.ActivityDetailMoviesBinding
 import com.example.mymallupgrade.presentation.movie.detail.DetailMovieViewModelFactory
 import com.example.mymallupgrade.presentation.movie.detail.MovieDetailViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_movies.*
 import javax.inject.Inject
 
@@ -54,6 +55,7 @@ class DetailMoviesActivity : AppCompatActivity() {
         window.sharedElementEnterTransition.addListener(SimpleTransitionEndedCallback {
             handleViewState()
         })
+
         factory.movieId = intent.getIntExtra(MOVIE_ID, 0)
         viewModel = ViewModelProvider(this, factory).get(MovieDetailViewModel::class.java)
 
@@ -63,6 +65,8 @@ class DetailMoviesActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        Picasso.get().load(intent.getStringExtra(MOVIE_POSTER_URL)).into(binding.detailsPoster)
 
         setUpVideoRecyclerview()
 

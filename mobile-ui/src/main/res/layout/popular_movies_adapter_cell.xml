@@ -9,46 +9,53 @@
             type="com.example.mymallupgrade.presentation.entities.Movie" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="8dp"
-        android:clipToPadding="false">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/img_movie"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                app:loadImage="@{movie.posterPath}"
-                android:transitionName="@string/transition_poster"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:clipToPadding="false"
+                android:elevation="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="16dp"
+                app:cardMaxElevation="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/img_movie"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/transition_poster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:loadImage="@{movie.posterPath}" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tv_title_movie"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@{movie.title}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/general_text_size"
+                android:layout_marginTop="8dp"
                 android:transitionName="@string/transition_title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/img_movie"
-                app:layout_constraintStart_toStartOf="@+id/img_movie"
-                app:layout_constraintTop_toBottomOf="@+id/img_movie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
                 tools:text="Hello" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+
 </layout>

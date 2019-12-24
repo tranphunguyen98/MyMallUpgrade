@@ -75,7 +75,6 @@
                         android:layout_height="175dp"
                         android:background="@color/white"
                         android:scaleType="centerCrop"
-                        app:loadImage="@{viewModel.movie.posterPath}"
                         android:transitionName="@string/transition_poster"
                         tools:src="@mipmap/ic_launcher" />
                 </androidx.cardview.widget.CardView>
