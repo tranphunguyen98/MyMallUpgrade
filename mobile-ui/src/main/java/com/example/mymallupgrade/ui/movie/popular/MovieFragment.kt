@@ -74,8 +74,15 @@ class MovieFragment : Fragment() {
             navigateToMovieDetail(movie, view)
         }
 
-        popularSliderMoviesAdapter = PopularMovieSliderAdapter()
-
+        popularSliderMoviesAdapter = PopularMovieSliderAdapter { movie, view ->
+            startActivity(
+                DetailMoviesActivity.newIntent(
+                    context!!,
+                    movie.id,
+                    movie.posterPath
+                )
+            )
+        }
         upcomingMovieAdapter = PopularMoviesAdapter { movie, view ->
             navigateToMovieDetail(movie, view)
         }

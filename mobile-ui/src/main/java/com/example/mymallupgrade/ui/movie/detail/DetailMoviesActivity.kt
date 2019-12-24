@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
-import com.example.mymallupgrade.common.SimpleTransitionEndedCallback
 import com.example.mymallupgrade.databinding.ActivityDetailMoviesBinding
 import com.example.mymallupgrade.presentation.movie.detail.DetailMovieViewModelFactory
 import com.example.mymallupgrade.presentation.movie.detail.MovieDetailViewModel
@@ -52,9 +51,9 @@ class DetailMoviesActivity : AppCompatActivity() {
 
         (application as App).createDetailComponent().inject(this)
 
-        window.sharedElementEnterTransition.addListener(SimpleTransitionEndedCallback {
-            handleViewState()
-        })
+//        window.sharedElementEnterTransition.addListener(SimpleTransitionEndedCallback {
+//            handleViewState()
+//        })
 
         factory.movieId = intent.getIntExtra(MOVIE_ID, 0)
         viewModel = ViewModelProvider(this, factory).get(MovieDetailViewModel::class.java)
@@ -80,6 +79,10 @@ class DetailMoviesActivity : AppCompatActivity() {
     private fun handleObservable() {
         viewModel.favoriteState.observe(this, Observer {
             handleFavoriteStateChange(it)
+        })
+
+        viewModel.movie.observe(this, Observer {
+            handleViewState()
         })
     }
 
