@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.mymallupgrade.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,6 +21,7 @@ class HomeMovieActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_movie)
         setSupportActionBar(toolbar)
+        window.statusBarColor = resources.getColor(R.color.colorPrimaryLightWhile)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view_movie)
 
@@ -30,7 +32,7 @@ class HomeMovieActivity : AppCompatActivity() {
                 R.id.navigation_home_movie, R.id.navigation_favorite_movie, R.id.navigation_account
             )
         )
-        //setupActionBarWithNavController(navController, appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
            Timber.d("${destination.id} ${destination.label}")
         }

@@ -141,6 +141,10 @@ class MovieFragment : Fragment() {
             popularSliderMoviesAdapter.addData(movies)
             upcomingMovieAdapter.addData(movies)
             topMovieAdapter.addData(movies)
+
+            binding.tvInTheaterNow.visibility = View.VISIBLE
+            binding.tvUpcoming.visibility = View.VISIBLE
+            binding.tvTop.visibility = View.VISIBLE
         })
 
         viewmodel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
