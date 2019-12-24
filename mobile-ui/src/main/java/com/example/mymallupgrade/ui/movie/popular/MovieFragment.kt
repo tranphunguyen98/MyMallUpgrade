@@ -31,6 +31,8 @@ class MovieFragment : Fragment() {
 
     private lateinit var viewmodel: PopularMoviesViewModel
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
+    private lateinit var upcomingMovieAdapter: PopularMoviesAdapter
+    private lateinit var topMovieAdapter: PopularMoviesAdapter
     private lateinit var popularSliderMoviesAdapter: PopularMovieSliderAdapter
     private lateinit var binding: FragmentMovieBinding
 
@@ -69,9 +71,18 @@ class MovieFragment : Fragment() {
 //        Timber.d("onActivityCreated")
 
         popularMoviesAdapter = PopularMoviesAdapter { movie, view ->
-            navigateToMovieDetail(movie,view)
+            navigateToMovieDetail(movie, view)
         }
+
         popularSliderMoviesAdapter = PopularMovieSliderAdapter()
+
+        upcomingMovieAdapter = PopularMoviesAdapter { movie, view ->
+            navigateToMovieDetail(movie, view)
+        }
+
+        topMovieAdapter = PopularMoviesAdapter { movie, view ->
+            navigateToMovieDetail(movie, view)
+        }
 
         binding.vpFeather.apply {
             clipToPadding = false
@@ -91,10 +102,10 @@ class MovieFragment : Fragment() {
                 }
 
                 val viewPager = page.parent.parent as ViewPager2
-                val offset = position * - (2 * 30 + 30)
+                val offset = position * -(2 * 30 + 30)
 
-                if(viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                    if(ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+                    if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
                         page.translationX = -offset
                     } else {
                         page.translationX = offset
@@ -107,9 +118,20 @@ class MovieFragment : Fragment() {
             adapter = popularSliderMoviesAdapter
         }
 
-        binding.rcPopularMovie.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-        binding.rcPopularMovie.adapter = popularMoviesAdapter
+        binding.rcPopularMovie.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = popularMoviesAdapter
+        }
 
+        binding.rcUpcomingMovie.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = upcomingMovieAdapter
+        }
+
+        binding.rcTopMovie.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = topMovieAdapter
+        }
         handleObserve()
     }
 
@@ -117,6 +139,8 @@ class MovieFragment : Fragment() {
         viewmodel.movies.observe(viewLifecycleOwner, Observer { movies ->
             popularMoviesAdapter.addData(movies)
             popularSliderMoviesAdapter.addData(movies)
+            upcomingMovieAdapter.addData(movies)
+            topMovieAdapter.addData(movies)
         })
 
         viewmodel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
@@ -142,18 +166,22 @@ class MovieFragment : Fragment() {
         var activityOptions: ActivityOptions? = null
         val imageForTransition: View? = view.findViewById(R.id.img_movie)
         imageForTransition?.let {
-            val posterSharedElement: Pair<View, String> = Pair.create(it, getString(R.string.transition_poster))
-            activityOptions = ActivityOptions.makeSceneTransitionAnimation(activity,posterSharedElement)
+            val posterSharedElement: Pair<View, String> =
+                Pair.create(it, getString(R.string.transition_poster))
+            activityOptions =
+                ActivityOptions.makeSceneTransitionAnimation(activity, posterSharedElement)
         }
 
-        startActivity(DetailMoviesActivity.newIntent(
-            context!!,
-            movie.id,
-            movie.posterPath),
+        startActivity(
+            DetailMoviesActivity.newIntent(
+                context!!,
+                movie.id,
+                movie.posterPath
+            ),
             activityOptions?.toBundle()
         )
 
-        activity?.overridePendingTransition(0,0)
+        activity?.overridePendingTransition(0, 0)
     }
 
 
