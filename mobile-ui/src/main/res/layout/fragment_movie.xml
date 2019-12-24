@@ -18,7 +18,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_feather"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="230dp"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
