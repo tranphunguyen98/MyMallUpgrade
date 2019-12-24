@@ -9,8 +9,9 @@ import com.example.mymallupgrade.ui.movie.detail.VideoAdapter
 import com.example.mymallupgrade.ui.movie.favorite.FavoriteMoviesAdapter
 import com.example.mymallupgrade.ui.movie.popular.PopularMoviesAdapter
 import com.example.mymallupgrade.ui.movie.search.SearchMoviesAdapter
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Created by Tran Phu Nguyen on 12/17/2019.
@@ -20,10 +21,20 @@ class BindingAdapter {
         @JvmStatic
         @BindingAdapter("loadImage")
         fun loadImageSource(view: ImageView, url: String?) {
+            val playAnimation = AtomicBoolean(true)
             url?.let {
                 Picasso.get()
                     .load(it)
-                    .into(view)
+                    .noFade()
+                    .into(view, object: Callback {
+                        override fun onSuccess() {
+                            view.alpha = 0f
+                            view.animate().setDuration(500).alpha(1f).start()
+                        }
+                        override fun onError(e: Exception?) {
+                        }
+
+                    })
             }
         }
 

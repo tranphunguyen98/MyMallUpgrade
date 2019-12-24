@@ -12,4 +12,5 @@
             android:src="@mipmap/logo"
             android:gravity="center" />
     </item>
+
 </layer-list>

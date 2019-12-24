@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.transition.Slide
+import android.transition.Fade
 import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -93,7 +93,7 @@ class DetailMoviesActivity : AppCompatActivity() {
 
 
     private fun handleViewState() {
-        val transition = Slide()
+        val transition = Fade(Fade.MODE_IN)
         transition.excludeTarget(binding.detailsPoster, true)
         transition.duration = 750
         TransitionManager.beginDelayedTransition(details_root_view, transition)

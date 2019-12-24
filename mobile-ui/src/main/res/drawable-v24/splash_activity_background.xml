@@ -6,9 +6,15 @@
         </shape>
     </item>
 
-    <item>
-        <bitmap
-            android:src="@mipmap/logo"
-            android:gravity="center" />
+    <item android:width="100dp" android:height="100dp"
+        android:drawable="@drawable/icons"
+        android:gravity="center">
+    </item>
+
+    <item android:width="176dp"
+        android:height="64dp"
+        android:drawable="@drawable/logo"
+        android:gravity="center"
+        android:top="160dp">
     </item>
 </layer-list>
