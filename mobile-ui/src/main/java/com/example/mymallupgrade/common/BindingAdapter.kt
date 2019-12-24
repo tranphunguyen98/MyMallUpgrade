@@ -29,7 +29,7 @@ class BindingAdapter {
                     .into(view, object: Callback {
                         override fun onSuccess() {
                             view.alpha = 0f
-                            view.animate().setDuration(500).alpha(1f).start()
+                            view.animate().setDuration(300).alpha(1f).start()
                         }
                         override fun onError(e: Exception?) {
                         }

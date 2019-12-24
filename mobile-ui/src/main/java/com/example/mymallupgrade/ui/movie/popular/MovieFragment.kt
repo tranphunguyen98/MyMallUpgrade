@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.databinding.FragmentMovieBinding
@@ -29,6 +29,7 @@ class MovieFragment : Fragment() {
 
     private lateinit var viewmodel: PopularMoviesViewModel
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
+    private lateinit var popularSliderMoviesAdapter: PopularMovieSliderAdapter
     private lateinit var binding: FragmentMovieBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +48,7 @@ class MovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("onCreateView")
+//        Timber.d("onCreateView")
 
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_movie, container, false)
         binding.lifecycleOwner = this
@@ -57,18 +58,22 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
+//        Timber.d("onViewCreated")
 
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.d("onActivityCreated")
+//        Timber.d("onActivityCreated")
 
         popularMoviesAdapter = PopularMoviesAdapter { movie, view ->
             navigateToMovieDetail(movie,view)
         }
-        binding.rcPopularMovie.layoutManager = GridLayoutManager(context, 2)
+        popularSliderMoviesAdapter = PopularMovieSliderAdapter()
+
+        binding.vpFeather.adapter = popularSliderMoviesAdapter
+
+        binding.rcPopularMovie.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         binding.rcPopularMovie.adapter = popularMoviesAdapter
 
         handleObserve()
@@ -77,6 +82,7 @@ class MovieFragment : Fragment() {
     private fun handleObserve() {
         viewmodel.movies.observe(viewLifecycleOwner, Observer { movies ->
             popularMoviesAdapter.addData(movies)
+            popularSliderMoviesAdapter.addData(movies)
         })
 
         viewmodel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
@@ -119,24 +125,24 @@ class MovieFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Timber.d("onStart")
+//        Timber.d("onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.d("onResume")
+//        Timber.d("onResume")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         (activity?.application as App).releasePopularComponent()
-        Timber.d("onDestroy")
+//        Timber.d("onDestroy")
 
     }
 
     override fun onDetach() {
         super.onDetach()
-        Timber.d("onDetach")
+        //Timber.d("onDetach")
 
     }
 }
