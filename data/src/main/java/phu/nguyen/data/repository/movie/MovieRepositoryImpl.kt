@@ -10,6 +10,7 @@ import phu.nguyen.data.mapper.MovieDetailDomainDataMapper
 import phu.nguyen.data.mapper.MovieDomainDataMapper
 import phu.nguyen.data.model.MovieData
 import phu.nguyen.data.store.MoviesDataStoreFactory
+import phu.nguyen.data.store.MoviesRemoteDataStore
 import timber.log.Timber
 
 class MovieRepositoryImpl(
@@ -39,7 +40,7 @@ class MovieRepositoryImpl(
                 val dataStore: MoviesDataStore =
                     factory.getDataStore(isCached)
                 Timber.d(dataStore::class.toString())
-                if(dataStore is RemoteMovieDataSource) {
+                if(dataStore is MoviesRemoteDataStore) {
                     Timber.d("Save movies")
                     return@flatMap dataStore.getMovies().flatMap {movies ->
                         factory
