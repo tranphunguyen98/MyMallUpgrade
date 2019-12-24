@@ -6,11 +6,13 @@ import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.databinding.FragmentMovieBinding
@@ -71,7 +73,31 @@ class MovieFragment : Fragment() {
         }
         popularSliderMoviesAdapter = PopularMovieSliderAdapter()
 
-        binding.vpFeather.adapter = popularSliderMoviesAdapter
+        binding.vpFeather.apply {
+            clipToPadding = false
+            clipChildren = false
+            offscreenPageLimit = 3
+            setPageTransformer { page, position ->
+                val viewPager = page.parent.parent as ViewPager2
+                val offset = position * - (2 * 30 + 30)
+                Timber.d("offset= ${offset}")
+                if(viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+                    if(ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                        page.translationX = -offset
+                        Timber.d("offset= ${-offset}")
+                    } else {
+                        page.translationX = offset
+                        Timber.d("offset= + ${offset}")
+
+                    }
+                } else {
+                    page.translationX = offset
+                    Timber.d("offset= ? ${offset}")
+
+                }
+            }
+            adapter = popularSliderMoviesAdapter
+        }
 
         binding.rcPopularMovie.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         binding.rcPopularMovie.adapter = popularMoviesAdapter
