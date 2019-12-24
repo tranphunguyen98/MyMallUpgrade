@@ -2,6 +2,7 @@ package com.example.mymallupgrade.ui.movie
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -32,14 +33,17 @@ class HomeMovieActivity : AppCompatActivity() {
                 R.id.navigation_home_movie, R.id.navigation_favorite_movie, R.id.navigation_account
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-           Timber.d("${destination.id} ${destination.label}")
+            Timber.d("${destination.id} ${destination.label}")
         }
-        navView.setOnNavigationItemSelectedListener {menu ->
+
+        navView.setOnNavigationItemSelectedListener { menu ->
             Timber.d("${menu.itemId}")
             true
         }
+
         navView.setupWithNavController(navController)
         Timber.d("onCreated")
     }
@@ -68,6 +72,15 @@ class HomeMovieActivity : AppCompatActivity() {
             R.id.navigation_home_movie -> {
                 Timber.d("${navController.currentDestination?.id}")
                 menuInflater.inflate(R.menu.movie_home_menu, menu)
+            }
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_search_movie -> {
+                navController.navigate(R.id.navigation_search)
             }
         }
         return true
