@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.mymallupgrade.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,9 +33,16 @@ class HomeMovieActivity : AppCompatActivity() {
             )
         )
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             Timber.d("${destination.id} ${destination.label}")
+            setSupportActionBar(toolbar)
+            supportActionBar?.apply {
+                show()
+                setDisplayHomeAsUpEnabled(false)
+                title = destination.label
+            }
         }
 
         navView.setOnNavigationItemSelectedListener { menu ->
@@ -67,9 +73,13 @@ class HomeMovieActivity : AppCompatActivity() {
         when (navController.currentDestination?.id) {
             R.id.navigation_favorite_movie -> {
                 Timber.d("${navController.currentDestination?.id}")
-                menuInflater.inflate(R.menu.movie_search_menu, menu)
+                menuInflater.inflate(R.menu.movie_home_menu, menu)
             }
             R.id.navigation_home_movie -> {
+                Timber.d("${navController.currentDestination?.id}")
+                menuInflater.inflate(R.menu.movie_home_menu, menu)
+            }
+            R.id.navigation_account -> {
                 Timber.d("${navController.currentDestination?.id}")
                 menuInflater.inflate(R.menu.movie_home_menu, menu)
             }
@@ -82,8 +92,14 @@ class HomeMovieActivity : AppCompatActivity() {
             R.id.item_search_movie -> {
                 navController.navigate(R.id.navigation_search)
             }
+            android.R.id.home -> onBackPressed()
         }
-        return true
+        return super.onOptionsItemSelected(item);
+    }
+
+    override fun onBackPressed() {
+        Timber.d("onBackPressed")
+        navController.popBackStack()
     }
 
 }

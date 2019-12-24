@@ -1,6 +1,7 @@
 package com.example.mymallupgrade.ui.movie.search
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +21,7 @@ import com.example.mymallupgrade.databinding.FragmentSearchMoviesBinding
 import com.example.mymallupgrade.presentation.entities.Movie
 import com.example.mymallupgrade.presentation.movie.search.SearchMoviesViewModel
 import com.example.mymallupgrade.presentation.movie.search.SearchMoviesViewModelFactory
+import com.example.mymallupgrade.ui.movie.HomeMovieActivity
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -43,29 +46,22 @@ class SearchMovieFragment : Fragment() {
 
         (activity!!.application as App).createSearchComponent().inject(this)
 
-        viewmodel = ViewModelProvider(this,factory).get(SearchMoviesViewModel::class.java)
-        searchSubject = PublishSubject.create()
+        viewmodel = ViewModelProvider(this, factory).get(SearchMoviesViewModel::class.java)
 
-        val disposable = searchSubject
-            .debounce(500, TimeUnit.MILLISECONDS)
-            .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if(it.isNotEmpty()) {
-                    Timber.d("query= $it")
-                    viewmodel.search(it)
-                } else {
-                    viewmodel.search("~")
-                }
-            }
-        compositeDisposable.add(disposable)
+        handleQuerySubject()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_search_movies, container, false)
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_search_movies,
+            container,
+            false
+        )
         binding.lifecycleOwner = this
         binding.viewModel = viewmodel
 
@@ -76,26 +72,68 @@ class SearchMovieFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setUpRecyclerView()
         handleObservable()
-        binding.searchMoviesEditText.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
+        handleToolBar()
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+        binding.searchMoviesEditText.apply {
+            requestFocus()
+            val imm: InputMethodManager =
+                context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //Timber.d("s = ${s.toString()}")
-                s?.let {
-                    searchSubject.onNext(it.toString())
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    //Timber.d("s = ${s.toString()}")
+                    s?.let {
+                        searchSubject.onNext(it.toString())
+                    }
+                }
+
+            })
+        }
+
+    }
+
+    private fun handleToolBar() {
+        activity?.let {
+            if (it is HomeMovieActivity) {
+                it.supportActionBar?.hide()
+                it.setSupportActionBar(binding.toolbarMovieSearch)
+                it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            }
+        }
+    }
+
+    private fun handleQuerySubject() {
+        searchSubject = PublishSubject.create()
+        val disposable = searchSubject
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if (it.isNotEmpty()) {
+                    Timber.d("query= $it")
+                    viewmodel.search(it)
+                } else {
+                    viewmodel.search("~")
                 }
             }
-
-        })
+        compositeDisposable.add(disposable)
     }
 
     private fun setUpRecyclerView() {
-        searchMoviesAdapter = SearchMoviesAdapter(){ movie, view ->
-            navigateToMovieDetail(movie,view)
+        searchMoviesAdapter = SearchMoviesAdapter() { movie, view ->
+            navigateToMovieDetail(movie, view)
         }
 
         binding.rcSearchMovie.also {
@@ -106,13 +144,13 @@ class SearchMovieFragment : Fragment() {
 
     private fun handleObservable() {
         viewmodel.searchMoviesState.observe(viewLifecycleOwner, Observer {
-            if(it.isLoading) {
+            if (it.isLoading) {
                 binding.searchMoviesProgress.visibility = View.VISIBLE
             } else {
                 binding.searchMoviesProgress.visibility = View.GONE
             }
 
-            if(it.error != null) {
+            if (it.error != null) {
                 Timber.d("Error Search ${it.error!!.message}")
             }
         })
@@ -122,24 +160,36 @@ class SearchMovieFragment : Fragment() {
         var activityOptions: ActivityOptions? = null
         val imageForTransition: View? = view.findViewById(R.id.img_movie_search)
         imageForTransition?.let {
-            val posterSharedElement: Pair<View, String> = Pair.create(it, getString(R.string.transition_poster))
-            activityOptions = ActivityOptions.makeSceneTransitionAnimation(activity,posterSharedElement)
+            val posterSharedElement: Pair<View, String> =
+                Pair.create(it, getString(R.string.transition_poster))
+            activityOptions =
+                ActivityOptions.makeSceneTransitionAnimation(activity, posterSharedElement)
         }
 
         startActivity(
             DetailMoviesActivity.newIntent(
                 context!!,
                 movie.id,
-                movie.posterPath),
+                movie.posterPath
+            ),
             activityOptions?.toBundle()
         )
 
-        activity?.overridePendingTransition(0,0)
+        activity?.overridePendingTransition(0, 0)
+    }
+
+    override fun onPause() {
+        Timber.d("onPause")
+        super.onPause()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        Timber.d("onDestroy")
+        val imm: InputMethodManager =
+            context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.searchMoviesEditText.windowToken, 0)
         compositeDisposable.clear()
         (activity?.application as App).releaseSearchComponent()
+        super.onDestroy()
     }
 }

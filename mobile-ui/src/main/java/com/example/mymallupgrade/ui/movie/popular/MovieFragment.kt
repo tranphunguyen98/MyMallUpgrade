@@ -19,6 +19,7 @@ import com.example.mymallupgrade.databinding.FragmentMovieBinding
 import com.example.mymallupgrade.presentation.entities.Movie
 import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModel
 import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModelFactory
+import com.example.mymallupgrade.ui.movie.HomeMovieActivity
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
@@ -69,6 +70,7 @@ class MovieFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        Timber.d("onActivityCreated")
+        //handleToolbar()
 
         popularMoviesAdapter = PopularMoviesAdapter { movie, view ->
             navigateToMovieDetail(movie, view)
@@ -140,6 +142,14 @@ class MovieFragment : Fragment() {
             adapter = topMovieAdapter
         }
         handleObserve()
+    }
+
+    private fun handleToolbar() {
+        activity?.let {
+            if(it is HomeMovieActivity) {
+                it.supportActionBar?.show()
+            }
+        }
     }
 
     private fun handleObserve() {
