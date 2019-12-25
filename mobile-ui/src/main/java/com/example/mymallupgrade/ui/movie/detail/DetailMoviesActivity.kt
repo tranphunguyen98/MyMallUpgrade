@@ -73,8 +73,11 @@ class DetailMoviesActivity : AppCompatActivity() {
             viewModel.saveMovieFavorite()
         }
         handleObservable()
-    }
 
+        binding.detailsBackButton.setOnClickListener {
+           onBackPressed()
+        }
+    }
 
     private fun handleObservable() {
         viewModel.favoriteState.observe(this, Observer {

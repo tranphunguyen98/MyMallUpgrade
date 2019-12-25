@@ -23,16 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.movie.search.SearchActivity"></activity>
         <activity android:name=".ui.movie.HomeMovieActivity">
-
         </activity>
         <activity
             android:name=".ui.movie.detail.DetailMoviesActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".ui.home.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".ui.home.HomeActivity">
+
+        </activity>
         <activity android:name=".ui.auth.RegisterActivity" />
         <activity android:name=".ui.home.HomeActivity1" />
     </application>

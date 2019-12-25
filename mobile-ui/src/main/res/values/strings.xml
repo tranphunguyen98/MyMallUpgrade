@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Mall</string>
+    <string name="app_name">My Movie</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password">Password</string>
     <string name="email">Email</string>

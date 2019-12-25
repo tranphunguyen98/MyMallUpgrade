@@ -1,17 +1,20 @@
 package com.example.mymallupgrade.ui.movie
 
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.mymallupgrade.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import timber.log.Timber
+
 
 class HomeMovieActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -19,23 +22,20 @@ class HomeMovieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_movie)
 
+        if(VERSION.SDK_INT >= VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
         val toolbar: Toolbar = findViewById(R.id.toolbar_movie)
         setSupportActionBar(toolbar)
-        window.statusBarColor = resources.getColor(R.color.colorPrimaryLightWhile)
+
+        window.statusBarColor = resources.getColor(R.color.white)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view_movie)
 
         navController = findNavController(R.id.nav_host_fragment_movie)
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home_movie, R.id.navigation_favorite_movie, R.id.navigation_account
-            )
-        )
-
-        //setupActionBarWithNavController(navController, appBarConfiguration)
-
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             Timber.d("${destination.id} ${destination.label}")
             setSupportActionBar(toolbar)
             supportActionBar?.apply {
@@ -94,7 +94,7 @@ class HomeMovieActivity : AppCompatActivity() {
             }
             android.R.id.home -> onBackPressed()
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
