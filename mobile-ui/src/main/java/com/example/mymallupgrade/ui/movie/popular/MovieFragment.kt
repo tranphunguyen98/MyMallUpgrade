@@ -111,7 +111,7 @@ class MovieFragment : Fragment() {
                 }
 
                 val viewPager = page.parent.parent as ViewPager2
-                val offset = position * -(2 * 30 + 30)
+                val offset = position * -(2 * 24 + 12)
 
                 if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
                     if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
