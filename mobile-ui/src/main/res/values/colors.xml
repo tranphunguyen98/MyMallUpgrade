@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#778BD9</color>
     <color name="colorPrimaryLight">#A9C8F6</color>
     <color name="colorAccent">#FFC107</color>
+    <color name="colorAccent80">#CCFFC107</color>
     <color name="colorSecond">#FFC107</color>
     <color name="backgroudTintEditText">#B3FFFFFF</color>
     <color name="textColorHint">#70FFFFFF</color>
@@ -13,7 +14,7 @@
     <color name="black">#0C0C0C</color>
     <color name="backgroundProgress">#FFB9B9</color>
     <color name="btnDisable">#99A59191</color>
-    <color name="colorPrimaryLightWhile">#D8EDF5</color>
+    <color name="colorPrimaryLightWhite">#D8EDF5</color>
     <color name="white">#ffffff</color>
     <color name="while80">#80ffffff</color>
     <color name="green">#38EC3E</color>

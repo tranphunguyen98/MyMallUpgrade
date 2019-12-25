@@ -21,7 +21,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:clipToPadding="false"
-            app:cardBackgroundColor="@color/colorPrimaryLightWhile"
+            app:cardBackgroundColor="@color/colorPrimaryLightWhite"
             app:cardCornerRadius="8dp"
             app:cardElevation="6dp"
             app:cardMaxElevation="8dp"
