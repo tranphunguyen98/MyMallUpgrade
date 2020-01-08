@@ -11,43 +11,31 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/details_video_section_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_videocam_white_36dp"
-            android:tint="@color/grey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/details_video_section_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/small_margin"
-            android:layout_marginEnd="@dimen/generic_margin"
             android:text="@string/trailers"
             android:textColor="@color/kinda_black"
             android:textSize="@dimen/general_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/details_video_section_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/details_video_section_icon"
-            app:layout_constraintTop_toTopOf="@+id/details_video_section_icon" />
+            android:fontFamily="@font/roboto_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/details_videos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            app:loadVideo="@{videos}"
+            android:layout_marginTop="16dp"
             android:nestedScrollingEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_video_section_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/details_video_section_title"
+            app:loadVideo="@{videos}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
