@@ -43,12 +43,13 @@
                     android:id="@+id/img_play_detail"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:scaleType="centerCrop"
                     android:layout_gravity="center"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_play"
                     android:tint="@color/colorAccent80"
                     android:tintMode="src_in"
-                    />
+                    android:visibility="gone"
+                    tools:visibility="visible" />
                 <ImageView
                     android:id="@+id/details_back_button"
                     android:layout_width="wrap_content"
@@ -154,12 +155,14 @@
                     tools:visibility="visible">
 
                     <ImageView
+                        android:id="@+id/img_imdb"
                         android:layout_width="48dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="8dp"
                         android:src="@drawable/ic_imdb"
-                        />
+                        android:visibility="gone"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/details_score"
@@ -167,10 +170,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:text="@{viewModel.movie.voteAverage}"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
-                        android:text="@{viewModel.movie.voteAverage}"
-                        tools:text="10.0" />
+                        android:visibility="gone"
+                        tools:text="10.0"
+                        tools:visibility="visible" />
                 </LinearLayout>
 
                 <include
@@ -201,12 +206,15 @@
                     tools:visibility="visible" />
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/gr_chip_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/details_score_layout"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_toEndOf="@+id/cv_details_poster">
+                    android:layout_toEndOf="@+id/cv_details_poster"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <com.google.android.material.chip.Chip
                         android:layout_width="wrap_content"
