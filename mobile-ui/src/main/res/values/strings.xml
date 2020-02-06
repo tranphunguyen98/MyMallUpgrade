@@ -54,4 +54,5 @@
     <string name="n_a">N/A</string>
     <string name="search">Search</string>
     <string name="type_here_to_begin_your_search">Type here to begin your search...</string>
+    <string name="idbm_item">IDBM <b>8.1</b></string>
 </resources>
