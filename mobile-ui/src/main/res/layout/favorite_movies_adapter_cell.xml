@@ -79,7 +79,7 @@
                         android:layout_marginEnd="@dimen/generic_margin"
                         android:ellipsize="end"
                         android:gravity="start"
-                        android:text="Action | Science fiction  -  2h 21m"
+                        android:text="@{movie.releaseDate}"
                         android:textColor="@color/details_text"
                         android:textSize="@dimen/general_text_size"
                         tools:text="Action | Science fiction  -  2h 21m" />
@@ -94,7 +94,8 @@
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="4"
-                        android:text="@string/idbm_item"
+                        android:textStyle="bold"
+                        android:text="@{movie.voteAverage}"
                         android:textColor="@color/details_text"
                         android:textSize="@dimen/general_text_size"
                         tools:text="@string/idbm_item" />

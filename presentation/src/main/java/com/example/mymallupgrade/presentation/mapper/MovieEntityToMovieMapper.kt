@@ -21,7 +21,7 @@ class MovieEntityToMovieMapper @Inject constructor(): Mapper<MovieEntity,Movie>(
             id = from.id,
             voteCount = from.voteCount,
             video = from.video,
-            voteAverage = from.voteAverage.toString(),
+            voteAverage = from.voteAverage.toString().let { "IDBM $it" },
             title = from.title,
             popularity = from.popularity,
             originalLanguage = from.originalLanguage,
