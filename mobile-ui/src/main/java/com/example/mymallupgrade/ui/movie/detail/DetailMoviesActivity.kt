@@ -3,9 +3,10 @@ package com.example.mymallupgrade.ui.movie.detail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.Layout.JUSTIFICATION_MODE_INTER_WORD
+import android.text.Layout
 import android.transition.Fade
 import android.transition.TransitionManager
 import android.view.View
@@ -37,28 +38,16 @@ class DetailMoviesActivity : AppCompatActivity() {
         private const val MOVIE_POSTER_URL = "extra_movie_poster_url"
 
         fun newIntent(context: Context, movieId: Int, posterUrl: String?): Intent {
-            val i = Intent(context, DetailMoviesActivity::class.java)
-            i.putExtra(MOVIE_ID, movieId)
-            i.putExtra(MOVIE_POSTER_URL, posterUrl)
-            return i
+            val intent = Intent(context, DetailMoviesActivity::class.java)
+            intent.putExtra(MOVIE_ID, movieId)
+            intent.putExtra(MOVIE_POSTER_URL, posterUrl)
+            return intent
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_movies)
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            binding.detailsOverviewSection.detailsOverview.justificationMode =
-                JUSTIFICATION_MODE_INTER_WORD
-        }
-
-        setSupportActionBar(binding.toolbarMovieDetail)
-        supportActionBar?.apply {
-            title = ""
-            //setDisplayHomeAsUpEnabled(true)
-        }
 
 //        binding.detailsAppbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, scrollRange ->
 //            Timber.d(
@@ -82,22 +71,57 @@ class DetailMoviesActivity : AppCompatActivity() {
             viewModel.getMovieDetail()
         }
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
-        Picasso.get().load(intent.getStringExtra(MOVIE_POSTER_URL)).into(binding.detailsPoster)
-
+        setUpBinding()
+        setUpActionBar()
         setUpVideoRecyclerview()
 
+        loadPosterImage()
+
+        handleObservable()
+        handleOnClick()
+
+    }
+
+    private fun loadPosterImage() {
+        Picasso.get().load(intent.getStringExtra(MOVIE_POSTER_URL)).into(binding.detailsPoster)
+    }
+
+    private fun handleOnClick() {
         binding.detailsFavoriteFab.setOnClickListener {
             viewModel.saveMovieFavorite()
         }
-        handleObservable()
 
         binding.detailsBackButton.setOnClickListener {
             onBackPressed()
         }
+
+        binding.imgPlayDetail.setOnClickListener {
+            viewModel.movie.value?.details?.videos?.get(0)?.url?.let {
+                openYoutubeLink(it)
+            }
+        }
     }
+
+    private fun setUpBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_movies)
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            binding.detailsOverviewSection.detailsOverview.justificationMode =
+                Layout.JUSTIFICATION_MODE_INTER_WORD
+        }
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+    }
+
+    private fun setUpActionBar() {
+        setSupportActionBar(binding.toolbarMovieDetail)
+        supportActionBar?.apply {
+            title = ""
+            //setDisplayHomeAsUpEnabled(true)
+        }
+    }
+
 
     private fun handleObservable() {
         viewModel.favoriteState.observe(this, Observer {
@@ -116,7 +140,6 @@ class DetailMoviesActivity : AppCompatActivity() {
             it.layoutManager = LinearLayoutManager(this)
         }
     }
-
 
     private fun handleViewState() {
         val transition = Fade(Fade.MODE_IN)
@@ -148,6 +171,18 @@ class DetailMoviesActivity : AppCompatActivity() {
                 ContextCompat.getDrawable(this, R.drawable.ic_favorite_border_white_36dp)
 
         )
+    }
+
+    private fun getYoutubeIdFromLink(youtubeLink: String): String {
+        return youtubeLink.substringAfter("v=")
+    }
+
+    private fun openYoutubeLink(youtubeLink: String) {
+        val intentApp = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("vnd.youtube:${getYoutubeIdFromLink(youtubeLink)}")
+        )
+        this.startActivity(intentApp)
     }
 
     override fun onDestroy() {
