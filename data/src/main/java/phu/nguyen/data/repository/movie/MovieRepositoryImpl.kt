@@ -33,7 +33,7 @@ class MovieRepositoryImpl(
             movieDetailDomainDataMapper.mapFrom(it)
         }
 
-    override fun getMovies(): Observable<List<MovieEntity>> =
+    override fun getPopularMovies(): Observable<List<MovieEntity>> =
         cacheMovieDataSource.areMoviesCached()
             .flatMap { isCached ->
                 val dataStore: MoviesDataStore =
@@ -41,7 +41,7 @@ class MovieRepositoryImpl(
                 Timber.d(dataStore::class.toString())
                 if(dataStore is MoviesRemoteDataStore) {
                     Timber.d("Save movies")
-                    return@flatMap dataStore.getMovies().flatMap {movies ->
+                    return@flatMap dataStore.getPopularMovies().flatMap { movies ->
                         factory
                             .getCacheDataStore()
                             .saveMovies(movies)
@@ -51,13 +51,22 @@ class MovieRepositoryImpl(
                             .andThen(Observable.just(movies))
                     }
                 }
-                return@flatMap dataStore.getMovies()
+                return@flatMap dataStore.getPopularMovies()
             }
             .map { movies ->
                 movies.map {
                     movieDomainDataMapper.mapFrom(it)
                 }
             }
+
+    override fun getNowPlayingMovies(): Observable<List<MovieEntity>> {
+        val dataStore = factory.getRemoteDataStore()
+        return dataStore.getNowPlayingMovies().map {movies ->
+            movies.map {
+                movieDomainDataMapper.mapFrom(it)
+            }
+        }
+    }
 
     override fun getFavoriteMovies(): Observable<List<MovieEntity>> =
         cacheMovieDataSource.getFavoriteMovies().map {movies ->

@@ -49,6 +49,9 @@ class DetailMoviesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
+
+
+
 //        binding.detailsAppbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, scrollRange ->
 //            Timber.d(
 //                "scollRagne= $scrollRange"

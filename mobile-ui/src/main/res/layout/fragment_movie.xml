@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModel" />
+            type="com.example.mymallupgrade.presentation.movie.home.HomeMoviesViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -30,14 +30,14 @@
             </androidx.viewpager2.widget.ViewPager2>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rc_popular_movie"
+                android:id="@+id/rc_now_playing_movie"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_in_theater_now" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_now_playing" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_upcoming_movie"
@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_in_theater_now"
+                android:id="@+id/tv_now_playing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -96,7 +96,7 @@
                 android:visibility="gone"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rc_popular_movie" />
+                app:layout_constraintTop_toBottomOf="@+id/rc_now_playing_movie" />
 
             <TextView
                 android:id="@+id/tv_top"

@@ -5,6 +5,7 @@ import phu.nguyen.data.model.MovieData
 
 interface RemoteMovieDataSource {
     fun getMovieById(movieId: Int): Observable<MovieData>
-    fun getMovies(): Observable<List<MovieData>>
+    fun getPopularMovies(): Observable<List<MovieData>>
+    fun getNowPlayingMovies(): Observable<List<MovieData>>
     fun searchMovies(query: String): Observable<List<MovieData>>
 }

@@ -11,7 +11,9 @@ import phu.nguyen.data.model.MovieData
 
 interface MoviesDataStore {
 
-    fun getMovies(): Observable<List<MovieData>>
+    fun getPopularMovies(): Observable<List<MovieData>>
+
+    fun getNowPlayingMovies(): Observable<List<MovieData>>
 
     fun getMovieById(movieId: Int): Observable<MovieData>
 

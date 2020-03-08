@@ -1,9 +1,10 @@
 package com.example.mymallupgrade.di.movie.popular
 
-import com.example.mymallupgrade.presentation.mapper.MovieEntityToMovieMapper
+import com.example.mymallupgrade.domain.interactor.movie.GetNowPlayingMovies
 import com.example.mymallupgrade.domain.interactor.movie.GetPopularMovies
 import com.example.mymallupgrade.domain.repository.movie.MovieRepository
-import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModelFactory
+import com.example.mymallupgrade.presentation.mapper.MovieEntityToMovieMapper
+import com.example.mymallupgrade.presentation.movie.home.HomeMoviesViewModelFactory
 import dagger.Module
 import dagger.Provides
 import timber.log.Timber
@@ -17,13 +18,20 @@ class PopularMoviesModule {
     }
 
     @Provides
+    fun provideGetNowPlayingMoviesUseCase(moviesRepository: MovieRepository): GetNowPlayingMovies {
+        return GetNowPlayingMovies(moviesRepository)
+    }
+
+    @Provides
     fun providePopularMoviesViewModelFactory(
-        useCase: GetPopularMovies,
+        getPopularMovies: GetPopularMovies,
+        getNowPlayingMovies: GetNowPlayingMovies,
         mapper: MovieEntityToMovieMapper
-    ): PopularMoviesViewModelFactory {
+    ): HomeMoviesViewModelFactory {
         Timber.d("providePopularMoviesViewModelFactory")
-        return PopularMoviesViewModelFactory(
-            useCase,
+        return HomeMoviesViewModelFactory(
+            getPopularMovies,
+            getNowPlayingMovies,
             mapper
         )
     }

@@ -10,7 +10,7 @@ import phu.nguyen.data.repository.movie.RemoteMovieDataSource
 class RemoteMovieDataSourceImpl (private val api: MovieApi):
     RemoteMovieDataSource {
     private val movieDataMapper = MovieRemoteToEntityMapper()
-    private val movieDetailMapper = MovieDetailRemoteToEntityMapper();
+    private val movieDetailMapper = MovieDetailRemoteToEntityMapper()
 
     override fun getMovieById(movieId: Int): Observable<MovieData> {
         return api.getMovieDetail(movieId).flatMap {detailData ->
@@ -18,8 +18,16 @@ class RemoteMovieDataSourceImpl (private val api: MovieApi):
         }
     }
 
-    override fun getMovies(): Observable<List<MovieData>> {
+    override fun getPopularMovies(): Observable<List<MovieData>> {
         return api.getPopularMovies().map{results ->
+            results.movies.map {
+                movieDataMapper.mapFrom(it)
+            }
+        }
+    }
+
+    override fun getNowPlayingMovies(): Observable<List<MovieData>> {
+        return api.getNowPlayingMovies().map { results ->
             results.movies.map {
                 movieDataMapper.mapFrom(it)
             }

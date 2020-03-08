@@ -14,8 +14,11 @@ import javax.inject.Inject
 
 class MoviesRemoteDataStore @Inject constructor(private val remoteMovieDataSource: RemoteMovieDataSource) :
     MoviesDataStore {
-    override fun getMovies(): Observable<List<MovieData>> =
-        remoteMovieDataSource.getMovies()
+    override fun getPopularMovies(): Observable<List<MovieData>> =
+        remoteMovieDataSource.getPopularMovies()
+
+    override fun getNowPlayingMovies(): Observable<List<MovieData>> =
+        remoteMovieDataSource.getNowPlayingMovies()
 
     override fun getMovieById(movieId: Int): Observable<MovieData> =
         remoteMovieDataSource.getMovieById(movieId)

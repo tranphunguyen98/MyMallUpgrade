@@ -14,8 +14,12 @@ import javax.inject.Inject
 
 class MoviesCacheDataStore @Inject constructor(private val cacheMovieDataSource: CacheMovieDataSource) :
     MoviesDataStore {
-    override fun getMovies(): Observable<List<MovieData>> =
+    override fun getPopularMovies(): Observable<List<MovieData>> =
         cacheMovieDataSource.getMovies()
+
+    override fun getNowPlayingMovies(): Observable<List<MovieData>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getMovieById(movieId: Int): Observable<MovieData> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

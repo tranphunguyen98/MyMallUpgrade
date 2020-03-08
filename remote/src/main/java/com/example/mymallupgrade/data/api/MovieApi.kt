@@ -8,6 +8,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApi {
+    @GET("movie/now_playing?api_key=3e8e250e9d20db7a41ad86ed088149cb")
+    fun getNowPlayingMovies(): Observable<MovieResultRemote>
+
     @GET("movie/popular?api_key=3e8e250e9d20db7a41ad86ed088149cb")
     fun getPopularMovies(): Observable<MovieResultRemote>
 

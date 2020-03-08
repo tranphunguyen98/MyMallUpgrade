@@ -17,8 +17,8 @@ import com.example.mymallupgrade.R
 import com.example.mymallupgrade.common.App
 import com.example.mymallupgrade.databinding.FragmentMovieBinding
 import com.example.mymallupgrade.presentation.entities.Movie
-import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModel
-import com.example.mymallupgrade.presentation.movie.popular.PopularMoviesViewModelFactory
+import com.example.mymallupgrade.presentation.movie.home.HomeMoviesViewModel
+import com.example.mymallupgrade.presentation.movie.home.HomeMoviesViewModelFactory
 import com.example.mymallupgrade.ui.movie.HomeMovieActivity
 import com.example.mymallupgrade.ui.movie.detail.DetailMoviesActivity
 import com.google.android.material.snackbar.Snackbar
@@ -28,11 +28,11 @@ import javax.inject.Inject
 class MovieFragment : Fragment() {
 
     @Inject
-    lateinit var factory: PopularMoviesViewModelFactory
+    lateinit var factory: HomeMoviesViewModelFactory
 
-    private lateinit var viewmodel: PopularMoviesViewModel
+    private lateinit var viewmodel: HomeMoviesViewModel
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
-    private lateinit var upcomingMovieAdapter: PopularMoviesAdapter
+    private lateinit var nowPlayingMovieAdapter: PopularMoviesAdapter
     private lateinit var topMovieAdapter: PopularMoviesAdapter
     private lateinit var popularSliderMoviesAdapter: PopularMovieSliderAdapter
     private lateinit var binding: FragmentMovieBinding
@@ -40,10 +40,11 @@ class MovieFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as App).createPopularComponent().inject(this)
-        viewmodel = ViewModelProvider(this, factory).get(PopularMoviesViewModel::class.java)
+        viewmodel = ViewModelProvider(this, factory).get(HomeMoviesViewModel::class.java)
         Timber.d("onCreate")
         if (savedInstanceState == null) {
             viewmodel.getPopularMovies()
+            viewmodel.getNowPlayingMovies()
         }
 
     }
@@ -85,7 +86,7 @@ class MovieFragment : Fragment() {
                 )
             )
         }
-        upcomingMovieAdapter = PopularMoviesAdapter { movie, view ->
+        nowPlayingMovieAdapter = PopularMoviesAdapter { movie, view ->
             navigateToMovieDetail(movie, view)
         }
 
@@ -127,14 +128,14 @@ class MovieFragment : Fragment() {
             adapter = popularSliderMoviesAdapter
         }
 
-        binding.rcPopularMovie.apply {
+        binding.rcNowPlayingMovie.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = popularMoviesAdapter
+            adapter = nowPlayingMovieAdapter
         }
 
         binding.rcUpcomingMovie.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = upcomingMovieAdapter
+            adapter = popularMoviesAdapter
         }
 
         binding.rcTopMovie.apply {
@@ -153,15 +154,20 @@ class MovieFragment : Fragment() {
     }
 
     private fun handleObserve() {
-        viewmodel.movies.observe(viewLifecycleOwner, Observer { movies ->
+
+        viewmodel.popularMovies.observe(viewLifecycleOwner, Observer { movies ->
             popularMoviesAdapter.addData(movies)
             popularSliderMoviesAdapter.addData(movies)
-            upcomingMovieAdapter.addData(movies)
             topMovieAdapter.addData(movies)
 
-            binding.tvInTheaterNow.visibility = View.VISIBLE
             binding.tvUpcoming.visibility = View.VISIBLE
             binding.tvTop.visibility = View.VISIBLE
+        })
+
+        viewmodel.nowPlayingMovies.observe(viewLifecycleOwner, Observer { movies ->
+            nowPlayingMovieAdapter.addData(movies)
+            Timber.d("Test ${movies[0].title}")
+            binding.tvNowPlaying.visibility = View.VISIBLE
         })
 
         viewmodel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->
