@@ -68,6 +68,24 @@ class MovieRepositoryImpl(
         }
     }
 
+    override fun getUpcomingMovies(): Observable<List<MovieEntity>> {
+        val dataStore = factory.getRemoteDataStore()
+        return dataStore.getUpcomingMovies().map { movies ->
+            movies.map {
+                movieDomainDataMapper.mapFrom(it)
+            }
+        }
+    }
+
+    override fun getTopRatedMovies(): Observable<List<MovieEntity>> {
+        val dataStore = factory.getRemoteDataStore()
+        return dataStore.getTopRatedMovies().map { movies ->
+            movies.map {
+                movieDomainDataMapper.mapFrom(it)
+            }
+        }
+    }
+
     override fun getFavoriteMovies(): Observable<List<MovieEntity>> =
         cacheMovieDataSource.getFavoriteMovies().map {movies ->
             movies.map {

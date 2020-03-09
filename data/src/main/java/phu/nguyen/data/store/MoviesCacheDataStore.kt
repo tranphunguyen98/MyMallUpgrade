@@ -21,6 +21,14 @@ class MoviesCacheDataStore @Inject constructor(private val cacheMovieDataSource:
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getUpcomingMovies(): Observable<List<MovieData>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getTopRatedMovies(): Observable<List<MovieData>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getMovieById(movieId: Int): Observable<MovieData> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

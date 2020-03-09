@@ -15,6 +15,10 @@ interface MoviesDataStore {
 
     fun getNowPlayingMovies(): Observable<List<MovieData>>
 
+    fun getUpcomingMovies(): Observable<List<MovieData>>
+
+    fun getTopRatedMovies(): Observable<List<MovieData>>
+
     fun getMovieById(movieId: Int): Observable<MovieData>
 
     fun saveMovies(movies: List<MovieData>): Completable

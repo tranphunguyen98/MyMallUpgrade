@@ -8,6 +8,8 @@ interface MovieRepository {
     fun getMovieById(movieId: Int): Observable<MovieEntity>
     fun getPopularMovies(): Observable<List<MovieEntity>>
     fun getNowPlayingMovies(): Observable<List<MovieEntity>>
+    fun getUpcomingMovies(): Observable<List<MovieEntity>>
+    fun getTopRatedMovies(): Observable<List<MovieEntity>>
     fun getFavoriteMovies(): Observable<List<MovieEntity>>
     fun save(movieEntity: MovieEntity): Single<Long>
     fun search(query: String): Observable<List<MovieEntity>>

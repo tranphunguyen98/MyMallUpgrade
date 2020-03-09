@@ -34,6 +34,24 @@ class RemoteMovieDataSourceImpl (private val api: MovieApi):
         }
     }
 
+    override fun getUpcomingMovies(): Observable<List<MovieData>> {
+        return api.getUpcomingMovies().map { results ->
+            results.movies.map {
+                movieDataMapper.mapFrom(it)
+            }
+        }
+    }
+
+    override fun getTopRatedMovies(): Observable<List<MovieData>> {
+        return api.getTopRatedMovies().map { results ->
+            results.movies.map {
+                movieDataMapper.mapFrom(it)
+            }
+        }
+    }
+
+
+
     override fun searchMovies(query: String): Observable<List<MovieData>> =
         api.searchMovies(query).map {movieResult ->
             movieResult.movies.map {

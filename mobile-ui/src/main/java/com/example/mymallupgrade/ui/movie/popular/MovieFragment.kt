@@ -32,6 +32,7 @@ class MovieFragment : Fragment() {
 
     private lateinit var viewmodel: HomeMoviesViewModel
     private lateinit var popularMoviesAdapter: PopularMoviesAdapter
+    private lateinit var upcomingMoviesAdapter: PopularMoviesAdapter
     private lateinit var nowPlayingMovieAdapter: PopularMoviesAdapter
     private lateinit var topMovieAdapter: PopularMoviesAdapter
     private lateinit var popularSliderMoviesAdapter: PopularMovieSliderAdapter
@@ -45,6 +46,8 @@ class MovieFragment : Fragment() {
         if (savedInstanceState == null) {
             viewmodel.getPopularMovies()
             viewmodel.getNowPlayingMovies()
+            viewmodel.getUpcomingMovies()
+            viewmodel.getTopRatedMovies()
         }
 
     }
@@ -87,6 +90,10 @@ class MovieFragment : Fragment() {
             )
         }
         nowPlayingMovieAdapter = PopularMoviesAdapter { movie, view ->
+            navigateToMovieDetail(movie, view)
+        }
+
+        upcomingMoviesAdapter = PopularMoviesAdapter {movie, view ->
             navigateToMovieDetail(movie, view)
         }
 
@@ -135,7 +142,7 @@ class MovieFragment : Fragment() {
 
         binding.rcUpcomingMovie.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = popularMoviesAdapter
+            adapter = upcomingMoviesAdapter
         }
 
         binding.rcTopMovie.apply {
@@ -156,18 +163,25 @@ class MovieFragment : Fragment() {
     private fun handleObserve() {
 
         viewmodel.popularMovies.observe(viewLifecycleOwner, Observer { movies ->
-            popularMoviesAdapter.addData(movies)
             popularSliderMoviesAdapter.addData(movies)
-            topMovieAdapter.addData(movies)
-
-            binding.tvUpcoming.visibility = View.VISIBLE
-            binding.tvTop.visibility = View.VISIBLE
         })
 
         viewmodel.nowPlayingMovies.observe(viewLifecycleOwner, Observer { movies ->
             nowPlayingMovieAdapter.addData(movies)
             Timber.d("Test ${movies[0].title}")
             binding.tvNowPlaying.visibility = View.VISIBLE
+        })
+
+        viewmodel.upcomingMovies.observe(viewLifecycleOwner, Observer { movies ->
+            upcomingMoviesAdapter.addData(movies)
+            Timber.d("Test ${movies[0].title}")
+            binding.tvUpcoming.visibility = View.VISIBLE
+        })
+
+        viewmodel.topRatedMovies.observe(viewLifecycleOwner, Observer { movies ->
+            topMovieAdapter.addData(movies)
+            Timber.d("Test ${movies[0].title}")
+            binding.tvTop.visibility = View.VISIBLE
         })
 
         viewmodel.loadingState.observe(viewLifecycleOwner, Observer { isLoading ->

@@ -105,7 +105,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Top"
+                android:text="Top IMDb"
                 android:visibility="gone"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
